@@ -1,50 +1,68 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# MCP Workshop Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. MCP-First Design
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Every capability is exposed as a Model Context Protocol (MCP) server or tool. Data and API access must be modeled as MCP resources, not ad‑hoc scripts. All workshop examples demonstrate how to wrap existing systems (databases, REST APIs, SaaS) behind MCP in a reusable, composable way.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Text & JSON Interfaces
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+All practical exercises use text and/or JSON interfaces: requests in via stdin/HTTP, responses out via stdout/HTTP. Errors must be explicit and structured. MCP tools and servers should support human-readable logs and, where appropriate, JSON payloads that can be easily tested without an AI model in the loop.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Test-First & Reproducibility
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Each MCP server or tool must be testable in isolation. Wherever feasible, introduce tests or verification scripts before full implementation. Workshop participants should be able to run examples locally and see deterministic outputs given fixed inputs, ensuring exercises are reproducible across machines and environments.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Integration Over Isolation
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Examples should cover not only isolated MCP tools but also how they are composed in a real AI workflow (e.g., an AI assistant using multiple MCP servers over organizational data and APIs). Integration scenarios must include authentication, error handling, and basic resilience patterns, mirroring realistic enterprise usage.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Simplicity & Observability
+
+Implementations must favor clarity over cleverness. Code samples should be minimal, well-structured, and easy to extend in a workshop setting. Logging and diagnostics are required: each MCP server should surface meaningful logs for requests, responses, and failures to aid troubleshooting during exercises.
+
+## Scope & Technology Constraints
+
+This workshop focuses on building and using MCP servers and tools to access organizational data and APIs using Microsoft and Azure technologies.
+
+- **Languages & Runtimes**: Prefer C# (.NET) and Python for MCP servers and utilities.
+- **Azure Services**: Use Azure services such as Azure App Service, Azure Container Apps, Azure Functions (for hosting MCP servers if needed), Azure Storage, Azure SQL Database, Azure Cosmos DB, Azure API Management, and Azure Monitor/Log Analytics for observability.
+- **Access Patterns**: Examples should include common enterprise patterns such as querying relational data, calling internal REST/GraphQL APIs, and integrating with Azure-native APIs (e.g., Microsoft Graph via Azure AD).
+- **Exclusions**: Power Platform (including Power Apps, Power Automate, Power Pages) and Copilot Studio are explicitly out of scope. All automation and integration patterns must be demonstrated without those platforms.
+- **Local & Cloud Environments**: Every exercise must be runnable locally (developer workstation) and have clear guidance on how it could be deployed or adapted to Azure environments.
+
+## Development Workflow & Workshop Structure
+
+The workshop content combines Markdown documentation with practical coding exercises. All materials must be structured to support self-paced learning and instructor-led delivery.
+
+- **Documentation-First Flow**: Each module starts with Markdown documentation that explains goals, architecture, and prerequisites. Hands-on steps follow, referencing code in the repository and any scripts or templates provided.
+- **Module Organization**: Workshop modules are organized by capability: e.g., "Building a basic MCP server", "Wrapping a REST API with MCP", "Querying Azure-hosted data via MCP", "Securing MCP access to organizational APIs".
+- **Exercise Design**: Every practical exercise has:
+  - A clear starting point (folder, branch, or initial code).
+  - Step-by-step instructions in Markdown.
+  - An expected outcome (behavior, command output, or test passing).
+- **Verification & Testing**: Where applicable, each module includes:
+  - A minimal test or verification script (e.g., calling the MCP server with sample requests).
+  - Instructions for running tests using standard tools (`dotnet test`, `pytest`, or equivalent).
+- **Contribution & Extensions**: Any new examples or modules must:
+  - Follow the same documentation and exercise structure.
+  - Use the same technology constraints and naming conventions.
+  - Include guidance on how they integrate with existing MCP components in the workshop.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution defines the non-negotiable constraints and principles for the MCP workshop.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- **Authority**: The constitution supersedes any conflicting practices or sample code patterns within this repository. If a sample conflicts with these principles, the sample must be updated or removed.
+- **Compliance in Reviews**: All pull requests and content changes must be reviewed for:
+  - Adherence to MCP-first design.
+  - Consistency with Microsoft/Azure-only technology choices.
+  - Clarity and simplicity of code and documentation.
+- **Amendments**: Changes to this constitution require:
+  - Explicit documentation of the rationale.
+  - Agreement from the workshop maintainers.
+  - A migration or update plan for affected modules, exercises, and documentation.
+- **Versioning**: The constitution is versioned independently of code. Any significant workshop structural or technology changes must be accompanied by a constitution version bump and a brief changelog entry.
+
+**Version**: 1.0.0 | **Ratified**: 2025-11-17 | **Last Amended**: 2025-11-17

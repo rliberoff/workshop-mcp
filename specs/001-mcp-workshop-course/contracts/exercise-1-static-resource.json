@@ -1,0 +1,170 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://workshop.example.com/contracts/exercise-1-static-resource.json",
+    "title": "Exercise 1: Static Resource Server Contract",
+    "description": "MCP server that exposes static data resources (e.g., customer list, product catalog)",
+    "version": "1.0.0",
+    "extends": "mcp-server-base.json",
+    "serverInfo": {
+        "name": "static-resource-server",
+        "version": "1.0.0",
+        "capabilities": {
+            "resources": {
+                "subscribe": false,
+                "listChanged": false
+            }
+        }
+    },
+    "resources": [
+        {
+            "uri": "workshop://customers",
+            "name": "Customer List",
+            "description": "Static list of sample customers",
+            "mimeType": "application/json",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": [
+                        "id",
+                        "name",
+                        "email"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string",
+                            "format": "email"
+                        },
+                        "country": {
+                            "type": "string"
+                        },
+                        "created": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "uri": "workshop://products",
+            "name": "Product Catalog",
+            "description": "Static list of sample products",
+            "mimeType": "application/json",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": [
+                        "id",
+                        "name",
+                        "price"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "price": {
+                            "type": "number"
+                        },
+                        "category": {
+                            "type": "string"
+                        },
+                        "inStock": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "successCriteria": [
+        "Server responds to initialize request with protocol version 2024-11-05",
+        "resources/list returns at least 2 resources (customers, products)",
+        "resources/read for workshop://customers returns valid JSON array",
+        "resources/read for workshop://products returns valid JSON array",
+        "Response time for resources/read is < 500ms",
+        "Server logs all requests to console with timestamp"
+    ],
+    "verificationScript": {
+        "language": "powershell",
+        "commands": [
+            "# Start server in background",
+            "$server = Start-Process -FilePath 'dotnet' -ArgumentList 'run' -PassThru -NoNewWindow",
+            "Start-Sleep -Seconds 2",
+            "",
+            "# Test initialize",
+            "$initResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body '{\"jsonrpc\":\"2.0\",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0.0\"}},\"id\":1}' -ContentType 'application/json'",
+            "",
+            "# Test resources/list",
+            "$listResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body '{\"jsonrpc\":\"2.0\",\"method\":\"resources/list\",\"id\":2}' -ContentType 'application/json'",
+            "",
+            "# Test resources/read for customers",
+            "$readResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body '{\"jsonrpc\":\"2.0\",\"method\":\"resources/read\",\"params\":{\"uri\":\"workshop://customers\"},\"id\":3}' -ContentType 'application/json'",
+            "",
+            "# Verify responses",
+            "if ($listResponse.result.resources.Count -ge 2) { Write-Host '✓ resources/list passed' } else { Write-Host '✗ resources/list failed' }",
+            "if ($readResponse.result.contents[0].text) { Write-Host '✓ resources/read passed' } else { Write-Host '✗ resources/read failed' }",
+            "",
+            "# Cleanup",
+            "Stop-Process -Id $server.Id"
+        ]
+    },
+    "sampleData": {
+        "customers": [
+            {
+                "id": 1,
+                "name": "Ana García",
+                "email": "ana.garcia@example.com",
+                "country": "España",
+                "created": "2024-01-15T10:30:00Z"
+            },
+            {
+                "id": 2,
+                "name": "Carlos Mendez",
+                "email": "carlos.mendez@example.com",
+                "country": "México",
+                "created": "2024-02-20T14:45:00Z"
+            },
+            {
+                "id": 3,
+                "name": "Laura Torres",
+                "email": "laura.torres@example.com",
+                "country": "Argentina",
+                "created": "2024-03-10T09:15:00Z"
+            }
+        ],
+        "products": [
+            {
+                "id": 101,
+                "name": "Laptop Pro 15",
+                "price": 1299.99,
+                "category": "Informática",
+                "inStock": true
+            },
+            {
+                "id": 102,
+                "name": "Mouse Inalámbrico",
+                "price": 29.99,
+                "category": "Accesorios",
+                "inStock": true
+            },
+            {
+                "id": 103,
+                "name": "Monitor 4K 27\"",
+                "price": 449.99,
+                "category": "Informática",
+                "inStock": false
+            }
+        ]
+    }
+}

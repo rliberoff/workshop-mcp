@@ -1,0 +1,311 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://workshop.example.com/contracts/exercise-2-parametric-query.json",
+    "title": "Exercise 2: Parametric Query Tool Contract",
+    "description": "MCP server with tools that accept parameters for dynamic queries",
+    "version": "1.0.0",
+    "extends": "mcp-server-base.json",
+    "serverInfo": {
+        "name": "parametric-query-server",
+        "version": "1.0.0",
+        "capabilities": {
+            "tools": {
+                "listChanged": false
+            }
+        }
+    },
+    "tools": [
+        {
+            "name": "search_customers",
+            "description": "Search customers by country or email domain",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "country": {
+                        "type": "string",
+                        "description": "Filter by country name (e.g., 'España', 'México')"
+                    },
+                    "emailDomain": {
+                        "type": "string",
+                        "description": "Filter by email domain (e.g., 'example.com')"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10,
+                        "description": "Maximum number of results"
+                    }
+                },
+                "anyOf": [
+                    {
+                        "required": [
+                            "country"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "emailDomain"
+                        ]
+                    }
+                ]
+            },
+            "outputSchema": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "filter_products",
+            "description": "Filter products by category, price range, and availability",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "enum": [
+                            "Informática",
+                            "Accesorios",
+                            "Electrónica"
+                        ],
+                        "description": "Product category"
+                    },
+                    "minPrice": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Minimum price"
+                    },
+                    "maxPrice": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Maximum price"
+                    },
+                    "inStockOnly": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Show only in-stock products"
+                    }
+                }
+            },
+            "outputSchema": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "price": {
+                            "type": "number"
+                        },
+                        "category": {
+                            "type": "string"
+                        },
+                        "inStock": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "aggregate_sales",
+            "description": "Calculate sales statistics by period",
+            "inputSchema": {
+                "type": "object",
+                "required": [
+                    "period"
+                ],
+                "properties": {
+                    "period": {
+                        "type": "string",
+                        "enum": [
+                            "daily",
+                            "weekly",
+                            "monthly"
+                        ],
+                        "description": "Aggregation period"
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start date (ISO 8601)"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End date (ISO 8601)"
+                    }
+                }
+            },
+            "outputSchema": {
+                "type": "object",
+                "properties": {
+                    "totalSales": {
+                        "type": "number"
+                    },
+                    "orderCount": {
+                        "type": "integer"
+                    },
+                    "averageOrderValue": {
+                        "type": "number"
+                    },
+                    "topProducts": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "productId": {
+                                    "type": "integer"
+                                },
+                                "productName": {
+                                    "type": "string"
+                                },
+                                "quantity": {
+                                    "type": "integer"
+                                },
+                                "revenue": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "successCriteria": [
+        "Server responds to tools/list with all 3 tools",
+        "Each tool includes valid inputSchema with JSON Schema",
+        "tools/call for search_customers with country='España' returns filtered results",
+        "tools/call for filter_products with minPrice=100, maxPrice=500 returns correct range",
+        "tools/call with invalid parameters returns JSON-RPC error code -32602 (Invalid params)",
+        "Parameter validation occurs before tool execution",
+        "Tool execution time is < 1000ms for datasets up to 1000 records"
+    ],
+    "verificationScript": {
+        "language": "powershell",
+        "commands": [
+            "# Test tools/list",
+            "$toolsResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body '{\"jsonrpc\":\"2.0\",\"method\":\"tools/list\",\"id\":1}' -ContentType 'application/json'",
+            "",
+            "# Test search_customers",
+            "$searchBody = @{",
+            "  jsonrpc = '2.0'",
+            "  method = 'tools/call'",
+            "  params = @{",
+            "    name = 'search_customers'",
+            "    arguments = @{ country = 'España'; limit = 5 }",
+            "  }",
+            "  id = 2",
+            "} | ConvertTo-Json -Depth 10",
+            "$searchResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body $searchBody -ContentType 'application/json'",
+            "",
+            "# Test filter_products",
+            "$filterBody = @{",
+            "  jsonrpc = '2.0'",
+            "  method = 'tools/call'",
+            "  params = @{",
+            "    name = 'filter_products'",
+            "    arguments = @{ minPrice = 100; maxPrice = 500; inStockOnly = $true }",
+            "  }",
+            "  id = 3",
+            "} | ConvertTo-Json -Depth 10",
+            "$filterResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body $filterBody -ContentType 'application/json'",
+            "",
+            "# Test invalid parameters",
+            "$invalidBody = @{",
+            "  jsonrpc = '2.0'",
+            "  method = 'tools/call'",
+            "  params = @{",
+            "    name = 'search_customers'",
+            "    arguments = @{ limit = 1000 }  # Exceeds maximum",
+            "  }",
+            "  id = 4",
+            "} | ConvertTo-Json -Depth 10",
+            "$errorResponse = Invoke-RestMethod -Uri 'http://localhost:5000/mcp' -Method POST -Body $invalidBody -ContentType 'application/json' -ErrorAction SilentlyContinue",
+            "",
+            "# Verify",
+            "if ($toolsResponse.result.tools.Count -eq 3) { Write-Host '✓ tools/list passed' }",
+            "if ($searchResponse.result.content[0].text) { Write-Host '✓ search_customers passed' }",
+            "if ($filterResponse.result.content[0].text) { Write-Host '✓ filter_products passed' }",
+            "if ($errorResponse.error.code -eq -32602) { Write-Host '✓ parameter validation passed' }"
+        ]
+    },
+    "exampleInvocations": [
+        {
+            "description": "Search customers in Spain",
+            "request": {
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {
+                    "name": "search_customers",
+                    "arguments": {
+                        "country": "España",
+                        "limit": 10
+                    }
+                },
+                "id": 1
+            },
+            "response": {
+                "jsonrpc": "2.0",
+                "result": {
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "[{\"id\":1,\"name\":\"Ana García\",\"email\":\"ana.garcia@example.com\",\"country\":\"España\"}]"
+                        }
+                    ]
+                },
+                "id": 1
+            }
+        },
+        {
+            "description": "Filter products by price range",
+            "request": {
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {
+                    "name": "filter_products",
+                    "arguments": {
+                        "minPrice": 100,
+                        "maxPrice": 500,
+                        "inStockOnly": true
+                    }
+                },
+                "id": 2
+            },
+            "response": {
+                "jsonrpc": "2.0",
+                "result": {
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "[{\"id\":103,\"name\":\"Monitor 4K 27\\\"\",\"price\":449.99,\"category\":\"Informática\",\"inStock\":false}]"
+                        }
+                    ]
+                },
+                "id": 2
+            }
+        }
+    ]
+}

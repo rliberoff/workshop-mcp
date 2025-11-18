@@ -1,0 +1,596 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://workshop.example.com/contracts/mcp-server-base.json",
+    "title": "MCP Server Base Contract",
+    "description": "Base protocol messages for all MCP servers in the workshop",
+    "version": "2024-11-05",
+    "definitions": {
+        "jsonrpc_request": {
+            "type": "object",
+            "required": [
+                "jsonrpc",
+                "method",
+                "id"
+            ],
+            "properties": {
+                "jsonrpc": {
+                    "type": "string",
+                    "const": "2.0"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object"
+                },
+                "id": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ]
+                }
+            }
+        },
+        "jsonrpc_response": {
+            "type": "object",
+            "required": [
+                "jsonrpc",
+                "id"
+            ],
+            "properties": {
+                "jsonrpc": {
+                    "type": "string",
+                    "const": "2.0"
+                },
+                "result": {
+                    "type": "object"
+                },
+                "error": {
+                    "$ref": "#/definitions/jsonrpc_error"
+                },
+                "id": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "required": [
+                        "result"
+                    ]
+                },
+                {
+                    "required": [
+                        "error"
+                    ]
+                }
+            ]
+        },
+        "jsonrpc_error": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object"
+                }
+            }
+        },
+        "server_info": {
+            "type": "object",
+            "required": [
+                "name",
+                "version"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Server name identifier"
+                },
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Semantic version"
+                },
+                "protocolVersion": {
+                    "type": "string",
+                    "const": "2024-11-05"
+                }
+            }
+        },
+        "capabilities": {
+            "type": "object",
+            "properties": {
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "subscribe": {
+                            "type": "boolean"
+                        },
+                        "listChanged": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "tools": {
+                    "type": "object",
+                    "properties": {
+                        "listChanged": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "prompts": {
+                    "type": "object",
+                    "properties": {
+                        "listChanged": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "logging": {
+                    "type": "object"
+                }
+            }
+        }
+    },
+    "messages": {
+        "initialize": {
+            "request": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_request"
+                    },
+                    {
+                        "properties": {
+                            "method": {
+                                "const": "initialize"
+                            },
+                            "params": {
+                                "type": "object",
+                                "required": [
+                                    "protocolVersion",
+                                    "clientInfo"
+                                ],
+                                "properties": {
+                                    "protocolVersion": {
+                                        "type": "string",
+                                        "const": "2024-11-05"
+                                    },
+                                    "capabilities": {
+                                        "$ref": "#/definitions/capabilities"
+                                    },
+                                    "clientInfo": {
+                                        "$ref": "#/definitions/server_info"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_response"
+                    },
+                    {
+                        "properties": {
+                            "result": {
+                                "type": "object",
+                                "required": [
+                                    "protocolVersion",
+                                    "serverInfo",
+                                    "capabilities"
+                                ],
+                                "properties": {
+                                    "protocolVersion": {
+                                        "type": "string",
+                                        "const": "2024-11-05"
+                                    },
+                                    "serverInfo": {
+                                        "$ref": "#/definitions/server_info"
+                                    },
+                                    "capabilities": {
+                                        "$ref": "#/definitions/capabilities"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "resources_list": {
+            "request": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_request"
+                    },
+                    {
+                        "properties": {
+                            "method": {
+                                "const": "resources/list"
+                            },
+                            "params": {
+                                "type": "object",
+                                "properties": {
+                                    "cursor": {
+                                        "type": "string",
+                                        "description": "Pagination cursor"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_response"
+                    },
+                    {
+                        "properties": {
+                            "result": {
+                                "type": "object",
+                                "required": [
+                                    "resources"
+                                ],
+                                "properties": {
+                                    "resources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "uri",
+                                                "name"
+                                            ],
+                                            "properties": {
+                                                "uri": {
+                                                    "type": "string",
+                                                    "format": "uri",
+                                                    "description": "Unique resource identifier"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "Human-readable name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "description": "Optional description"
+                                                },
+                                                "mimeType": {
+                                                    "type": "string",
+                                                    "description": "Content type (e.g., 'application/json')"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "nextCursor": {
+                                        "type": "string",
+                                        "description": "Pagination cursor for next page"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "resources_read": {
+            "request": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_request"
+                    },
+                    {
+                        "properties": {
+                            "method": {
+                                "const": "resources/read"
+                            },
+                            "params": {
+                                "type": "object",
+                                "required": [
+                                    "uri"
+                                ],
+                                "properties": {
+                                    "uri": {
+                                        "type": "string",
+                                        "format": "uri"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_response"
+                    },
+                    {
+                        "properties": {
+                            "result": {
+                                "type": "object",
+                                "required": [
+                                    "contents"
+                                ],
+                                "properties": {
+                                    "contents": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "uri",
+                                                "mimeType"
+                                            ],
+                                            "properties": {
+                                                "uri": {
+                                                    "type": "string",
+                                                    "format": "uri"
+                                                },
+                                                "mimeType": {
+                                                    "type": "string"
+                                                },
+                                                "text": {
+                                                    "type": "string",
+                                                    "description": "Text content"
+                                                },
+                                                "blob": {
+                                                    "type": "string",
+                                                    "description": "Base64-encoded binary content"
+                                                }
+                                            },
+                                            "oneOf": [
+                                                {
+                                                    "required": [
+                                                        "text"
+                                                    ]
+                                                },
+                                                {
+                                                    "required": [
+                                                        "blob"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "tools_list": {
+            "request": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_request"
+                    },
+                    {
+                        "properties": {
+                            "method": {
+                                "const": "tools/list"
+                            },
+                            "params": {
+                                "type": "object",
+                                "properties": {
+                                    "cursor": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_response"
+                    },
+                    {
+                        "properties": {
+                            "result": {
+                                "type": "object",
+                                "required": [
+                                    "tools"
+                                ],
+                                "properties": {
+                                    "tools": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "name",
+                                                "inputSchema"
+                                            ],
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "Tool identifier"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "description": "Tool purpose"
+                                                },
+                                                "inputSchema": {
+                                                    "type": "object",
+                                                    "description": "JSON Schema for tool parameters"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "nextCursor": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "tools_call": {
+            "request": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_request"
+                    },
+                    {
+                        "properties": {
+                            "method": {
+                                "const": "tools/call"
+                            },
+                            "params": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "arguments"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Tool name to invoke"
+                                    },
+                                    "arguments": {
+                                        "type": "object",
+                                        "description": "Tool-specific parameters"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/jsonrpc_response"
+                    },
+                    {
+                        "properties": {
+                            "result": {
+                                "type": "object",
+                                "required": [
+                                    "content"
+                                ],
+                                "properties": {
+                                    "content": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "required": [
+                                                "type"
+                                            ],
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "text",
+                                                        "image",
+                                                        "resource"
+                                                    ]
+                                                },
+                                                "text": {
+                                                    "type": "string",
+                                                    "description": "Text result"
+                                                },
+                                                "data": {
+                                                    "type": "string",
+                                                    "description": "Base64 image data"
+                                                },
+                                                "mimeType": {
+                                                    "type": "string",
+                                                    "description": "Content type"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "isError": {
+                                        "type": "boolean",
+                                        "description": "Whether the call failed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "examples": [
+        {
+            "name": "initialize_request",
+            "description": "Client initialization request",
+            "value": {
+                "jsonrpc": "2.0",
+                "method": "initialize",
+                "params": {
+                    "protocolVersion": "2024-11-05",
+                    "capabilities": {},
+                    "clientInfo": {
+                        "name": "workshop-client",
+                        "version": "1.0.0"
+                    }
+                },
+                "id": 1
+            }
+        },
+        {
+            "name": "initialize_response",
+            "description": "Server initialization response",
+            "value": {
+                "jsonrpc": "2.0",
+                "result": {
+                    "protocolVersion": "2024-11-05",
+                    "serverInfo": {
+                        "name": "workshop-server",
+                        "version": "1.0.0"
+                    },
+                    "capabilities": {
+                        "resources": {},
+                        "tools": {}
+                    }
+                },
+                "id": 1
+            }
+        },
+        {
+            "name": "error_response",
+            "description": "Error response example",
+            "value": {
+                "jsonrpc": "2.0",
+                "error": {
+                    "code": -32600,
+                    "message": "Invalid Request",
+                    "data": {
+                        "details": "Missing required field: uri"
+                    }
+                },
+                "id": 1
+            }
+        }
+    ]
+}

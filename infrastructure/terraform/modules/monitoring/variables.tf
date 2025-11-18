@@ -1,0 +1,25 @@
+variable "workspace_name" {
+  type = string
+}
+
+variable "app_insights_name" {
+  type = string
+}
+
+variable "resource_group_name" {
+  type = string
+}
+
+variable "location" {
+  type = string
+}
+
+variable "retention_days" {
+  type    = number
+  default = 30
+}
+
+variable "tags" {
+  type    = map(string)
+  default = {}
+}

@@ -1,0 +1,246 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://workshop.example.com/contracts/exercise-3-secure-server.json",
+    "title": "Exercise 3: Secure Server with Auth and Rate Limiting Contract",
+    "description": "MCP server implementing authentication, authorization, rate limiting, and comprehensive logging",
+    "version": "1.0.0",
+    "extends": "mcp-server-base.json",
+    "serverInfo": {
+        "name": "secure-mcp-server",
+        "version": "1.0.0",
+        "capabilities": {
+            "resources": {},
+            "tools": {},
+            "logging": {}
+        }
+    },
+    "security": {
+        "authentication": {
+            "scheme": "Bearer",
+            "description": "JWT token in Authorization header",
+            "tokenFormat": "JWT",
+            "requiredClaims": [
+                "sub",
+                "scope"
+            ],
+            "scopesSupported": [
+                "mcp:resources:read",
+                "mcp:tools:execute",
+                "mcp:admin"
+            ]
+        },
+        "rateLimiting": {
+            "strategy": "sliding-window",
+            "limits": [
+                {
+                    "scope": "mcp:resources:read",
+                    "requests": 100,
+                    "window": "1m",
+                    "description": "100 requests per minute for resource reads"
+                },
+                {
+                    "scope": "mcp:tools:execute",
+                    "requests": 50,
+                    "window": "1m",
+                    "description": "50 requests per minute for tool calls"
+                },
+                {
+                    "scope": "unauthenticated",
+                    "requests": 10,
+                    "window": "1m",
+                    "description": "10 requests per minute for unauthenticated clients"
+                }
+            ],
+            "headers": {
+                "X-RateLimit-Limit": "Maximum requests allowed",
+                "X-RateLimit-Remaining": "Requests remaining in current window",
+                "X-RateLimit-Reset": "Unix timestamp when limit resets"
+            }
+        },
+        "logging": {
+            "levels": [
+                "DEBUG",
+                "INFO",
+                "WARN",
+                "ERROR"
+            ],
+            "requiredFields": [
+                "timestamp",
+                "level",
+                "method",
+                "userId",
+                "requestId",
+                "duration",
+                "statusCode"
+            ],
+            "sensitiveFieldsRedacted": [
+                "password",
+                "token",
+                "secret"
+            ],
+            "destination": "console + Azure Log Analytics"
+        }
+    },
+    "errorResponses": {
+        "401_Unauthorized": {
+            "code": -32001,
+            "message": "Unauthorized: Missing or invalid authentication token",
+            "httpStatus": 401,
+            "example": {
+                "jsonrpc": "2.0",
+                "error": {
+                    "code": -32001,
+                    "message": "Unauthorized: Missing or invalid authentication token",
+                    "data": {
+                        "requiredScheme": "Bearer",
+                        "documentation": "https://workshop.example.com/docs/authentication"
+                    }
+                },
+                "id": 1
+            }
+        },
+        "403_Forbidden": {
+            "code": -32002,
+            "message": "Forbidden: Insufficient permissions",
+            "httpStatus": 403,
+            "example": {
+                "jsonrpc": "2.0",
+                "error": {
+                    "code": -32002,
+                    "message": "Forbidden: Insufficient permissions",
+                    "data": {
+                        "requiredScope": "mcp:tools:execute",
+                        "userScopes": [
+                            "mcp:resources:read"
+                        ]
+                    }
+                },
+                "id": 1
+            }
+        },
+        "429_RateLimitExceeded": {
+            "code": -32003,
+            "message": "Too Many Requests: Rate limit exceeded",
+            "httpStatus": 429,
+            "headers": {
+                "X-RateLimit-Limit": "100",
+                "X-RateLimit-Remaining": "0",
+                "X-RateLimit-Reset": "1700000000",
+                "Retry-After": "30"
+            },
+            "example": {
+                "jsonrpc": "2.0",
+                "error": {
+                    "code": -32003,
+                    "message": "Too Many Requests: Rate limit exceeded",
+                    "data": {
+                        "limit": 100,
+                        "window": "1m",
+                        "retryAfter": 30
+                    }
+                },
+                "id": 1
+            }
+        }
+    },
+    "successCriteria": [
+        "Server rejects requests without Authorization header (401)",
+        "Server validates JWT tokens and extracts claims",
+        "Server enforces scope-based permissions (403 for insufficient scopes)",
+        "Rate limiting tracks requests per client and scope",
+        "Rate limit headers included in all responses",
+        "Exceeding rate limit returns 429 with Retry-After",
+        "All requests logged with timestamp, userId, method, duration",
+        "Sensitive data (tokens, passwords) redacted in logs",
+        "Logs include unique requestId for tracing",
+        "Performance: auth/rate-limit overhead < 50ms per request"
+    ],
+    "verificationScript": {
+        "language": "powershell",
+        "commands": [
+            "# Test unauthenticated request (should fail)",
+            "$unauthResponse = Invoke-WebRequest -Uri 'http://localhost:5000/mcp' -Method POST -Body '{\"jsonrpc\":\"2.0\",\"method\":\"resources/list\",\"id\":1}' -ContentType 'application/json' -SkipHttpErrorCheck",
+            "if ($unauthResponse.StatusCode -eq 401) { Write-Host '✓ Authentication enforcement passed' }",
+            "",
+            "# Generate test JWT token",
+            "$token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LXVzZXIiLCJzY29wZSI6Im1jcDpyZXNvdXJjZXM6cmVhZCJ9.test'",
+            "",
+            "# Test authenticated request",
+            "$headers = @{ Authorization = \"Bearer $token\" }",
+            "$authResponse = Invoke-WebRequest -Uri 'http://localhost:5000/mcp' -Method POST -Headers $headers -Body '{\"jsonrpc\":\"2.0\",\"method\":\"resources/list\",\"id\":2}' -ContentType 'application/json'",
+            "if ($authResponse.StatusCode -eq 200) { Write-Host '✓ Authentication passed' }",
+            "",
+            "# Test rate limiting (send 101 requests)",
+            "$rateLimitHit = $false",
+            "for ($i = 1; $i -le 101; $i++) {",
+            "  $response = Invoke-WebRequest -Uri 'http://localhost:5000/mcp' -Method POST -Headers $headers -Body \"{`\"jsonrpc`\":`\"2.0`\",`\"method`\":`\"resources/list`\",`\"id`\":$i}\" -ContentType 'application/json' -SkipHttpErrorCheck",
+            "  if ($response.StatusCode -eq 429) { $rateLimitHit = $true; break }",
+            "}",
+            "if ($rateLimitHit) { Write-Host '✓ Rate limiting passed' }",
+            "",
+            "# Test scope enforcement (tool call without permission)",
+            "$scopeHeaders = @{ Authorization = \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LXVzZXIiLCJzY29wZSI6Im1jcDpyZXNvdXJjZXM6cmVhZCJ9.test\" }",
+            "$scopeResponse = Invoke-WebRequest -Uri 'http://localhost:5000/mcp' -Method POST -Headers $scopeHeaders -Body '{\"jsonrpc\":\"2.0\",\"method\":\"tools/call\",\"params\":{\"name\":\"test_tool\",\"arguments\":{}},\"id\":3}' -ContentType 'application/json' -SkipHttpErrorCheck",
+            "if ($scopeResponse.StatusCode -eq 403) { Write-Host '✓ Scope enforcement passed' }",
+            "",
+            "# Verify rate limit headers",
+            "if ($authResponse.Headers['X-RateLimit-Limit']) { Write-Host '✓ Rate limit headers present' }",
+            "",
+            "# Check logs for structured format",
+            "Write-Host 'Verify logs contain: timestamp, level, method, userId, requestId, duration'"
+        ]
+    },
+    "implementationGuidance": {
+        "authMiddleware": {
+            "description": "ASP.NET Core middleware for JWT validation",
+            "code": "app.UseAuthentication(); app.UseAuthorization();"
+        },
+        "rateLimitingMiddleware": {
+            "description": "Custom middleware with in-memory sliding window",
+            "libraries": [
+                "AspNetCoreRateLimit",
+                "Custom implementation"
+            ]
+        },
+        "loggingConfiguration": {
+            "description": "Structured logging with Serilog or Microsoft.Extensions.Logging",
+            "enrichers": [
+                "WithRequestId",
+                "WithUserId",
+                "WithDuration"
+            ]
+        }
+    },
+    "exampleLogs": [
+        {
+            "timestamp": "2024-11-17T10:30:45.123Z",
+            "level": "INFO",
+            "method": "resources/list",
+            "userId": "test-user",
+            "requestId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "duration": 45,
+            "statusCode": 200,
+            "rateLimitRemaining": 99
+        },
+        {
+            "timestamp": "2024-11-17T10:31:12.456Z",
+            "level": "WARN",
+            "method": "tools/call",
+            "userId": "test-user",
+            "requestId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+            "duration": 12,
+            "statusCode": 403,
+            "error": "Insufficient scope: required mcp:tools:execute, got mcp:resources:read"
+        },
+        {
+            "timestamp": "2024-11-17T10:32:00.789Z",
+            "level": "ERROR",
+            "method": "resources/read",
+            "userId": "anonymous",
+            "requestId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+            "duration": 8,
+            "statusCode": 429,
+            "rateLimitExceeded": true
+        }
+    ]
+}
