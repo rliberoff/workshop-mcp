@@ -1,264 +1,295 @@
-# 🚀 Quick Start - MCP Workshop
+# 🚀 Guía de Inicio Rápido - Taller MCP
 
-## Before the Workshop
+## Antes del Taller
 
-### 1. Install Prerequisites
+### Requisitos del Sistema
 
-```powershell
-# Check .NET version (required: 10.0 or higher)
-dotnet --version
+-   **SDK .NET**: 10.0 o superior
+-   **IDE**: Visual Studio 2022 o VS Code con C# Dev Kit
+-   **PowerShell**: 7.0 o superior
+-   **Git**: Para clonar el repositorio
 
-# If you need to install .NET 10
-# Download from: https://dotnet.microsoft.com/download/dotnet/10.0
-```
-
-### 2. Clone Repository
+### Instalación
 
 ```powershell
-git clone <repository-url>
+# 1. Clonar el repositorio
+git clone <url-repositorio>
 cd mcp-workshop
-```
 
-### 3. Verify Build
+# 2. Verificar el entorno
+.\scripts\verify-setup.ps1
 
-```powershell
-# Build entire solution
+# 3. Generar datos de ejemplo
+.\scripts\create-sample-data.ps1
+
+# 4. Construir la solución
 dotnet build McpWorkshop.sln
+```
 
-# Expected output: "Build succeeded" with 8 projects
+**Salida esperada del script de verificación**:
+
+```
+✓ .NET SDK 10.0.x detectado
+✓ PowerShell 7.x detectado
+✓ Puertos 5000-5012 disponibles
+✓ Paquetes NuGet restaurados correctamente
 ```
 
 ---
 
-## During the Workshop
+## Durante el Taller
 
-### Exercise 1: Static Resources (25 min)
+### Ejercicio 1: Servidor de Recursos Estáticos
 
-**Goal**: Create your first MCP server with static JSON resources
+**Objetivo**: Crear un servidor MCP que sirva archivos JSON estáticos.
 
 ```powershell
-# Navigate to starter template
-cd templates/exercise1-starter
-
-# Run the reference server (for comparison)
-cd ../../src/McpWorkshop.Servers/Exercise1StaticResources
+# Ejecutar el servidor
+cd src\McpWorkshop.Servers\Exercise1StaticResources
 dotnet run
 
-# Verify (in another terminal)
-cd ../../../scripts
-.\verify-exercise1.ps1
+# Verificar (en otra terminal)
+cd ..\..\..
+.\scripts\verify-exercise1.ps1
 ```
 
-**What you'll learn**: MCP protocol basics, resources/list, resources/read
+**Prueba manual**:
+
+```powershell
+# Listar recursos disponibles
+Invoke-RestMethod -Uri "http://localhost:5000/resources/list" -Method POST
+
+# Obtener un recurso específico
+Invoke-RestMethod -Uri "http://localhost:5000/resources/read" -Method POST `
+    -Body '{"uri":"customers://001"}' -ContentType "application/json"
+```
 
 ---
 
-### Exercise 2: Parametric Query (25 min)
+### Ejercicio 2: Servidor de Consultas Paramétricas
 
-**Goal**: Add tools with parameters and JSON Schema validation
+**Objetivo**: Implementar herramientas MCP con parámetros de entrada.
 
 ```powershell
-# Navigate to starter template
-cd templates/exercise2-starter
-
-# Run the reference server
-cd ../../src/McpWorkshop.Servers/Exercise2ParametricQuery
+# Ejecutar el servidor
+cd src\McpWorkshop.Servers\Exercise2ParametricQuery
 dotnet run
 
-# Verify
-cd ../../../scripts
-.\verify-exercise2.ps1
+# Verificar (en otra terminal)
+cd ..\..\..
+.\scripts\verify-exercise2.ps1
 ```
 
-**What you'll learn**: Tools definition, inputSchema, parameter validation, error handling
+**Prueba manual**:
+
+```powershell
+# Listar herramientas disponibles
+Invoke-RestMethod -Uri "http://localhost:5001/tools/list" -Method POST
+
+# Ejecutar búsqueda de cliente
+Invoke-RestMethod -Uri "http://localhost:5001/tools/call" -Method POST `
+    -Body '{"name":"search-customer","arguments":{"query":"Acme"}}' `
+    -ContentType "application/json"
+```
 
 ---
 
-### Exercise 3: Secure Server (30 min)
+### Ejercicio 3: Servidor Seguro con JWT
 
-**Goal**: Add JWT authentication, authorization scopes, rate limiting, and logging
+**Objetivo**: Añadir autenticación JWT y límites de tasa.
 
 ```powershell
-# Navigate to starter template
-cd templates/exercise3-starter
-
-# Run the reference server
-cd ../../src/McpWorkshop.Servers/Exercise3SecureServer
+# Ejecutar el servidor
+cd src\McpWorkshop.Servers\Exercise3SecureServer
 dotnet run
 
-# Verify
-cd ../../../scripts
-.\verify-exercise3.ps1
+# Verificar (en otra terminal)
+cd ..\..\..
+.\scripts\verify-exercise3.ps1
 ```
 
-**What you'll learn**: Authentication middleware, scope-based authorization, rate limiting (sliding window), structured logging with redaction
+**Prueba manual**:
+
+```powershell
+# Obtener token JWT
+$token = (Invoke-RestMethod -Uri "http://localhost:5002/auth/token" -Method POST `
+    -Body '{"username":"admin","password":"P@ssw0rd!"}' `
+    -ContentType "application/json").token
+
+# Usar el token para llamar a herramientas
+Invoke-RestMethod -Uri "http://localhost:5002/tools/call" -Method POST `
+    -Headers @{Authorization="Bearer $token"} `
+    -Body '{"name":"get-customer","arguments":{"id":"001"}}' `
+    -ContentType "application/json"
+```
 
 ---
 
-### Exercise 4: Virtual Analyst (35 min)
+### Ejercicio 4: Analista Virtual (Orquestación)
 
-**Goal**: Build an orchestrator that coordinates multiple MCP servers with Spanish NLP
-
-**⚠️ Important**: This exercise requires 4 servers running simultaneously
-
-#### Step 1: Start Backend Servers
+**Objetivo**: Orquestar múltiples servidores MCP backend.
 
 ```powershell
-# Terminal 1: SQL Server (port 5010)
-cd src/McpWorkshop.Servers/Exercise4SqlMcpServer
+# 1. Iniciar los servidores backend
+cd src\McpWorkshop.Servers\SqlMcpServer
+start powershell -NoExit -Command "dotnet run"
+
+cd ..\CosmosMcpServer
+start powershell -NoExit -Command "dotnet run"
+
+cd ..\RestApiMcpServer
+start powershell -NoExit -Command "dotnet run"
+
+# 2. Iniciar el servidor de orquestación
+cd ..\Exercise4VirtualAnalyst
 dotnet run
 
-# Terminal 2: Cosmos Server (port 5011)
-cd src/McpWorkshop.Servers/Exercise4CosmosMcpServer
-dotnet run
-
-# Terminal 3: REST API Server (port 5012)
-cd src/McpWorkshop.Servers/Exercise4RestApiMcpServer
-dotnet run
+# 3. Verificar (en otra terminal)
+cd ..\..\..\
+.\scripts\verify-exercise4.ps1
 ```
 
-#### Step 2: Start Orchestrator
+**Prueba manual**:
 
 ```powershell
-# Terminal 4: Virtual Analyst (port 5004)
-cd src/McpWorkshop.Servers/Exercise4VirtualAnalyst
-dotnet run
+# Ejecutar consulta empresarial compleja
+Invoke-RestMethod -Uri "http://localhost:5003/tools/call" -Method POST `
+    -Body '{"name":"business-query","arguments":{"query":"¿Cuáles son los principales clientes por ingresos?"}}' `
+    -ContentType "application/json"
 ```
-
-#### Step 3: Test with Spanish Queries
-
-```powershell
-# Terminal 5: Run verification
-cd scripts
-.\verify-exercise4.ps1
-
-# Or test manually:
-curl -X POST http://localhost:5004/query `
-  -H "Content-Type: application/json" `
-  -d '{"query": "¿Cuántos clientes nuevos hay en Madrid?"}'
-```
-
-**What you'll learn**: Orchestration patterns, parallel execution (Task.WhenAll), sequential execution (await), caching, natural language processing (Spanish), multi-server communication
 
 ---
 
-## Quick Reference
+## Referencia Rápida
 
-### Port Allocation
+### Comandos Esenciales
 
--   `5001`: Exercise 1 - Static Resources
--   `5002`: Exercise 2 - Parametric Query
--   `5003`: Exercise 3 - Secure Server
--   `5004`: Exercise 4 - Virtual Analyst (orchestrator)
--   `5010`: Exercise 4 - SqlMcpServer
--   `5011`: Exercise 4 - CosmosMcpServer
--   `5012`: Exercise 4 - RestApiMcpServer
+```powershell
+# Limpiar y reconstruir
+dotnet clean
+dotnet restore
+dotnet build
 
-### MCP Protocol Endpoints
+# Ejecutar tests
+dotnet test
 
-```
-POST /mcp
-Content-Type: application/json
+# Ejecutar con logs detallados
+dotnet run --verbosity detailed
 
-# Initialize
-{"jsonrpc": "2.0", "method": "initialize", "params": {"protocolVersion": "2024-11-05", "capabilities": {}}, "id": 1}
-
-# List Resources
-{"jsonrpc": "2.0", "method": "resources/list", "id": 2}
-
-# Read Resource
-{"jsonrpc": "2.0", "method": "resources/read", "params": {"uri": "workshop://data/customers"}, "id": 3}
-
-# List Tools
-{"jsonrpc": "2.0", "method": "tools/list", "id": 4}
-
-# Call Tool
-{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "search_customers", "arguments": {"query": "García"}}, "id": 5}
+# Detener todos los servidores dotnet
+Get-Process dotnet | Stop-Process -Force
 ```
 
-### Exercise 4 Spanish Queries
+### Puertos del Servidor
+
+| Servidor                   | Puerto |
+| -------------------------- | ------ |
+| Exercise1StaticResources   | 5000   |
+| Exercise2ParametricQuery   | 5001   |
+| Exercise3SecureServer      | 5002   |
+| Exercise4VirtualAnalyst    | 5003   |
+| SqlMcpServer (backend)     | 5010   |
+| CosmosMcpServer (backend)  | 5011   |
+| RestApiMcpServer (backend) | 5012   |
+
+### Estructura del Protocolo MCP
+
+**Formato de Solicitud**:
 
 ```json
-// New customers
-{"query": "¿Cuántos clientes nuevos hay en Madrid?"}
-
-// Abandoned carts
-{"query": "¿Usuarios que abandonaron carrito últimas 24 horas?"}
-
-// Order status
-{"query": "¿Estado del pedido 1001?"}
-
-// Sales summary (parallel execution)
-{"query": "Resumen de ventas de esta semana"}
-
-// Top products
-{"query": "Top 5 productos más vendidos"}
+{
+    "jsonrpc": "2.0",
+    "method": "resources/list | resources/read | tools/list | tools/call",
+    "params": {
+        /* parámetros específicos del método */
+    },
+    "id": 1
+}
 ```
+
+**Formato de Respuesta**:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": {
+        /* datos de respuesta */
+    },
+    "id": 1
+}
+```
+
+### Métodos del Protocolo MCP
+
+-   **resources/list**: Obtener recursos disponibles
+-   **resources/read**: Leer contenido de un recurso
+-   **tools/list**: Obtener herramientas disponibles
+-   **tools/call**: Ejecutar una herramienta con argumentos
 
 ---
 
-## Troubleshooting
+## Solución de Problemas
 
-### "Port already in use"
+### "Puerto ya en uso"
 
 ```powershell
-# Find process using the port
+# Buscar proceso usando el puerto
 netstat -ano | findstr :5001
 
-# Kill process (replace PID)
+# Eliminar proceso (reemplazar PID)
 taskkill /PID <PID> /F
 ```
 
-### "Connection refused" in Exercise 4
+### "Conexión rechazada" en el Ejercicio 4
 
-Make sure all 3 backend servers are running:
+Asegúrate de que los 3 servidores backend están ejecutándose:
 
 -   SqlMcpServer (5010)
 -   CosmosMcpServer (5011)
 -   RestApiMcpServer (5012)
 
-### Build Errors
+### Errores de Compilación
 
 ```powershell
-# Clean and rebuild
+# Limpiar y reconstruir
 dotnet clean
 dotnet restore
 dotnet build
 ```
 
-### Verification Script Fails
+### Fallo del Script de Verificación
 
-1. Ensure the server is running (`dotnet run`)
-2. Wait 5 seconds for server startup
-3. Check port is not blocked by firewall
+1. Asegúrate de que el servidor está ejecutándose (`dotnet run`)
+2. Espera 5 segundos para el inicio del servidor
+3. Verifica que el puerto no esté bloqueado por el firewall
 
 ---
 
-## Help & Documentation
+## Ayuda y Documentación
 
--   **Full Documentation**: [docs/README.md](docs/README.md)
+-   **Documentación Completa**: [docs/README.md](docs/README.md)
 -   **Agenda**: [docs/AGENDA.md](docs/AGENDA.md)
--   **Quick Reference**: [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)
--   **Troubleshooting**: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
--   **Instructor Guide**: [docs/INSTRUCTOR_HANDBOOK.md](docs/INSTRUCTOR_HANDBOOK.md)
+-   **Referencia Rápida**: [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)
+-   **Solución de Problemas**: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+-   **Guía del Instructor**: [docs/INSTRUCTOR_HANDBOOK.md](docs/INSTRUCTOR_HANDBOOK.md)
 
 ---
 
-## After the Workshop
+## Después del Taller
 
-### Continue Learning
+### Continuar Aprendiendo
 
--   Explore Azure deployment: [docs/AZURE_DEPLOYMENT.md](docs/AZURE_DEPLOYMENT.md)
--   Review instructor notes for deeper insights
--   Experiment with custom tools and resources
--   Join the MCP community discussions
+-   Explora el despliegue en Azure: [docs/AZURE_DEPLOYMENT.md](docs/AZURE_DEPLOYMENT.md)
+-   Revisa las notas del instructor para obtener conocimientos más profundos
+-   Experimenta con herramientas y recursos personalizados
+-   Únete a las discusiones de la comunidad MCP
 
-### Share Feedback
+### Comparte tu Opinión
 
--   Report issues: GitHub Issues
--   Suggest improvements: Pull Requests
--   Share your MCP servers: Community showcase
+-   Reporta problemas: GitHub Issues
+-   Sugiere mejoras: Pull Requests
+-   Comparte tus servidores MCP: Escaparate de la comunidad
 
 ---
 
-**Happy Learning! 🎓🚀**
+**¡Feliz Aprendizaje! 🎓🚀**
