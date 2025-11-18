@@ -9,7 +9,7 @@ These notes will help understanding how your code works. Thanks!
 ## Motivation and Context
 
 <!--
-Thank you for your contribution to the semantic-kernel repo!
+Thank you for your contribution to the MCP Workshop repo!
 Please help reviewers and future users, providing the following information:
   1. Why is this change required?
   2. What problem does it solve?
@@ -19,7 +19,7 @@ Please help reviewers and future users, providing the following information:
 
 ## Type of change
 
-Please check only those options that are relevant with a (✅).
+Please check only those options that are relevant with a ([X]).
 
 - [ ] The code builds clean without any errors or warnings
 - [ ] Bug fix (non-breaking change which fixes an issue)
@@ -29,7 +29,7 @@ Please check only those options that are relevant with a (✅).
 
 ## Checklist
 
-Please check all options from this checklist when validating your pull request with a (✅).
+Please check all options from this checklist when validating your pull request with a ([X]).
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
