@@ -223,15 +223,22 @@ app.MapPost("/mcp", async (
     IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings) =>
 {
     var requestId = request.Id?.ToString() ?? "unknown";
-    logger.LogRequest(request.Method, requestId, request.Params);
+
+    IDictionary<string, object>? paramsDict = null;
+    if (request.Params != null)
+    {
+        paramsDict = JsonSerializer.Deserialize<IDictionary<string, object>>(JsonSerializer.Serialize(request.Params));
+    }
+
+    logger.LogRequest(request.Method, requestId, paramsDict);
 
     try
     {
         var response = request.Method switch
         {
-            "initialize" => HandleInitialize(settings),
-            "resources/list" => HandleResourcesList(),
-            "resources/read" => HandleResourcesRead(request.Params, customers, products),
+            "initialize" => HandleInitialize(request.Id, settings),
+            "resources/list" => HandleResourcesList(request.Id),
+            "resources/read" => HandleResourcesRead(request.Id, paramsDict, customers, products),
             _ => CreateErrorResponse(-32601, "Method not found", null, request.Id)
         };
 
@@ -257,7 +264,7 @@ app.Run("http://localhost:5001");
 > "Ahora los tres handlers. Initialize devuelve las capacidades del servidor..."
 
 ```csharp
-static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
+static JsonRpcResponse HandleInitialize(object? requestId, IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
 {
     return new JsonRpcResponse
     {
@@ -265,14 +272,14 @@ static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuratio
         Result = new
         {
             protocolVersion = "2024-11-05",
-            capabilities = new { resources = new { }, tools = new { } },
+            capabilities = new { resources = new { } },
             serverInfo = new
             {
                 name = settings.Value.Server.Name,
                 version = settings.Value.Server.Version
             }
         },
-        Id = "init"
+        Id = requestId
     };
 }
 ```
@@ -280,7 +287,7 @@ static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuratio
 > "ResourcesList enumera los recursos disponibles con URIs mcp://..."
 
 ```csharp
-static JsonRpcResponse HandleResourcesList()
+static JsonRpcResponse HandleResourcesList(object? requestId)
 {
     return new JsonRpcResponse
     {
@@ -305,7 +312,7 @@ static JsonRpcResponse HandleResourcesList()
                 }
             }
         },
-        Id = "list"
+        Id = requestId
     };
 }
 ```
@@ -314,13 +321,24 @@ static JsonRpcResponse HandleResourcesList()
 
 ```csharp
 static JsonRpcResponse HandleResourcesRead(
-    object? parameters,
+    object? requestId,
+    IDictionary<string, object>? parameters,
     List<Customer> customers,
     List<Product> products)
 {
-    var paramsJson = JsonSerializer.Serialize(parameters);
-    var paramsDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(paramsJson);
-    var uri = paramsDict?["uri"].GetString();
+    // Parsear el URI del recurso
+    string? uri = null;
+    if (parameters != null && parameters.TryGetValue("uri", out var uriValue))
+    {
+        if (uriValue is JsonElement jsonElement)
+        {
+            uri = jsonElement.GetString();
+        }
+        else if (uriValue is string strValue)
+        {
+            uri = strValue;
+        }
+    }
 
     var content = uri switch
     {
@@ -339,7 +357,7 @@ static JsonRpcResponse HandleResourcesRead(
                 new { uri, mimeType = "application/json", text = content }
             }
         },
-        Id = "read"
+        Id = requestId
     };
 }
 ```

@@ -124,7 +124,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   MCP vs Plugins vs APIs REST
 -   Casos de uso empresariales
 
-📚 [Documentación](./modules/02-fundamentos.md) | 👨‍🏫 [Notas del Instructor](./modules/02-fundamentos-instructor.md)
+📚 [Documentación](./modules/02b-fundamentos.md) | 👨‍🏫 [Notas del Instructor](./modules/02a-fundamentos-instructor.md)
 
 #### Bloque 3: Anatomía de un Proveedor (20 min)
 
@@ -133,7 +133,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   Recursos vs Tools
 -   JSON-RPC 2.0 en acción
 
-📚 [Guía de Live Coding](./modules/03-anatomia-proveedor.md) | 💻 [Código de Referencia](../src/McpWorkshop.Servers/DemoServer/)
+📚 [Guía de Live Coding](./modules/03b-anatomia-proveedor.md) | 💻 [Código de Referencia](../src/McpWorkshop.Servers/DemoServer/)
 
 #### Bloque 4: Ejercicio 1 - Recursos Estáticos (15 min)
 
@@ -141,7 +141,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   **Duración**: 15 minutos guiados
 -   **Skills**: `resources/list`, `resources/read`, JSON estructurado
 
-📚 [Instrucciones](./modules/04-ejercicio-1-recursos-estaticos.md) | 🎯 [Template](../templates/exercise1-starter/) | ✅ [Solución](../src/McpWorkshop.Servers/Exercise1StaticResources/)
+📚 [Instrucciones](./modules/04b-ejercicio-1-recursos-estaticos.md) | 🎯 [Template](../templates/exercise1-starter/) | ✅ [Solución](../src/McpWorkshop.Servers/Exercise1StaticResources/)
 
 ### Parte 2: Herramientas y Seguridad (1h 10min)
 
@@ -151,7 +151,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   **Duración**: 20 minutos independiente
 -   **Skills**: `tools/list`, `tools/call`, JSON Schema validation
 
-📚 [Instrucciones](./modules/05-ejercicio-2-consultas-parametricas.md) | 🎯 [Template](../templates/exercise2-starter/) | ✅ [Solución](../src/McpWorkshop.Servers/Exercise2ParametricQuery/)
+📚 [Instrucciones](./modules/05b-ejercicio-2-consultas-parametricas.md) | 🎯 [Template](../templates/exercise2-starter/) | ✅ [Solución](../src/McpWorkshop.Servers/Exercise2ParametricQuery/)
 
 #### Bloque 6: Ejercicio 3 - Seguridad (20 min)
 
@@ -159,7 +159,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   **Duración**: 20 minutos
 -   **Skills**: Bearer tokens, scopes, logging estructurado
 
-📚 [Instrucciones](./modules/06-ejercicio-3-seguridad.md) | 🎯 [Template](../templates/exercise3-starter/) | ✅ [Solución](../src/McpWorkshop.Servers/Exercise3SecureServer/)
+📚 [Instrucciones](./modules/06b-ejercicio-3-seguridad.md) | 🎯 [Template](../templates/exercise3-starter/) | ✅ [Solución](../src/McpWorkshop.Servers/Exercise3SecureServer/)
 
 #### Bloque 7: Seguridad & Gobernanza (15 min)
 
@@ -169,7 +169,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   Logging y auditoría
 -   Anti-patterns de seguridad
 
-📚 [Presentación](./modules/07-seguridad-gobernanza.md) | ⚠️ [Anti-patterns](./modules/07-seguridad-gobernanza-antipatterns.md)
+📚 [Presentación](./modules/07b-seguridad-gobernanza.md) | ⚠️ [Anti-patterns](./modules/07-seguridad-gobernanza-antipatterns.md)
 
 #### Bloque 8: Ejercicio 4 - Analista Virtual (25 min)
 

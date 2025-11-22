@@ -431,15 +431,22 @@ app.MapPost("/mcp", async (
     IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings) =>
 {
     var requestId = request.Id?.ToString() ?? "unknown";
-    logger.LogRequest(request.Method, requestId, request.Params);
+
+    IDictionary<string, object>? paramsDict = null;
+    if (request.Params != null)
+    {
+        paramsDict = JsonSerializer.Deserialize<IDictionary<string, object>>(JsonSerializer.Serialize(request.Params));
+    }
+
+    logger.LogRequest(request.Method, requestId, paramsDict);
 
     try
     {
         var response = request.Method switch
         {
-            "initialize" => HandleInitialize(settings),
-            "tools/list" => HandleToolsList(),
-            "tools/call" => HandleToolsCall(request.Params, customers, products, orders),
+            "initialize" => HandleInitialize(request.Id, settings),
+            "tools/list" => HandleToolsList(request.Id),
+            "tools/call" => HandleToolsCall(request.Id, paramsDict, customers, products, orders),
             _ => CreateErrorResponse(-32601, "Method not found", null, request.Id)
         };
 
@@ -456,7 +463,7 @@ app.MapPost("/mcp", async (
 app.Run("http://localhost:5002");
 
 // Handlers
-static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
+static JsonRpcResponse HandleInitialize(object? requestId, IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
 {
     return new JsonRpcResponse
     {
@@ -471,11 +478,11 @@ static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuratio
                 version = settings.Value.Server.Version
             }
         },
-        Id = "init"
+        Id = requestId
     };
 }
 
-static JsonRpcResponse HandleToolsList()
+static JsonRpcResponse HandleToolsList(object? requestId)
 {
     return new JsonRpcResponse
     {
@@ -489,23 +496,51 @@ static JsonRpcResponse HandleToolsList()
                 CalculateMetricsTool.GetDefinition()
             }
         },
-        Id = "list"
+        Id = requestId
     };
 }
 
 static JsonRpcResponse HandleToolsCall(
-    object? parameters,
+    object? requestId,
+    IDictionary<string, object>? parameters,
     List<Customer> customers,
     List<Product> products,
     List<Order> orders)
 {
-    var paramsJson = JsonSerializer.Serialize(parameters);
-    var paramsDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(paramsJson);
-    var toolName = paramsDict?["name"].GetString();
+    // Parsear el nombre de la herramienta
+    string? toolName = null;
+    if (parameters != null && parameters.TryGetValue("name", out var nameValue))
+    {
+        if (nameValue is JsonElement nameElement)
+        {
+            toolName = nameElement.GetString();
+        }
+        else if (nameValue is string strValue)
+        {
+            toolName = strValue;
+        }
+    }
 
-    var argumentsJson = paramsDict?["arguments"].GetRawText() ?? "{}";
-    var arguments = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(argumentsJson)
+    // Parsear los argumentos
+    Dictionary<string, JsonElement> arguments;
+    if (parameters != null && parameters.TryGetValue("arguments", out var argsValue))
+    {
+        string argumentsJson;
+        if (argsValue is JsonElement argsElement)
+        {
+            argumentsJson = argsElement.GetRawText();
+        }
+        else
+        {
+            argumentsJson = JsonSerializer.Serialize(argsValue);
+        }
+        arguments = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(argumentsJson)
                     ?? new Dictionary<string, JsonElement>();
+    }
+    else
+    {
+        arguments = new Dictionary<string, JsonElement>();
+    }
 
     var result = toolName switch
     {
@@ -519,7 +554,7 @@ static JsonRpcResponse HandleToolsCall(
     {
         JsonRpc = "2.0",
         Result = result,
-        Id = "call"
+        Id = requestId
     };
 }
 

@@ -308,7 +308,7 @@ var response = request.Method switch
 **4. HandleToolsList (devuelve definiciones)**:
 
 ```csharp
-static JsonRpcResponse HandleToolsList()
+static JsonRpcResponse HandleToolsList(object? requestId)
 {
     return new JsonRpcResponse
     {
@@ -322,7 +322,7 @@ static JsonRpcResponse HandleToolsList()
                 CalculateMetricsTool.GetDefinition()
             }
         },
-        Id = "list"
+        Id = requestId
     };
 }
 ```
@@ -331,18 +331,46 @@ static JsonRpcResponse HandleToolsList()
 
 ```csharp
 static JsonRpcResponse HandleToolsCall(
-    object? parameters,
+    object? requestId,
+    IDictionary<string, object>? parameters,
     List<Customer> customers,
     List<Product> products,
     List<Order> orders)
 {
-    var paramsJson = JsonSerializer.Serialize(parameters);
-    var paramsDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(paramsJson);
-    var toolName = paramsDict?["name"].GetString();
+    // Parsear el nombre de la herramienta
+    string? toolName = null;
+    if (parameters != null && parameters.TryGetValue("name", out var nameValue))
+    {
+        if (nameValue is JsonElement nameElement)
+        {
+            toolName = nameElement.GetString();
+        }
+        else if (nameValue is string strValue)
+        {
+            toolName = strValue;
+        }
+    }
 
-    var argumentsJson = paramsDict?["arguments"].GetRawText() ?? "{}";
-    var arguments = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(argumentsJson)
+    // Parsear los argumentos
+    Dictionary<string, JsonElement> arguments;
+    if (parameters != null && parameters.TryGetValue("arguments", out var argsValue))
+    {
+        string argumentsJson;
+        if (argsValue is JsonElement argsElement)
+        {
+            argumentsJson = argsElement.GetRawText();
+        }
+        else
+        {
+            argumentsJson = JsonSerializer.Serialize(argsValue);
+        }
+        arguments = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(argumentsJson)
                     ?? new Dictionary<string, JsonElement>();
+    }
+    else
+    {
+        arguments = new Dictionary<string, JsonElement>();
+    }
 
     var result = toolName switch
     {
@@ -356,7 +384,7 @@ static JsonRpcResponse HandleToolsCall(
     {
         JsonRpc = "2.0",
         Result = result,
-        Id = "call"
+        Id = requestId
     };
 }
 ```

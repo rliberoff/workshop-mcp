@@ -169,7 +169,7 @@ cd DemoMcpServer
 dotnet add package ModelContextProtocol --prerelease
 ```
 
-**Guion de Live Coding** (paso a paso en [03-anatomia-proveedor.md](./modules/03-anatomia-proveedor.md)):
+**Guion de Live Coding** (paso a paso en [03b-anatomia-proveedor.md](./modules/03b-anatomia-proveedor.md)):
 
 1. **Min 0-5**: Crear proyecto + instalar NuGet
 2. **Min 5-10**: Implementar `initialize` endpoint

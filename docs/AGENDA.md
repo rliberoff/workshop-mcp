@@ -60,7 +60,7 @@ Este taller intensivo de 3 horas te enseñará a crear servidores MCP (Model Con
 
 **Entregable**: Repositorio clonado y verificación completada.
 
-**[📄 Documentación completa →](./modules/01-apertura.md)**
+**[📄 Documentación completa →](./modules/01b-apertura.md)**
 
 ---
 
@@ -86,7 +86,7 @@ flowchart LR
     Servidor <--> Datos["Fuentes de Datos<br/>(SQL, Cosmos, APIs)"]
 ```
 
-**[📄 Documentación completa →](./modules/02-fundamentos.md)**
+**[📄 Documentación completa →](./modules/02b-fundamentos.md)**
 
 ---
 
@@ -105,7 +105,7 @@ flowchart LR
 
 **Código resultado**: `DemoServer` funcional con recursos estáticos.
 
-**[📄 Documentación completa →](./modules/03-anatomia-proveedor.md)**
+**[📄 Documentación completa →](./modules/03b-anatomia-proveedor.md)**
 
 ---
 
@@ -133,7 +133,7 @@ Café, networking, verificar que todos siguen el ritmo.
 
 **Tiempo**: 15 minutos guiados con checkpoints cada 3 minutos.
 
-**[📄 Documentación completa →](./modules/04-ejercicio-1-recursos-estaticos.md)**
+**[📄 Documentación completa →](./modules/04b-ejercicio-1-recursos-estaticos.md)**
 
 ---
 
@@ -155,7 +155,7 @@ Café, networking, verificar que todos siguen el ritmo.
 
 **Tiempo**: 20 minutos semi-independientes con soporte roaming.
 
-**[📄 Documentación completa →](./modules/05-ejercicio-2-consultas-parametricas.md)**
+**[📄 Documentación completa →](./modules/05b-ejercicio-2-consultas-parametricas.md)**
 
 ---
 
@@ -191,7 +191,7 @@ Pausa breve, estirar piernas.
 
 **Tiempo**: 20 minutos con plantillas pre-creadas.
 
-**[📄 Documentación completa →](./modules/06-ejercicio-3-seguridad.md)**
+**[📄 Documentación completa →](./modules/06b-ejercicio-3-seguridad.md)**
 
 ---
 
@@ -223,7 +223,7 @@ flowchart LR
 
 **Checklist producción**: 30+ items (autenticación, autorización, comunicación, auditoría, infraestructura, compliance).
 
-**[📄 Documentación completa →](./modules/07-seguridad-gobernanza.md)**
+**[📄 Documentación completa →](./modules/07b-seguridad-gobernanza.md)**
 
 ---
 

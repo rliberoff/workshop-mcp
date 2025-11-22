@@ -564,11 +564,11 @@ app.MapPost("/mcp", async (
 
         var response = request.Method switch
         {
-            "initialize" => HandleInitialize(settings),
-            "resources/list" => HandleResourcesList(),
-            "resources/read" => HandleResourcesRead(user, authz),
-            "tools/list" => HandleToolsList(),
-            "tools/call" => HandleToolsCall(user, authz),
+            "initialize" => HandleInitialize(request.Id, settings),
+            "resources/list" => HandleResourcesList(request.Id),
+            "resources/read" => HandleResourcesRead(request.Id, user, authz),
+            "tools/list" => HandleToolsList(request.Id),
+            "tools/call" => HandleToolsCall(request.Id, user, authz),
             _ => CreateErrorResponse(-32601, "Method not found", null, request.Id)
         };
 
@@ -585,7 +585,7 @@ app.MapPost("/mcp", async (
 app.Run("http://localhost:5003");
 
 // Handlers
-static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
+static JsonRpcResponse HandleInitialize(object? requestId, IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
 {
     return new JsonRpcResponse
     {
@@ -600,11 +600,11 @@ static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuratio
                 version = settings.Value.Server.Version
             }
         },
-        Id = "init"
+        Id = requestId
     };
 }
 
-static JsonRpcResponse HandleResourcesList()
+static JsonRpcResponse HandleResourcesList(object? requestId)
 {
     return new JsonRpcResponse
     {
@@ -616,11 +616,11 @@ static JsonRpcResponse HandleResourcesList()
                 new { uri = "mcp://secure-data", name = "Secure Data", description = "Datos protegidos (requiere scope 'read')", mimeType = "application/json" }
             }
         },
-        Id = "list"
+        Id = requestId
     };
 }
 
-static JsonRpcResponse HandleResourcesRead(AuthenticatedUser? user, ScopeAuthorizationService authz)
+static JsonRpcResponse HandleResourcesRead(object? requestId, AuthenticatedUser? user, ScopeAuthorizationService authz)
 {
     if (user == null || !authz.HasScope(user, "read"))
     {
@@ -642,11 +642,11 @@ static JsonRpcResponse HandleResourcesRead(AuthenticatedUser? user, ScopeAuthori
                 }
             }
         },
-        Id = "read"
+        Id = requestId
     };
 }
 
-static JsonRpcResponse HandleToolsList()
+static JsonRpcResponse HandleToolsList(object? requestId)
 {
     return new JsonRpcResponse
     {
@@ -668,11 +668,11 @@ static JsonRpcResponse HandleToolsList()
                 }
             }
         },
-        Id = "list"
+        Id = requestId
     };
 }
 
-static JsonRpcResponse HandleToolsCall(AuthenticatedUser? user, ScopeAuthorizationService authz)
+static JsonRpcResponse HandleToolsCall(object? requestId, AuthenticatedUser? user, ScopeAuthorizationService authz)
 {
     if (user == null || !authz.HasScope(user, "write"))
     {
@@ -693,7 +693,7 @@ static JsonRpcResponse HandleToolsCall(AuthenticatedUser? user, ScopeAuthorizati
                 }
             }
         },
-        Id = "call"
+        Id = requestId
     };
 }
 

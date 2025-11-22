@@ -72,7 +72,7 @@ CON MCP:
 
 ### Estrategia de Presentación
 
-**Proyecta la tabla de agenda** desde `01-apertura.md` y enfatiza:
+**Proyecta la tabla de agenda** desde `01b-apertura.md` y enfatiza:
 
 1. **Estructura 3-fases**:
 
@@ -181,7 +181,7 @@ Al finalizar estos 10 minutos, deberías observar:
 
 ### Si Hay Problemas Técnicos de Proyección
 
-**Backup**: Dicta URL del repositorio y pide que abran `docs/modules/01-apertura.md` en sus propios dispositivos:
+**Backup**: Dicta URL del repositorio y pide que abran `docs/modules/01b-apertura.md` en sus propios dispositivos:
 
 ```
 https://github.com/[TU-USUARIO]/mcp-workshop
@@ -205,7 +205,7 @@ La documentación es autocontenida y pueden seguir sin proyector.
 
 > "Perfecto. Ahora que sabemos QUÉ es MCP y PARA QUÉ sirve, vamos a entrar en el CÓMO. En los próximos 25 minutos veremos la arquitectura de MCP, el flujo de comunicación JSON-RPC, y por qué esto es diferente de los plugins tradicionales. ¿Listos?"
 
-**Acción física**: Cambiar de diapositiva/documento a `02-fundamentos.md` de forma visible.
+**Acción física**: Cambiar de diapositiva/documento a `02b-fundamentos.md` de forma visible.
 
 ---
 
@@ -235,10 +235,10 @@ La documentación es autocontenida y pueden seguir sin proyector.
 
 **Después del taller**, registra:
 
--   ¿Cuánto tiempo real tomó este bloque? ****\_****
--   ¿Qué pregunta no anticipaste? ********\_********
--   ¿Qué analogía funcionó mejor? ********\_********
--   ¿Hubo problemas técnicos? ********\_\_\_\_********
+-   ¿Cuánto tiempo real tomó este bloque? \***\*\_\*\***
+-   ¿Qué pregunta no anticipaste? **\*\*\*\***\_**\*\*\*\***
+-   ¿Qué analogía funcionó mejor? **\*\*\*\***\_**\*\*\*\***
+-   ¿Hubo problemas técnicos? **\*\*\*\***\_\_\_\_**\*\*\*\***
 
 ---
 

@@ -60,49 +60,49 @@
 
 #### Block 1: Opening (10 min)
 
--   [x] T014 [P] [US1] Create Block 1 documentation in docs/modules/01-apertura.md with workshop welcome, agenda overview, MCP context
--   [x] T015 [P] [US1] Create instructor notes in docs/modules/01-apertura-instructor.md with timing guidelines and engagement strategies
+-   [x] T014 [P] [US1] Create Block 1 documentation in docs/modules/01b-apertura.md with workshop welcome, agenda overview, MCP context
+-   [x] T015 [P] [US1] Create instructor notes in docs/modules/01a-apertura-instructor.md with timing guidelines and engagement strategies
 
 #### Block 2: Fundamentos (25 min)
 
--   [x] T016 [P] [US1] Create Block 2 documentation in docs/modules/02-fundamentos.md covering MCP definition, architecture, use cases (FR-002 fundamental concepts)
--   [x] T017 [P] [US1] Create Mermaid diagram in docs/modules/02-fundamentos.md showing MCP vs traditional plugins comparison
--   [x] T018 [P] [US1] Create instructor notes in docs/modules/02-fundamentos-instructor.md with key talking points for SC-007
+-   [x] T016 [P] [US1] Create Block 2 documentation in docs/modules/02b-fundamentos.md covering MCP definition, architecture, use cases (FR-002 fundamental concepts)
+-   [x] T017 [P] [US1] Create Mermaid diagram in docs/modules/02b-fundamentos.md showing MCP vs traditional plugins comparison
+-   [x] T018 [P] [US1] Create instructor notes in docs/modules/02a-fundamentos-instructor.md with key talking points for SC-007
 
 #### Block 3: Anatomía de un Proveedor (20 min live coding)
 
--   [x] T019 [US1] Create Block 3 documentation in docs/modules/03-anatomia-proveedor.md with live coding script for manifest, resources, tool calls (FR-004)
+-   [x] T019 [US1] Create Block 3 documentation in docs/modules/03b-anatomia-proveedor.md with live coding script for manifest, resources, tool calls (FR-004)
 -   [x] T020 [US1] Create reference MCP server code in src/McpWorkshop.Servers/DemoServer/Program.cs for live coding demonstration
--   [x] T021 [P] [US1] Create Mermaid sequence diagram in docs/modules/03-anatomia-proveedor.md showing JSON-RPC flow
--   [x] T022 [P] [US1] Create backup recording instructions in docs/modules/03-anatomia-proveedor-instructor.md for SC-009 contingency
+-   [x] T021 [P] [US1] Create Mermaid sequence diagram in docs/modules/03b-anatomia-proveedor.md showing JSON-RPC flow
+-   [x] T022 [P] [US1] Create backup recording instructions in docs/modules/03a-anatomia-proveedor-instructor.md for SC-009 contingency
 
 #### Block 4: Exercise 1 Instructions (15 min guided exercise)
 
--   [x] T023: Create `docs/modules/04-ejercicio-1-recursos-estaticos.md` with step-by-step guided instructions for Exercise 1 (15 min, static resources: customers, products)
+-   [x] T023: Create `docs/modules/04b-ejercicio-1-recursos-estaticos.md` with step-by-step guided instructions for Exercise 1 (15 min, static resources: customers, products)
 -   [x] T024: Add success criteria checklist to Exercise 1 documentation
 -   [x] T025: Add troubleshooting section to Exercise 1 documentation (common errors: port conflicts, file paths, compilation issues)
--   [x] T026 [P] [US1] Create instructor notes in docs/modules/04-ejercicio-1-instructor.md with timing, contingencies, and validation strategies
+-   [x] T026 [P] [US1] Create instructor notes in docs/modules/04a-ejercicio-1-instructor.md with timing, contingencies, and validation strategies
 
 #### Block 5: Exercise 2 Instructions (20 min independent exercise)
 
--   [x] T027 [P] [US1] Create Exercise 2 documentation in docs/modules/05-ejercicio-2-consultas-parametricas.md with tool registration patterns (FR-003, FR-006)
+-   [x] T027 [P] [US1] Create Exercise 2 documentation in docs/modules/05b-ejercicio-2-consultas-parametricas.md with tool registration patterns (FR-003, FR-006)
 -   [x] T028: Add JSON Schema parameter validation examples to Exercise 2 documentation (inputSchema for each tool)
--   [x] T029 [P] [US1] Create Mermaid diagram in docs/modules/05-ejercicio-2-consultas-parametricas.md showing tool invocation flow
--   [x] T030 [P] [US1] Create instructor notes in docs/modules/05-ejercicio-2-instructor.md with semi-independent exercise management
+-   [x] T029 [P] [US1] Create Mermaid diagram in docs/modules/05b-ejercicio-2-consultas-parametricas.md showing tool invocation flow
+-   [x] T030 [P] [US1] Create instructor notes in docs/modules/05a-ejercicio-2-instructor.md with semi-independent exercise management
 
 #### Block 6: Exercise 3 Instructions (20 min security implementation)
 
--   [x] T031 [P] [US1] Create Exercise 3 documentation in docs/modules/06-ejercicio-3-seguridad.md with authentication, authorization, rate limiting, logging patterns (FR-003, FR-007)
--   [x] T032 [P] [US1] Create JWT token generation examples in docs/modules/06-ejercicio-3-seguridad.md aligned with contracts/exercise-3-secure-server.json
--   [x] T033 [P] [US1] Create structured logging format specification in docs/modules/06-ejercicio-3-seguridad.md per research.md security section
--   [x] T034 [P] [US1] Create instructor notes in docs/modules/06-ejercicio-3-instructor.md with security implementation guidance
+-   [x] T031 [P] [US1] Create Exercise 3 documentation in docs/modules/06b-ejercicio-3-seguridad.md with authentication, authorization, rate limiting, logging patterns (FR-003, FR-007)
+-   [x] T032 [P] [US1] Create JWT token generation examples in docs/modules/06b-ejercicio-3-seguridad.md aligned with contracts/exercise-3-secure-server.json
+-   [x] T033 [P] [US1] Create structured logging format specification in docs/modules/06b-ejercicio-3-seguridad.md per research.md security section
+-   [x] T034 [P] [US1] Create instructor notes in docs/modules/06a-ejercicio-3-instructor.md with security implementation guidance
 
 #### Block 7: Security & Gobernanza Sesión (15 min presentation)
 
--   [x] T035 [P] [US1] Create Block 7 documentation in docs/modules/07-seguridad-gobernanza.md covering authentication, scopes, rate limiting, logging (FR-009)
--   [x] T036 [P] [US1] Create Mermaid diagram in docs/modules/07-seguridad-gobernanza.md showing authorization flow with scopes
--   [x] T037 [P] [US1] Create real-world security examples in docs/modules/07-seguridad-gobernanza.md for enterprise deployment
--   [x] T038 [P] [US1] Create instructor notes in docs/modules/07-seguridad-gobernanza-instructor.md with presentation guidance
+-   [x] T035 [P] [US1] Create Block 7 documentation in docs/modules/07b-seguridad-gobernanza.md covering authentication, scopes, rate limiting, logging (FR-009)
+-   [x] T036 [P] [US1] Create Mermaid diagram in docs/modules/07b-seguridad-gobernanza.md showing authorization flow with scopes
+-   [x] T037 [P] [US1] Create real-world security examples in docs/modules/07b-seguridad-gobernanza.md for enterprise deployment
+-   [x] T038 [P] [US1] Create instructor notes in docs/modules/07a-seguridad-gobernanza-instructor.md with presentation guidance
 
 #### Block 8: Exercise 4 Instructions (25 min group challenge)
 
@@ -229,9 +229,9 @@
 
 #### Security & Gobernanza Content (enhances base created in US1 T032-T034)
 
--   [x] T103 [P] [US3] Enhance docs/modules/07-seguridad-gobernanza.md with enterprise deployment checklist (production-ready authentication, audit logging, compliance requirements) - Added Pre-Production Validation (Security, Compliance, Monitoring, Performance), Production vs Development comparison table with health checks/circuit breakers/failover, decision tree, migration checklist
+-   [x] T103 [P] [US3] Enhance docs/modules/07b-seguridad-gobernanza.md with enterprise deployment checklist (production-ready authentication, audit logging, compliance requirements) - Added Pre-Production Validation (Security, Compliance, Monitoring, Performance), Production vs Development comparison table with health checks/circuit breakers/failover, decision tree, migration checklist
 -   [x] T104 [P] [US3] Create security anti-patterns guide in docs/modules/07-seguridad-gobernanza-antipatterns.md (hardcoded tokens, missing rate limits, unencrypted logs) - Created comprehensive document with 10 anti-patterns: hardcoded secrets, tokens sin expiración, validación deshabilitada, autorización en cliente, scopes amplios, rate limiting por IP, fixed window, logging sensible, log injection, stack traces en prod
--   [x] T105 [P] [US3] Create comparison table in docs/modules/07-seguridad-gobernanza.md showing development vs production security configurations - Added 4 detailed tables (Health Checks/Monitoring, Resiliencia/Circuit Breakers, Network/Failover, plus original 9 aspects), decision tree for config selection, migration checklists
+-   [x] T105 [P] [US3] Create comparison table in docs/modules/07b-seguridad-gobernanza.md showing development vs production security configurations - Added 4 detailed tables (Health Checks/Monitoring, Resiliencia/Circuit Breakers, Network/Failover, plus original 9 aspects), decision tree for config selection, migration checklists
 
 #### Orchestration Content (already created in US1 T039-T041)
 

@@ -127,13 +127,13 @@ dotnet run  # Puerto 5012
 
 ### Módulos por Bloque
 
--   [01 - Apertura](docs/modules/01-apertura.md)
--   [02 - Fundamentos](docs/modules/02-fundamentos.md)
--   [03 - Anatomía de un Proveedor](docs/modules/03-anatomia-proveedor.md)
--   [04 - Ejercicio 1: Recursos Estáticos](docs/modules/04-ejercicio-1-recursos-estaticos.md)
--   [05 - Ejercicio 2: Consultas Paramétricas](docs/modules/05-ejercicio-2-consultas-parametricas.md)
--   [06 - Ejercicio 3: Seguridad](docs/modules/06-ejercicio-3-seguridad.md)
--   [07 - Security & Gobernanza](docs/modules/07-seguridad-gobernanza.md)
+-   [01 - Apertura](docs/modules/01b-apertura.md)
+-   [02 - Fundamentos](docs/modules/02b-fundamentos.md)
+-   [03 - Anatomía de un Proveedor](docs/modules/03b-anatomia-proveedor.md)
+-   [04 - Ejercicio 1: Recursos Estáticos](docs/modules/04b-ejercicio-1-recursos-estaticos.md)
+-   [05 - Ejercicio 2: Consultas Paramétricas](docs/modules/05b-ejercicio-2-consultas-parametricas.md)
+-   [06 - Ejercicio 3: Seguridad](docs/modules/06b-ejercicio-3-seguridad.md)
+-   [07 - Security & Gobernanza](docs/modules/07b-seguridad-gobernanza.md)
 -   [08 - Ejercicio 4: Analista Virtual](docs/modules/08-ejercicio-4-analista-virtual.md)
 -   [09 - Orquestación Multi-Fuente](docs/modules/09-orquestacion-multifuente.md)
 -   [10 - Roadmap & Casos B2B](docs/modules/10-roadmap-casos-b2b.md)
@@ -145,13 +145,13 @@ dotnet run  # Puerto 5012
 mcp-workshop/
 ├── docs/                          # Documentación del taller
 │   ├── modules/                   # 11 módulos educativos (teoría + ejercicios)
-│   │   ├── 01-apertura.md
-│   │   ├── 02-fundamentos.md
-│   │   ├── 03-anatomia-proveedor.md
-│   │   ├── 04-ejercicio-1-recursos-estaticos.md
-│   │   ├── 05-ejercicio-2-consultas-parametricas.md
-│   │   ├── 06-ejercicio-3-seguridad.md
-│   │   ├── 07-seguridad-gobernanza.md
+│   │   ├── 01b-apertura.md
+│   │   ├── 02b-fundamentos.md
+│   │   ├── 03b-anatomia-proveedor.md
+│   │   ├── 04b-ejercicio-1-recursos-estaticos.md
+│   │   ├── 05b-ejercicio-2-consultas-parametricas.md
+│   │   ├── 06b-ejercicio-3-seguridad.md
+│   │   ├── 07b-seguridad-gobernanza.md
 │   │   ├── 08-ejercicio-4-analista-virtual.md
 │   │   ├── 09-orquestacion-multifuente.md
 │   │   ├── 10-roadmap-casos-b2b.md
@@ -261,7 +261,7 @@ mcp-workshop/
 .\scripts\verify-exercise1.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/04-ejercicio-1-recursos-estaticos.md)**
+**[📄 Guía completa →](docs/modules/04b-ejercicio-1-recursos-estaticos.md)**
 
 ---
 
@@ -291,7 +291,7 @@ mcp-workshop/
 .\scripts\verify-exercise2.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/05-ejercicio-2-consultas-parametricas.md)**
+**[📄 Guía completa →](docs/modules/05b-ejercicio-2-consultas-parametricas.md)**
 
 ---
 
@@ -322,7 +322,7 @@ mcp-workshop/
 .\scripts\verify-exercise3.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/06-ejercicio-3-seguridad.md)**
+**[📄 Guía completa →](docs/modules/06b-ejercicio-3-seguridad.md)**
 
 ---
 
