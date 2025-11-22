@@ -52,7 +52,7 @@ As a workshop instructor, I need to deliver a focused 15-minute segment on authe
 
 **Acceptance Scenarios**:
 
-1. **Given** the Security & Gobernanza micro-charla (15 minutes), **When** attendees complete this block, **Then** they can explain the purpose of authentication, scopes, rate limiting, and logging in MCP contexts
+1. **Given** the Security & Gobernanza sesión (15 minutes), **When** attendees complete this block, **Then** they can explain the purpose of authentication, scopes, rate limiting, and logging in MCP contexts
 2. **Given** the Roadmap & Casos B2B session (10 minutes), **When** the instructor presents business scenarios, **Then** attendees can identify at least 3 B2B use cases (e.g., CRM enrichment, document auditing) where MCP provides value
 3. **Given** the closing evaluation block, **When** attendees provide feedback, **Then** at least 70% report understanding enterprise considerations for MCP deployment
 
@@ -78,7 +78,7 @@ As a workshop instructor, I need to deliver a focused 15-minute segment on authe
 - **FR-006**: Exercise 2 MUST teach attendees to implement tools for parametric queries over resources
 - **FR-007**: Exercise 3 MUST cover implementation of basic permissions, logging, and rate limiting
 - **FR-008**: Exercise 4 MUST present an integrative group challenge where attendees build a "virtual analyst" agent combining tools and resources from multiple MCP providers
-- **FR-009**: Security & Gobernanza block MUST cover authentication, scopes, rate limiting, and logging in 15-minute micro-charla format
+- **FR-009**: Security & Gobernanza block MUST cover authentication, scopes, rate limiting, and logging in 15-minute sesión format
 - **FR-010**: Orquestación Multi-Fuente block MUST demonstrate consumption of multiple MCP providers and discuss merging/caching strategies through demo and discussion (15 min)
 - **FR-011**: Roadmap & Casos B2B block MUST present business scenarios including CRM enrichment, document auditing, and other B2B applications (10 min)
 - **FR-012**: Workshop MUST include opening (10 min) with welcome and MCP context, and closing (10 min) with retrospective, Q&A, next steps, and feedback collection

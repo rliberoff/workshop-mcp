@@ -1,4 +1,4 @@
-# Bloque 10: Roadmap y Casos B2B (10 minutos)
+# Bloque 10: Hoja de Ruta y Casos B2B (10 minutos)
 
 **Tipo**: Presentación business-oriented  
 **Duración**: 10 minutos  

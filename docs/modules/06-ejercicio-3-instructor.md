@@ -519,7 +519,7 @@ Al terminar el ejercicio, pregunta:
 
 **Script de cierre** (30 segundos):
 
-> "Excelente trabajo. Ya implementaron seguridad básica pero funcional. En el siguiente bloque vamos a profundizar: mejores prácticas de seguridad, gestión de secretos, auditoría, y cómo desplegar esto en producción de forma segura. Es una micro-charla de 15 minutos. Tomen agua, estiren las piernas."
+> "Excelente trabajo. Ya implementaron seguridad básica pero funcional. En el siguiente bloque vamos a profundizar: mejores prácticas de seguridad, gestión de secretos, auditoría, y cómo desplegar esto en producción de forma segura. Es una sesión de 15 minutos. Tomen agua, estiren las piernas."
 
 **Checklist de transición**:
 

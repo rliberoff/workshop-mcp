@@ -1,10 +1,10 @@
-# Azure Deployment Guide - MCP Workshop
+# Guía de Despliegue en Azure - MCP Workshop
 
 Guía completa para desplegar la infraestructura del workshop en Azure usando Terraform.
 
 ---
 
-## 📋 Prerequisites
+## 📋 Prerrequisitos
 
 Antes de comenzar el despliegue, asegúrate de tener:
 
@@ -36,7 +36,7 @@ Antes de comenzar el despliegue, asegúrate de tener:
 
 ---
 
-## 🚀 Quick Start Deployment
+## 🚀 Despliegue Rápido
 
 > **📌 NOTA IMPORTANTE**: El deployment se realiza en **dos fases**:
 >
@@ -56,7 +56,7 @@ Antes de comenzar el despliegue, asegúrate de tener:
 >
 > **Los Exercises 1-3 pueden completarse sin Fase 2**, usando desarrollo local.
 
-### Option A: One-Command Deployment (Automated)
+### Opción A: Despliegue Automático (Un Solo Comando)
 
 ```powershell
 # Desde el directorio infrastructure
@@ -81,9 +81,9 @@ cd infrastructure
 
 ---
 
-### Option B: Step-by-Step Deployment (Manual)
+### Opción B: Despliegue Paso a Paso (Manual)
 
-#### Step 1: Initialize Terraform
+#### Paso 1: Inicializar Terraform
 
 ```powershell
 cd infrastructure\terraform
@@ -97,7 +97,7 @@ terraform init
 
 **Nota:** El workshop usa un backend local de Terraform. El estado se guarda en `terraform.tfstate` en el directorio actual y NO debe subirse a Git (ya está en `.gitignore`).
 
-#### Step 2: Configure Environment
+#### Paso 2: Configurar el Entorno
 
 Editar el archivo de variables:
 
@@ -120,7 +120,7 @@ use_random_suffix   = true
 
 **Nota**: El sufijo aleatorio se genera automáticamente para evitar colisiones en nombres de recursos globales como Storage Accounts y Cosmos DB. Puedes deshabilitarlo estableciendo `use_random_suffix = false` y proporcionando un `suffix` personalizado.
 
-#### Step 3: Generate Secrets
+#### Paso 3: Generar Secretos
 
 El script de deployment genera automáticamente:
 
@@ -143,7 +143,7 @@ Para obtener tu Object ID:
 az ad user show --id your-admin-email@domain.com --query id -o tsv
 ```
 
-#### Step 4: Review Infrastructure Plan
+#### Paso 4: Revisar el Plan de Infraestructura
 
 ```powershell
 # Crear plan de despliegue
@@ -181,7 +181,7 @@ terraform plan -var-file="environments\workshop\terraform.tfvars" -var-file="env
 -   Container Apps: +$50-100 (depends on scale)
 -   **Total con apps**: $60-145/month
 
-#### Step 5: Apply Infrastructure
+#### Paso 5: Aplicar la Infraestructura
 
 ```powershell
 # Aplicar el plan
@@ -195,7 +195,7 @@ terraform apply workshop.tfplan
 # Los MCP servers se habilitarán después de construir las imágenes Docker (Step 8)
 ```
 
-#### Step 6: Capture Output Variables
+#### Paso 6: Capturar Variables de Salida
 
 ```powershell
 # Ver todos los outputs
@@ -240,7 +240,7 @@ terraform output -json deployment_summary
 
 **Nota**: El sufijo aleatorio (ej: `a1b2c3d4`) se genera automáticamente y garantiza que los nombres de recursos sean únicos globalmente.
 
-#### Step 7: Verify Initial Infrastructure
+#### Paso 7: Verificar la Infraestructura Inicial
 
 **Verifica que la infraestructura base se desplegó correctamente**:
 
@@ -270,7 +270,7 @@ az containerapp env list --resource-group $rgName --output table
 -   ✅ Monitoring (Application Insights + Log Analytics)
 -   ❌ Container Apps (deshabilitados hasta Step 8)
 
-#### Step 8: Build and Deploy Container Apps (Opcional)
+#### Paso 8: Construir y Desplegar Container Apps (Opcional)
 
 **⚠️ IMPORTANTE**: Los Container Apps están **deshabilitados por defecto** en el deployment inicial porque requieren imágenes Docker que no existen todavía.
 
@@ -351,7 +351,7 @@ terraform apply workshop.tfplan
 
 **Nota**: Este paso es **opcional para el workshop**. Puedes completar los ejercicios 1-3 sin Container Apps, usando solo local development.
 
-#### Step 9: Seed Data (Opcional)
+#### Paso 9: Poblar Datos (Opcional)
 
 **⚠️ Este paso es opcional** - Solo necesario si quieres datos de ejemplo en las bases de datos.
 
@@ -387,7 +387,7 @@ cd scripts
 # El script creará tablas y datos de ejemplo en Azure SQL
 ```
 
-#### Step 10: Validate Deployment
+#### Paso 10: Validar el Despliegue
 
 **Validar infraestructura base** (sin Container Apps):
 

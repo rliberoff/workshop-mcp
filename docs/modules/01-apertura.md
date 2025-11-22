@@ -24,9 +24,9 @@
 | 4      | **Ejercicio 1**: Recursos Estáticos        | 15 min   | Práctica Guiada        |
 | 5      | **Ejercicio 2**: Consultas Paramétricas    | 20 min   | Práctica Independiente |
 | 6      | **Ejercicio 3**: Seguridad y Autenticación | 20 min   | Práctica Independiente |
-| 7      | Seguridad y Gobernanza (Micro-charla)      | 15 min   | Teoría                 |
+| 7      | Seguridad y Gobernanza (Sesión)      | 15 min   | Teoría                 |
 | 8      | **Ejercicio 4**: Integración Multi-fuente  | 25 min   | Práctica Avanzada      |
-| 9      | Despliegue en Azure (Micro-charla)         | 15 min   | Teoría                 |
+| 9      | Despliegue en Azure (Sesión)         | 15 min   | Teoría                 |
 | 10     | Demostración de Despliegue                 | 10 min   | Demostración           |
 | 11     | Cierre y Q&A                               | 5 min    | Interactivo            |
 

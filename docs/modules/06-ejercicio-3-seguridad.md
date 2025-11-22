@@ -1006,7 +1006,7 @@ Implementa jerarquía de scopes donde `admin` incluye automáticamente `write` y
 
 ## 🎓 Próximo Paso
 
-**Bloque 7**: Seguridad y Gobernanza Micro-charla (15 min)
+**Bloque 7**: Seguridad y Gobernanza Sesión (15 min)
 
 En el siguiente bloque el instructor profundizará en:
 

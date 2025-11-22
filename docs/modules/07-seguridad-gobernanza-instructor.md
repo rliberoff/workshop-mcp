@@ -1,6 +1,6 @@
 # Bloque 7: Seguridad y Gobernanza - Guía del Instructor (15 minutos)
 
-**Propósito**: Micro-charla sobre mejores prácticas de seguridad para despliegues MCP en producción.  
+**Propósito**: Corto inciso para hablar sobre patrones empresariales y mejores prácticas de seguridad para despliegues MCP en producción.  
 **Formato**: Presentación con ejemplos prácticos y casos reales.  
 **Nivel**: Intermedio - todos deben comprender los conceptos.
 

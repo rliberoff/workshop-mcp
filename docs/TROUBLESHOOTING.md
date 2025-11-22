@@ -1,10 +1,10 @@
-# MCP Workshop - Troubleshooting Guide
+# MCP Workshop - Guía de Resolución de Problemas
 
 Guía consolidada para resolver problemas comunes durante el workshop. Organizada por categoría y gravedad.
 
 ---
 
-## 🚨 Problemas Críticos (Bloquean progreso)
+## 🚨 Problemas Críticos (Bloquean el progreso)
 
 ### 1. .NET SDK 10.0 No Instalado o No Reconocido
 
@@ -47,7 +47,7 @@ $env:PATH += ";C:\Program Files\dotnet\"
 
 ---
 
-### 2. Puertos 5000-5004 Ya en Uso
+### 2. Puertos 5000-5004 ya en uso
 
 **Síntomas**:
 
@@ -96,7 +96,7 @@ taskkill /PID <PID> /F
 
 ---
 
-### 3. Package 'ModelContextProtocol' No Encontrado
+### 3. Paquete 'ModelContextProtocol' no encontrado
 
 **Síntomas**:
 
@@ -141,9 +141,9 @@ dotnet restore --source ./offline-packages
 
 ---
 
-## ⚠️ Problemas Frecuentes (Retrasan ejercicios)
+## ⚠️ Problemas Frecuentes (Retrasan Ejercicios)
 
-### 4. Archivo JSON No Encontrado (Exercise 1)
+### 4. Archivo JSON no encontrado (Ejercicio 1)
 
 **Síntomas**:
 
@@ -191,7 +191,7 @@ var json = await File.ReadAllTextAsync(Path.Combine(basePath, "Data", "customers
 
 ---
 
-### 5. JWT Token Inválido (Exercise 3)
+### 5. Token JWT inválido (Ejercicio 3)
 
 **Síntomas**:
 
@@ -258,7 +258,7 @@ $viewerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
 ---
 
-### 6. Rate Limiting No Funciona (Exercise 3)
+### 6. Rate Limiting no funciona (Ejercicio 3)
 
 **Síntomas**:
 
@@ -311,7 +311,7 @@ RateLimitPartition.GetFixedWindowLimiter(
 
 ---
 
-### 7. CORS Error en Browser (Exercise 2/4)
+### 7. Error de CORS en el navegador (Ejercicio 2/4)
 
 **Síntomas**:
 
@@ -358,7 +358,7 @@ app.UseAuthorization();
 
 ---
 
-### 8. JSON Deserialization Error
+### 8. Error de deserialización de JSON
 
 **Síntomas**:
 
@@ -402,7 +402,7 @@ public class JsonElementParamsConverter : JsonConverter<object>
 
 ---
 
-### 9. Entity Framework Migration Errors (Exercise 4)
+### 9. Errores de migración de Entity Framework (Ejercicio 4)
 
 **Síntomas**:
 
@@ -439,7 +439,7 @@ dotnet tool update --global dotnet-ef
 
 ---
 
-### 10. Virtual Analyst No Responde (Exercise 4)
+### 10. Virtual Analyst no responde (Ejercicio 4)
 
 **Síntomas**:
 
@@ -504,7 +504,7 @@ New-NetFirewallRule -DisplayName "MCP Workshop" -Direction Inbound -LocalPort 50
 
 ---
 
-## 🔍 Problemas de Performance
+## 🔍 Problemas de rendimiento
 
 ### 11. Respuestas Lentas (>2 segundos)
 
@@ -561,9 +561,9 @@ var customers = await _context.Customers
 
 ---
 
-## 🧪 Problemas de Testing
+## 🧪 Problemas de pruebas
 
-### 12. verify-exercise scripts Fallan
+### 12. Scripts de verificación de ejercicios fallan
 
 **Síntomas**:
 
@@ -614,7 +614,7 @@ return new
 
 ## 💾 Problemas de Datos
 
-### 13. Sample Data No Se Genera
+### 13. Los datos de muestra no se generan
 
 **Síntomas**:
 

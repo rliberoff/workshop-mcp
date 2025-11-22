@@ -33,10 +33,10 @@ Este taller intensivo de 3 horas te enseñará a crear servidores MCP (Model Con
 | **[5. Ejercicio 2: Consultas Paramétricas](#bloque-5-ejercicio-2-20-min)** | 75-95 min   | 20 min   | Ejercicio       | Añadir herramientas con parámetros              |
 | **🔄 Descanso**                                                            | 95-98 min   | 3 min    | -               | Breve pausa                                     |
 | **[6. Ejercicio 3: Seguridad](#bloque-6-ejercicio-3-20-min)**              | 98-118 min  | 20 min   | Ejercicio       | JWT, scopes, rate limiting                      |
-| **[7. Seguridad y Gobernanza](#bloque-7-seguridad-15-min)**                | 118-133 min | 15 min   | Micro-charla    | Azure AD, Key Vault, GDPR, arquitectura         |
+| **[7. Seguridad y Gobernanza](#bloque-7-seguridad-15-min)**                | 118-133 min | 15 min   | Sesión    | Azure AD, Key Vault, GDPR, arquitectura         |
 | **🔄 Descanso**                                                            | 133-136 min | 3 min    | -               | Formar equipos                                  |
 | **[8. Ejercicio 4: Analista Virtual](#bloque-8-ejercicio-4-25-min)**       | 136-161 min | 25 min   | Ejercicio Grupo | Orquestación multi-fuente                       |
-| **[9. Orquestación Multi-Fuente](#bloque-9-orquestación-15-min)**          | 161-176 min | 15 min   | Micro-charla    | Patrones: paralelo, secuencial, caching         |
+| **[9. Orquestación Multi-Fuente](#bloque-9-orquestación-15-min)**          | 161-176 min | 15 min   | Sesión    | Patrones: paralelo, secuencial, caching         |
 | **[10. Roadmap y Casos B2B](#bloque-10-roadmap-10-min)**                   | 176-186 min | 10 min   | Business        | ROI, casos reales, monetización                 |
 | **[11. Cierre y Retrospectiva](#bloque-11-cierre-10-min)**                 | 186-196 min | 10 min   | Cierre          | Retrospectiva 3-2-1, Q&A, próximos pasos        |
 | **Buffer**                                                                 | 196-200 min | 4 min    | -               | Tiempo reserva para atrasos                     |
@@ -199,7 +199,7 @@ Pausa breve, estirar piernas.
 
 **Objetivo**: Mejores prácticas empresariales para producción.
 
-**Contenido** (Micro-charla):
+**Contenido** (Sesión):
 
 -   **Anti-patterns**: Hardcoded secrets, validación deshabilitada
 -   **Azure AD integration**: Delegar autenticación a Azure AD/Entra ID
@@ -268,7 +268,7 @@ Crear `Exercise4VirtualAnalyst` que:
 
 **Objetivo**: Teoría sobre patrones de integración multi-fuente.
 
-**Contenido** (Micro-charla):
+**Contenido** (Sesión):
 
 1. **Patrón Paralelo**: Latencia = max(S1, S2, S3) no suma
 2. **Patrón Secuencial**: Dependencias obligatorias

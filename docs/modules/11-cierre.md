@@ -318,8 +318,8 @@ param(
 $certificado = @"
 ╔════════════════════════════════════════════════╗
 ║         CERTIFICADO DE ASISTENCIA              ║
-║  $Nombre
-║  Taller: Model Context Protocol (MCP) en C#   ║
+║  $Nombre                                       ║
+║  Taller: Model Context Protocol (MCP) en C#    ║
 ║  Fecha: $Fecha                                 ║
 ╚════════════════════════════════════════════════╝
 "@

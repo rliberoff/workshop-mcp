@@ -163,7 +163,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 
 #### Bloque 7: Seguridad & Gobernanza (15 min)
 
--   Micro-charla sobre seguridad empresarial
+-   Sesión sobre seguridad empresarial
 -   Autenticación vs Autorización
 -   Rate limiting strategies
 -   Logging y auditoría

@@ -23,10 +23,10 @@ Model Context Protocol es un protocolo estándar para exponer datos y capacidade
 4. **Ejercicio 1** (15 min) - Recursos estáticos
 5. **Ejercicio 2** (20 min) - Consultas paramétricas
 6. **Ejercicio 3** (20 min) - Seguridad y gobernanza
-7. **Security & Gobernanza** (15 min) - Micro-charla sobre patrones empresariales
+7. **Seguridad y Gobernanza** (15 min) - Corto inciso para hablar sobre patrones empresariales
 8. **Ejercicio 4** (30 min) - Reto integrador: Analista virtual
 9. **Orquestación Multi-Fuente** (15 min) - Patrones de integración
-10. **Roadmap & Casos B2B** (10 min) - Escenarios de negocio
+10. **Hoja de Ruta y Casos B2B** (10 min) - Escenarios de negocio
 11. **Cierre** (10 min) - Retrospectiva y siguientes pasos
 
 ## 🚀 Quick Start

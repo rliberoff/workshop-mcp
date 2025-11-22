@@ -1,4 +1,4 @@
-# MCP Workshop - Pre-Session Checklist
+# MCP Workshop - Lista de Verificación Previa a la Sesión
 
 Checklist de validación completa para instructores. Ejecutar 24 horas antes del workshop.
 
@@ -6,7 +6,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 
 ## ✅ Validación Técnica (60 minutos)
 
-### 1. Environment Setup
+### 1. Configuración del Entorno
 
 -   [ ] **.NET SDK 10.0+** instalado y en PATH
 
@@ -38,7 +38,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     docker --version
     ```
 
-### 2. Repository & Dependencies
+### 2. Repositorio y Dependencias
 
 -   [ ] **Repositorio clonado** y actualizado
 
@@ -63,7 +63,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     # Verificar ModelContextProtocol está presente
     ```
 
-### 3. Sample Data
+### 3. Datos de Muestra
 
 -   [ ] **Datos de muestra generados**
 
@@ -77,7 +77,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     # Debe mostrar: customers.json, orders.json, products.json, regions.json
     ```
 
-### 4. Exercise Validation
+### 4. Validación de Ejercicios
 
 -   [ ] **Exercise 1: Static Resources** funciona
 
@@ -129,7 +129,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     # Esperado: ✅ Orchestration successful, ✅ SQL+Cosmos+REST integrated
     ```
 
-### 5. Test Suite
+### 5. Suite de Pruebas
 
 -   [ ] **Todos los unit tests pasan**
 
@@ -144,7 +144,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     # Verificar coverage report en ./coverage/
     ```
 
-### 6. Documentation
+### 6. Documentación
 
 -   [ ] **README.md** es claro y actualizado
 
@@ -177,7 +177,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 
 ## 🎨 Materiales de Presentación (30 minutos)
 
-### 7. Slides
+### 7. Diapositivas
 
 -   [ ] **Slide deck** actualizado con branding del evento
 -   [ ] **Portada** con título, fecha, lugar, instructor
@@ -187,7 +187,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 -   [ ] **Transiciones** no son distractoras (máximo fade in/out)
 -   [ ] **Slide de contacto** con LinkedIn, GitHub, email
 
-### 8. Live Coding Setup
+### 8. Configuración para Live Coding
 
 -   [ ] **IDE configurado**:
 
@@ -217,7 +217,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     -   [ ] Requests organizadas por ejercicio
     -   [ ] Variables de entorno configuradas ({{baseUrl}}, {{token}})
 
-### 9. Backup Materials
+### 9. Materiales de Respaldo
 
 -   [ ] **Video de live coding** (8 minutos) como Plan B
 -   [ ] **USB con repositorio completo** (offline backup)
@@ -227,9 +227,9 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 
 ---
 
-## 📡 Conectividad & Hardware (15 minutos)
+## 📡 Conectividad y Hardware (15 minutos)
 
-### 10. Venue Setup
+### 10. Preparación del Lugar
 
 -   [ ] **Proyector probado**:
 
@@ -255,7 +255,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     -   [ ] Cargador a mano (no confiar en batería)
     -   [ ] Regleta con suficientes enchufes (para asistentes)
 
-### 11. Contingency Plans
+### 11. Planes de Contingencia
 
 -   [ ] **Plan B para internet caído**:
 
@@ -276,9 +276,9 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 
 ---
 
-## 👥 Asistentes & Comunicación (45 minutos antes)
+## 👥 Asistentes y Comunicación (45 minutos antes)
 
-### 12. Pre-Workshop Communication
+### 12. Comunicación Pre-Workshop
 
 -   [ ] **Email de recordatorio enviado** (24h antes):
 
@@ -292,7 +292,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
     -   [ ] Link de invitación compartido
     -   [ ] Canales organizados: #general, #exercise1, #exercise2, etc.
 
-### 13. Day-Of Setup
+### 13. Preparación el Día del Evento
 
 -   [ ] **Llegar 60 minutos antes** del inicio
 -   [ ] **Cartel de bienvenida** en puerta con Wi-Fi credentials
@@ -310,9 +310,9 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 
 ---
 
-## 🕒 Last Minute Check (15 minutos antes)
+## 🕒 Revisión de Último Minuto (15 minutos antes)
 
-### 14. Final Technical Validation
+### 14. Validación Técnica Final
 
 ```powershell
 # Ejecutar este script 15 minutos antes del inicio:
@@ -335,7 +335,7 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 Clear-Host
 ```
 
-### 15. Personal Readiness
+### 15. Preparación Personal
 
 -   [ ] **Hidratación**: Botella de agua a mano
 -   [ ] **Notas**: Timing checklist impresa y visible
@@ -344,7 +344,7 @@ Clear-Host
 
 ---
 
-## 🎯 Success Criteria
+## 🎯 Criterios de Éxito
 
 Al finalizar esta checklist, debes poder responder **SÍ** a:
 
@@ -358,17 +358,17 @@ Al finalizar esta checklist, debes poder responder **SÍ** a:
 
 ---
 
-## 📞 Emergency Contacts
+## 📞 Contactos de Emergencia
 
 Anotar aquí:
 
--   **Soporte técnico del venue**: ********\_\_\_********
--   **Coordinador del evento**: ********\_\_\_********
--   **Colega de respaldo** (para pair facilitation): ********\_\_\_********
+-   **Soporte técnico del venue**: **\*\*\*\***\_\_\_**\*\*\*\***
+-   **Coordinador del evento**: **\*\*\*\***\_\_\_**\*\*\*\***
+-   **Colega de respaldo** (para pair facilitation): **\*\*\*\***\_\_\_**\*\*\*\***
 
 ---
 
-## ✨ Final Notes
+## ✨ Notas Finales
 
 > "La preparación es la llave del éxito. Un instructor bien preparado puede convertir cualquier imprevisto en una oportunidad de enseñanza."
 

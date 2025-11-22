@@ -97,7 +97,7 @@
 -   [x] T033 [P] [US1] Create structured logging format specification in docs/modules/06-ejercicio-3-seguridad.md per research.md security section
 -   [x] T034 [P] [US1] Create instructor notes in docs/modules/06-ejercicio-3-instructor.md with security implementation guidance
 
-#### Block 7: Security & Gobernanza Micro-charla (15 min presentation)
+#### Block 7: Security & Gobernanza Sesión (15 min presentation)
 
 -   [x] T035 [P] [US1] Create Block 7 documentation in docs/modules/07-seguridad-gobernanza.md covering authentication, scopes, rate limiting, logging (FR-009)
 -   [x] T036 [P] [US1] Create Mermaid diagram in docs/modules/07-seguridad-gobernanza.md showing authorization flow with scopes
@@ -111,7 +111,7 @@
 -   [x] T041 [P] [US1] Create evaluation rubrica in docs/modules/08-ejercicio-4-analista-virtual.md aligned with contracts/exercise-4-virtual-analyst.json (40% functionality, 30% architecture, 20% performance, 10% docs)
 -   [x] T042 [P] [US1] Create Mermaid diagram in docs/modules/08-ejercicio-4-analista-virtual.md showing multi-source orchestration architecture
 
-#### Block 9: Orquestación Multi-Fuente (15 min micro-charla)
+#### Block 9: Orquestación Multi-Fuente (15 min sesión)
 
 -   [x] T043 [P] [US1] Create Block 9 documentation in docs/modules/09-orquestacion-multifuente.md with integration patterns (parallel, sequential, fanOut, caching) per FR-010
 -   [x] T044 [P] [US1] Create Mermaid diagrams in docs/modules/09-orquestacion-multifuente.md showing orchestration patterns from contracts/exercise-4-virtual-analyst.json
@@ -217,7 +217,7 @@
 
 ## Phase 5: User Story 3 - Instructor Manages Security & Enterprise Context (Priority: P3)
 
-**Goal**: Create focused security micro-charla materials and business case presentations so instructor can deliver enterprise-grade MCP deployment considerations in 25 minutes
+**Goal**: Create focused security sesión materials and business case presentations so instructor can deliver enterprise-grade MCP deployment considerations in 25 minutes
 
 **Independent Test**: Attendees can explain security concepts (authentication, scopes, rate limiting, logging) and identify B2B use cases through quiz or discussion (FR-009, FR-010, FR-011)
 

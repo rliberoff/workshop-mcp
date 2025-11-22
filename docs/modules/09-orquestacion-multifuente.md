@@ -1,6 +1,6 @@
 # Bloque 9: Orquestación Multi-Fuente (15 minutos)
 
-**Tipo**: Micro-charla con demo  
+**Tipo**: Sesión con demo  
 **Duración**: 15 minutos  
 **Nivel**: Avanzado  
 **Objetivo**: Comprender patrones de integración para orquestar múltiples servidores MCP

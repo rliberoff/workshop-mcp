@@ -1,6 +1,6 @@
 # Bloque 7: Seguridad y Gobernanza (15 minutos)
 
-**Tipo**: Micro-charla teórica con ejemplos prácticos  
+**Tipo**: Sesión teórica con ejemplos prácticos  
 **Duración**: 15 minutos  
 **Nivel**: Intermedio  
 **Objetivo**: Profundizar en mejores prácticas de seguridad para despliegues MCP en producción
