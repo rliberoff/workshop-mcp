@@ -144,6 +144,15 @@ var app = builder.Build();
 var customers = LoadData<Customer>("../../../Data/customers.json");
 var products = LoadData<Product>("../../../Data/products.json");
 
+// Health check endpoint
+app.MapGet("/", () => Results.Ok(new
+{
+    status = "healthy",
+    server = "Exercise1StaticResources",
+    version = "1.0.0",
+    timestamp = DateTime.UtcNow
+}));
+
 // Endpoint principal MCP
 app.MapPost("/mcp", async (
     JsonRpcRequest request,
