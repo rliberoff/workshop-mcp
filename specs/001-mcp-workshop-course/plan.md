@@ -158,23 +158,23 @@ templates/                              # Exercise starter templates
 
 **Structure Decision**: Multi-project workshop structure separating concerns:
 
-- **docs/**: Instructor and attendee-facing Markdown documentation organized by workshop block sequence
-- **src/**: Complete C# solutions for all exercises (reference implementations)
-- **tests/**: Comprehensive test suite for verification and protocol validation
-- **infrastructure/**: Terraform IaC for Azure deployment scenarios
-- **templates/**: Exercise starter code for attendees to build upon
-- **scripts/**: Automation for setup verification, data generation, and testing
+-   **docs/**: Instructor and attendee-facing Markdown documentation organized by workshop block sequence
+-   **src/**: Complete C# solutions for all exercises (reference implementations)
+-   **tests/**: Comprehensive test suite for verification and protocol validation
+-   **infrastructure/**: Terraform IaC for Azure deployment scenarios
+-   **templates/**: Exercise starter code for attendees to build upon
+-   **scripts/**: Automation for setup verification, data generation, and testing
 
 This structure supports self-paced learning, instructor-led delivery, local development, and cloud deployment scenarios.
 
 **Structure Decision**: Multi-project workshop structure separating concerns:
 
-- **docs/**: Instructor and attendee-facing Markdown documentation organized by workshop block sequence
-- **src/**: Complete C# solutions for all exercises (reference implementations)
-- **tests/**: Comprehensive test suite for verification and protocol validation
-- **infrastructure/**: Terraform IaC for Azure deployment scenarios
-- **templates/**: Exercise starter code for attendees to build upon
-- **scripts/**: Automation for setup verification, data generation, and testing
+-   **docs/**: Instructor and attendee-facing Markdown documentation organized by workshop block sequence
+-   **src/**: Complete C# solutions for all exercises (reference implementations)
+-   **tests/**: Comprehensive test suite for verification and protocol validation
+-   **infrastructure/**: Terraform IaC for Azure deployment scenarios
+-   **templates/**: Exercise starter code for attendees to build upon
+-   **scripts/**: Automation for setup verification, data generation, and testing
 
 This structure supports self-paced learning, instructor-led delivery, local development, and cloud deployment scenarios.
 
@@ -195,10 +195,10 @@ No violations identified. Constitution check passed completely - no complexity t
 
 **Artifacts Created**:
 
-- ✅ research.md: Technology decisions and best practices
-- ✅ data-model.md: Domain entities and relationships
-- ✅ contracts/: MCP protocol specifications (5 files)
-- ✅ quickstart.md: Environment setup guide
+-   ✅ research.md: Technology decisions and best practices
+-   ✅ data-model.md: Domain entities and relationships
+-   ✅ contracts/: MCP protocol specifications (5 files)
+-   ✅ quickstart.md: Environment setup guide
 
 ### Compliance Verification
 
@@ -235,12 +235,12 @@ No violations identified. Constitution check passed completely - no complexity t
 
 This completes the `/speckit.plan` command execution. The following artifacts have been generated:
 
-- ✅ **plan.md**: Technical context, constitution checks, project structure
-- ✅ **research.md**: Technology decisions and alternatives analysis
-- ✅ **data-model.md**: Domain entities, relationships, and state diagrams
-- ✅ **contracts/**: MCP protocol specifications for all exercises
-- ✅ **quickstart.md**: Environment setup and first server deployment
-- ✅ **Agent context updated**: GitHub Copilot instructions refreshed
+-   ✅ **plan.md**: Technical context, constitution checks, project structure
+-   ✅ **research.md**: Technology decisions and alternatives analysis
+-   ✅ **data-model.md**: Domain entities, relationships, and state diagrams
+-   ✅ **contracts/**: MCP protocol specifications for all exercises
+-   ✅ **quickstart.md**: Environment setup and first server deployment
+-   ✅ **Agent context updated**: GitHub Copilot instructions refreshed
 
 **Ready for**: `/speckit.tasks` command to break down implementation into actionable work items.
 

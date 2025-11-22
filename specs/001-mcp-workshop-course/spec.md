@@ -60,64 +60,64 @@ As a workshop instructor, I need to deliver a focused 15-minute segment on authe
 
 ### Edge Cases
 
-- What happens when an attendee falls behind during practical exercises? (Need support materials or pair programming approach)
-- How does the instructor adapt if a live coding demonstration fails? (Need backup recordings or pre-built examples)
-- What if attendees have varying technical skill levels? (May need tiered exercise difficulty or bonus challenges)
-- How does Exercise 4 work if group sizes are uneven? (Need flexible grouping strategy and scalable case scenarios)
-- What happens if the venue lacks adequate internet connectivity for accessing external data sources? (Need offline-capable exercises or local data setup)
+-   What happens when an attendee falls behind during practical exercises? (Need support materials or pair programming approach)
+-   How does the instructor adapt if a live coding demonstration fails? (Need backup recordings or pre-built examples)
+-   What if attendees have varying technical skill levels? (May need tiered exercise difficulty or bonus challenges)
+-   How does Exercise 4 work if group sizes are uneven? (Need flexible grouping strategy and scalable case scenarios)
+-   What happens if the venue lacks adequate internet connectivity for accessing external data sources? (Need offline-capable exercises or local data setup)
 
 ## Requirements _(mandatory)_
 
 ### Functional Requirements
 
-- **FR-001**: Workshop MUST deliver 11 distinct content blocks covering opening, fundamentals, anatomy, 4 practical exercises, security, orchestration, business cases, and closing within 3 hours total duration
-- **FR-002**: Course MUST provide progressive learning path from MCP concepts (25 min) to live coding anatomy (20 min) to guided exercises (15-30 min each) to integrative group challenge (30 min)
-- **FR-003**: Each practical exercise MUST include clear instructions, success criteria, and time boundaries (Exercise 1: 15 min, Exercise 2: 20 min, Exercise 3: 20 min, Exercise 4: 30 min)
-- **FR-004**: Workshop MUST include live coding demonstration of MCP server structure showing manifest, resources, and tool calls in "Anatomía de un Proveedor" block
-- **FR-005**: Exercise 1 MUST guide attendees to create and expose a static resource through an MCP server
-- **FR-006**: Exercise 2 MUST teach attendees to implement tools for parametric queries over resources
-- **FR-007**: Exercise 3 MUST cover implementation of basic permissions, logging, and rate limiting
-- **FR-008**: Exercise 4 MUST present an integrative group challenge where attendees build a "virtual analyst" agent combining tools and resources from multiple MCP providers
-- **FR-009**: Security & Gobernanza block MUST cover authentication, scopes, rate limiting, and logging in 15-minute sesión format
-- **FR-010**: Orquestación Multi-Fuente block MUST demonstrate consumption of multiple MCP providers and discuss merging/caching strategies through demo and discussion (15 min)
-- **FR-011**: Roadmap & Casos B2B block MUST present business scenarios including CRM enrichment, document auditing, and other B2B applications (10 min)
-- **FR-012**: Workshop MUST include opening (10 min) with welcome and MCP context, and closing (10 min) with retrospective, Q&A, next steps, and feedback collection
-- **FR-013**: Course materials MUST support data exploitation scenarios from diverse data sources as the primary context for teaching MCP
-- **FR-014**: All exercises MUST be designed for hands-on completion within specified time constraints while maintaining educational value
-- **FR-015**: Workshop MUST alternate between presentation formats (plenario, charla + demo, live coding, práctico guiado, práctico, grupo) to maintain engagement
+-   **FR-001**: Workshop MUST deliver 11 distinct content blocks covering opening, fundamentals, anatomy, 4 practical exercises, security, orchestration, business cases, and closing within 3 hours total duration
+-   **FR-002**: Course MUST provide progressive learning path from MCP concepts (25 min) to live coding anatomy (20 min) to guided exercises (15-30 min each) to integrative group challenge (30 min)
+-   **FR-003**: Each practical exercise MUST include clear instructions, success criteria, and time boundaries (Exercise 1: 15 min, Exercise 2: 20 min, Exercise 3: 20 min, Exercise 4: 30 min)
+-   **FR-004**: Workshop MUST include live coding demonstration of MCP server structure showing manifest, resources, and tool calls in "Anatomía de un Proveedor" block
+-   **FR-005**: Exercise 1 MUST guide attendees to create and expose a static resource through an MCP server
+-   **FR-006**: Exercise 2 MUST teach attendees to implement tools for parametric queries over resources
+-   **FR-007**: Exercise 3 MUST cover implementation of basic permissions, logging, and rate limiting
+-   **FR-008**: Exercise 4 MUST present an integrative group challenge where attendees build a "virtual analyst" agent combining tools and resources from multiple MCP providers
+-   **FR-009**: Security & Gobernanza block MUST cover authentication, scopes, rate limiting, and logging in 15-minute sesión format
+-   **FR-010**: Orquestación Multi-Fuente block MUST demonstrate consumption of multiple MCP providers and discuss merging/caching strategies through demo and discussion (15 min)
+-   **FR-011**: Roadmap & Casos B2B block MUST present business scenarios including CRM enrichment, document auditing, and other B2B applications (10 min)
+-   **FR-012**: Workshop MUST include opening (10 min) with welcome and MCP context, and closing (10 min) with retrospective, Q&A, next steps, and feedback collection
+-   **FR-013**: Course materials MUST support data exploitation scenarios from diverse data sources as the primary context for teaching MCP
+-   **FR-014**: All exercises MUST be designed for hands-on completion within specified time constraints while maintaining educational value
+-   **FR-015**: Workshop MUST alternate between presentation formats (plenario, charla + demo, live coding, práctico guiado, práctico, grupo) to maintain engagement
 
 ### Key Entities
 
-- **Workshop Block**: Represents a discrete segment of the course with defined duration, format (plenario/charla/live coding/práctico), content focus, and learning objectives
-- **Practical Exercise**: A hands-on activity with instructions, time limit, difficulty level (guided vs. independent), and measurable success criteria
-- **MCP Server Component**: Educational element covering specific aspects of MCP architecture (manifest, resources, tools, authentication, rate limiting, logging)
-- **Attendee Group**: Collection of participants working collaboratively on Exercise 4, with varying skill levels and roles
-- **Course Materials**: Supporting documentation including exercise instructions, code templates, reference examples, and presentation slides
-- **Data Source**: External or simulated data systems used in exercises to demonstrate MCP's data exploitation capabilities
+-   **Workshop Block**: Represents a discrete segment of the course with defined duration, format (plenario/charla/live coding/práctico), content focus, and learning objectives
+-   **Practical Exercise**: A hands-on activity with instructions, time limit, difficulty level (guided vs. independent), and measurable success criteria
+-   **MCP Server Component**: Educational element covering specific aspects of MCP architecture (manifest, resources, tools, authentication, rate limiting, logging)
+-   **Attendee Group**: Collection of participants working collaboratively on Exercise 4, with varying skill levels and roles
+-   **Course Materials**: Supporting documentation including exercise instructions, code templates, reference examples, and presentation slides
+-   **Data Source**: External or simulated data systems used in exercises to demonstrate MCP's data exploitation capabilities
 
 ## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
-- **SC-001**: Workshop delivers all 11 blocks within the 3-hour time allocation with maximum 5-minute variance per block
-- **SC-002**: At least 80% of attendees successfully complete Exercise 1 (static resource) within the 15-minute timeframe
-- **SC-003**: At least 70% of attendees successfully complete Exercise 2 (parametric queries) within the 20-minute timeframe
-- **SC-004**: At least 90% of groups produce a working virtual analyst prototype in Exercise 4 within 30 minutes
-- **SC-005**: Attendee satisfaction rating averages 4.0 or higher out of 5.0 in post-workshop feedback
-- **SC-006**: At least 75% of attendees report confidence in building basic MCP servers after workshop completion
-- **SC-007**: All attendees can articulate the difference between MCP and traditional plugins after the fundamentals block
-- **SC-008**: Post-workshop assessment shows 80% of attendees can identify appropriate B2B use cases for MCP implementation
-- **SC-009**: Live coding demonstration in "Anatomía de un Proveedor" block completes successfully without critical errors that disrupt learning flow
-- **SC-010**: Exercise materials support independent completion without requiring extensive instructor intervention for more than 20% of attendees
+-   **SC-001**: Workshop delivers all 11 blocks within the 3-hour time allocation with maximum 5-minute variance per block
+-   **SC-002**: At least 80% of attendees successfully complete Exercise 1 (static resource) within the 15-minute timeframe
+-   **SC-003**: At least 70% of attendees successfully complete Exercise 2 (parametric queries) within the 20-minute timeframe
+-   **SC-004**: At least 90% of groups produce a working virtual analyst prototype in Exercise 4 within 30 minutes
+-   **SC-005**: Attendee satisfaction rating averages 4.0 or higher out of 5.0 in post-workshop feedback
+-   **SC-006**: At least 75% of attendees report confidence in building basic MCP servers after workshop completion
+-   **SC-007**: All attendees can articulate the difference between MCP and traditional plugins after the fundamentals block
+-   **SC-008**: Post-workshop assessment shows 80% of attendees can identify appropriate B2B use cases for MCP implementation
+-   **SC-009**: Live coding demonstration in "Anatomía de un Proveedor" block completes successfully without critical errors that disrupt learning flow
+-   **SC-010**: Exercise materials support independent completion without requiring extensive instructor intervention for more than 20% of attendees
 
 ## Assumptions
 
-- Attendees have basic development knowledge and are familiar with at least one programming language
-- Venue provides adequate computing resources (laptops, internet connectivity, power) for all attendees
-- An appropriate technology stack/framework for teaching MCP within data exploitation context will be selected before workshop delivery (e.g., Python with data libraries, Node.js with data connectors)
-- Attendees come prepared with necessary development environment pre-installed or can install quickly
-- Workshop will be delivered in Spanish based on the original user input language
-- Exercise complexity is calibrated for mixed skill levels, with fastest learners able to complete bonus challenges
-- Instructor has expertise in both MCP architecture and data exploitation techniques
-- Group sizes for Exercise 4 will be 3-5 people per group to enable effective collaboration
-- Course materials will include fallback options (offline data, backup demos) for connectivity issues
+-   Attendees have basic development knowledge and are familiar with at least one programming language
+-   Venue provides adequate computing resources (laptops, internet connectivity, power) for all attendees
+-   An appropriate technology stack/framework for teaching MCP within data exploitation context will be selected before workshop delivery (e.g., Python with data libraries, Node.js with data connectors)
+-   Attendees come prepared with necessary development environment pre-installed or can install quickly
+-   Workshop will be delivered in Spanish based on the original user input language
+-   Exercise complexity is calibrated for mixed skill levels, with fastest learners able to complete bonus challenges
+-   Instructor has expertise in both MCP architecture and data exploitation techniques
+-   Group sizes for Exercise 4 will be 3-5 people per group to enable effective collaboration
+-   Course materials will include fallback options (offline data, backup demos) for connectivity issues
