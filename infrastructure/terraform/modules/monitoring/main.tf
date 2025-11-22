@@ -1,14 +1,5 @@
 # Azure Log Analytics Module for MCP Workshop
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.80"
-    }
-  }
-}
-
 resource "azurerm_log_analytics_workspace" "mcp_workshop" {
   name                = var.workspace_name
   location            = var.location

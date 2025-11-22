@@ -4,20 +4,20 @@
 .DESCRIPTION
     Orchestrates Terraform deployment with validation checks and automated secrets generation
 .PARAMETER Environment
-    Target environment (dev or prod)
+    Target environment (defaults to 'workshop')
 .PARAMETER AutoApprove
     Skip interactive approval of Terraform plan
 .PARAMETER SkipValidation
     Skip pre-deployment validation checks
 .EXAMPLE
-    .\deploy.ps1 -Environment dev
-    .\deploy.ps1 -Environment prod -AutoApprove
+    .\deploy.ps1
+    .\deploy.ps1 -AutoApprove
 #>
 
 param(
-    [Parameter(Mandatory = $true)]
-    [ValidateSet("dev", "prod")]
-    [string]$Environment,
+    [Parameter(Mandatory = $false)]
+    [ValidateSet("workshop")]
+    [string]$Environment = "workshop",
 
     [switch]$AutoApprove,
     [switch]$SkipValidation
@@ -88,9 +88,9 @@ try {
 jwt_secret          = "$jwtSecret"
 sql_admin_password  = "$sqlPassword"
 
-# Azure AD Configuration (update with your values)
-azuread_admin_login     = "admin@example.com"
-azuread_admin_object_id = "00000000-0000-0000-0000-000000000000"
+# Azure AD Configuration (optional - uncomment and update with your values if needed)
+# azuread_admin_login     = "your-email@domain.com"
+# azuread_admin_object_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 "@
         
         $secretsContent | Out-File -FilePath $secretsFile -Encoding UTF8
@@ -114,7 +114,7 @@ azuread_admin_object_id = "00000000-0000-0000-0000-000000000000"
     # Terraform Plan
     Write-Information "`nGenerating Terraform plan..."
     $planFile = "terraform-$Environment.tfplan"
-    terraform plan -var-file="environments\$Environment\terraform.tfvars" -var-file="environments\$Environment\secrets.auto.tfvars" -out=$planFile
+    terraform plan "-var-file=environments\$Environment\terraform.tfvars" "-var-file=environments\$Environment\secrets.auto.tfvars" "-out=$planFile"
     if ($LASTEXITCODE -ne 0) {
         throw "Terraform plan failed"
     }

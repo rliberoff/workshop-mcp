@@ -8,28 +8,22 @@
     - PowerShell 7+ instalado
     - Puertos 5000-5003 disponibles
     - Paquetes NuGet necesarios disponibles
-    - Azure CLI instalado (opcional)
-    - Terraform instalado (opcional)
+    - Azure CLI instalado
+    - Terraform instalado
+    - Git instalado
 
 .PARAMETER Json
     Devuelve el resultado en formato JSON
 
-.PARAMETER IncludeOptional
-    Incluye verificaciones opcionales (Azure CLI, Terraform)
-
 .EXAMPLE
     .\verify-setup.ps1
     .\verify-setup.ps1 -Json
-    .\verify-setup.ps1 -IncludeOptional
 #>
 
 [CmdletBinding()]
 param(
     [Parameter()]
-    [switch]$Json,
-
-    [Parameter()]
-    [switch]$IncludeOptional
+    [switch]$Json
 )
 
 $results = @{
@@ -157,64 +151,67 @@ catch {
     Add-Check -Name "NuGet Sources" -Status "WARN" -Message "No se pudo verificar fuentes NuGet: $_"
 }
 
-# Verificar ModelContextProtocol package (búsqueda online)
+# Verificar Azure CLI
 try {
-    $searchResult = dotnet nuget search ModelContextProtocol --prerelease --take 1 2>$null
-    if ($searchResult -match 'ModelContextProtocol') {
-        Add-Check -Name "Paquete ModelContextProtocol" -Status "PASS" -Message "Paquete disponible en NuGet.org"
+    $azVersion = az version --output json 2>$null | ConvertFrom-Json
+    if ($azVersion.'azure-cli') {
+        # Verificar que sea versión 2.80.0 o superior
+        $versionParts = $azVersion.'azure-cli' -split '\.'
+        $major = [int]$versionParts[0]
+        $minor = [int]$versionParts[1]
+        
+        if ($major -gt 2 -or ($major -eq 2 -and $minor -ge 80)) {
+            Add-Check -Name "Azure CLI" -Status "PASS" -Message "Azure CLI 2.80.0+ instalado" -Version $azVersion.'azure-cli'
+        }
+        else {
+            Add-Check -Name "Azure CLI" -Status "WARN" -Message "Azure CLI $($azVersion.'azure-cli') instalado. Se recomienda 2.80.0+" -Version $azVersion.'azure-cli'
+        }
     }
     else {
-        Add-Check -Name "Paquete ModelContextProtocol" -Status "WARN" -Message "No se encontró en búsqueda. Verificar conectividad a NuGet.org"
+        Add-Check -Name "Azure CLI" -Status "FAIL" -Message "Azure CLI no encontrado"
     }
 }
 catch {
-    Add-Check -Name "Paquete ModelContextProtocol" -Status "WARN" -Message "No se pudo verificar disponibilidad del paquete"
+    Add-Check -Name "Azure CLI" -Status "FAIL" -Message "Azure CLI no instalado"
 }
 
-# Verificaciones opcionales
-if ($IncludeOptional) {
-    # Verificar Azure CLI
-    try {
-        $azVersion = az version --output json 2>$null | ConvertFrom-Json
-        if ($azVersion.'azure-cli') {
-            Add-Check -Name "Azure CLI" -Status "PASS" -Message "Azure CLI instalado" -Version $azVersion.'azure-cli' -Required $false
+# Verificar Terraform
+try {
+    $tfVersion = terraform version -json 2>$null | ConvertFrom-Json
+    if ($tfVersion.terraform_version) {
+        # Verificar que sea versión 1.14.0 o superior
+        $versionParts = $tfVersion.terraform_version -replace 'v', '' -split '\.'
+        $major = [int]$versionParts[0]
+        $minor = [int]$versionParts[1]
+        
+        if ($major -gt 1 -or ($major -eq 1 -and $minor -ge 14)) {
+            Add-Check -Name "Terraform" -Status "PASS" -Message "Terraform 1.14.0+ instalado" -Version $tfVersion.terraform_version
         }
         else {
-            Add-Check -Name "Azure CLI" -Status "WARN" -Message "Azure CLI no encontrado" -Required $false
+            Add-Check -Name "Terraform" -Status "WARN" -Message "Terraform $($tfVersion.terraform_version) instalado. Se recomienda 1.14.0+" -Version $tfVersion.terraform_version
         }
     }
-    catch {
-        Add-Check -Name "Azure CLI" -Status "WARN" -Message "Azure CLI no instalado (opcional para despliegue)" -Required $false
+    else {
+        Add-Check -Name "Terraform" -Status "FAIL" -Message "Terraform no encontrado"
     }
+}
+catch {
+    Add-Check -Name "Terraform" -Status "FAIL" -Message "Terraform no instalado"
+}
 
-    # Verificar Terraform
-    try {
-        $tfVersion = terraform version -json 2>$null | ConvertFrom-Json
-        if ($tfVersion.terraform_version) {
-            Add-Check -Name "Terraform" -Status "PASS" -Message "Terraform instalado" -Version $tfVersion.terraform_version -Required $false
-        }
-        else {
-            Add-Check -Name "Terraform" -Status "WARN" -Message "Terraform no encontrado" -Required $false
-        }
+# Verificar Git
+try {
+    $gitVersion = git --version 2>$null
+    if ($gitVersion -match '\d+\.\d+\.\d+') {
+        $version = $gitVersion -replace 'git version ', ''
+        Add-Check -Name "Git" -Status "PASS" -Message "Git instalado" -Version $version
     }
-    catch {
-        Add-Check -Name "Terraform" -Status "WARN" -Message "Terraform no instalado (opcional para infraestructura)" -Required $false
+    else {
+        Add-Check -Name "Git" -Status "FAIL" -Message "Git no encontrado"
     }
-
-    # Verificar Git
-    try {
-        $gitVersion = git --version 2>$null
-        if ($gitVersion -match '\d+\.\d+\.\d+') {
-            $version = $gitVersion -replace 'git version ', ''
-            Add-Check -Name "Git" -Status "PASS" -Message "Git instalado" -Version $version -Required $false
-        }
-        else {
-            Add-Check -Name "Git" -Status "WARN" -Message "Git no encontrado" -Required $false
-        }
-    }
-    catch {
-        Add-Check -Name "Git" -Status "WARN" -Message "Git no instalado (opcional)" -Required $false
-    }
+}
+catch {
+    Add-Check -Name "Git" -Status "FAIL" -Message "Git no instalado"
 }
 
 # Salida final
@@ -236,6 +233,9 @@ else {
         Write-Host "`nPara instalar componentes faltantes:" -ForegroundColor Cyan
         Write-Host "  .NET 10.0 SDK: https://dotnet.microsoft.com/download/dotnet/10.0" -ForegroundColor Gray
         Write-Host "  PowerShell 7+: https://aka.ms/powershell" -ForegroundColor Gray
+        Write-Host "  Azure CLI: https://learn.microsoft.com/cli/azure/install-azure-cli" -ForegroundColor Gray
+        Write-Host "  Terraform: https://www.terraform.io/downloads" -ForegroundColor Gray
+        Write-Host "  Git: https://git-scm.com/downloads" -ForegroundColor Gray
     }
     else {
         Write-Host "`n✅ El entorno está listo para el taller MCP" -ForegroundColor Green

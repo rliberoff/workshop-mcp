@@ -38,13 +38,13 @@
 
 **Setup narrativo**:
 
-> "¿Recuerdan la época de los cargadores? iPhone tenía su puerto, Android otro, laptops otro diferente. Era un caos. Luego llegó USB-C y... [PAUSA, espera respuesta de audiencia]... exacto, un solo cable para todo."
+> "_¿Habéis tenido problemas con los cargadores? iPhone tenía su puerto, Android otro, laptops otro diferente. Es... era... un caos. Luego llegó USB-C y... [PAUSA, espera respuesta de audiencia]... exacto, un solo cable para todo._"
 
 **Transición a MCP**:
 
-> "Pues MCP hace lo mismo pero con IA. Antes, si querías que ChatGPT accediera a tu base de datos SQL, escribías un plugin para ChatGPT. Si querías que Claude hiciera lo mismo, OTRO plugin diferente. Copilot, OTRO más. Mismo trabajo, tres veces.
+> "_Pues MCP hace lo mismo pero con IA. Antes, si querías que ChatGPT accediera a tu base de datos SQL, escribías un plugin para ChatGPT. Si querías que Claude hiciera lo mismo, OTRO plugin diferente. Copilot, OTRO más. Mismo trabajo, tres veces._
 >
-> Con MCP, escribes UN servidor - en C# como haremos hoy - y funciona con ChatGPT, Claude, Copilot, y cualquier otra herramienta que soporte MCP. Un código, múltiples clientes."
+> _Con MCP, escribes UN servidor - en C# como haremos hoy - y funciona con ChatGPT, Claude, Copilot, y cualquier otra herramienta que soporte MCP. Un código, múltiples clientes._"
 
 **Validación de comprensión**:
 Pregunta al salón: "¿Ven la ventaja?" [Espera asentimientos/comentarios]

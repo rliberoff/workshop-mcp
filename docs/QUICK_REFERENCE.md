@@ -1,12 +1,12 @@
-# MCP Workshop - Quick Reference Card
+# MCP Workshop - Tarjeta de Referencia Rápida
 
 Referencia rápida para asistentes durante ejercicios prácticos. Mantener esta página abierta en otra pantalla.
 
 ---
 
-## 📡 MCP Protocol Cheat Sheet
+## 📡 Guía Rápida del Protocolo MCP
 
-### JSON-RPC Message Structure
+### Estructura de Mensajes JSON-RPC
 
 ```json
 {
@@ -17,34 +17,34 @@ Referencia rápida para asistentes durante ejercicios prácticos. Mantener esta 
 }
 ```
 
-### Core Methods
+### Métodos Principales
 
-| Method           | Purpose                  | Required Params                                 | Response                       |
-| ---------------- | ------------------------ | ----------------------------------------------- | ------------------------------ |
-| `initialize`     | Client handshake         | `protocolVersion`, `capabilities`, `clientInfo` | Server capabilities            |
-| `resources/list` | List available resources | None                                            | Array of resource descriptors  |
-| `resources/read` | Get specific resource    | `uri`                                           | Resource content (text/binary) |
-| `tools/list`     | List available tools     | None                                            | Array of tool schemas          |
-| `tools/call`     | Execute tool             | `name`, `arguments`                             | Tool execution result          |
-| `prompts/list`   | List prompt templates    | None                                            | Array of prompts               |
-| `prompts/get`    | Get prompt by name       | `name`, `arguments`                             | Rendered prompt                |
+| Método           | Propósito                       | Parámetros Requeridos                           | Respuesta                             |
+| ---------------- | ------------------------------- | ----------------------------------------------- | ------------------------------------- |
+| `initialize`     | Handshake con el cliente        | `protocolVersion`, `capabilities`, `clientInfo` | Capacidades del servidor              |
+| `resources/list` | Listar recursos disponibles     | Ninguno                                         | Array de descriptores de recursos     |
+| `resources/read` | Obtener un recurso específico   | `uri`                                           | Contenido del recurso (texto/binario) |
+| `tools/list`     | Listar herramientas disponibles | Ninguno                                         | Array de esquemas de herramientas     |
+| `tools/call`     | Ejecutar herramienta            | `name`, `arguments`                             | Resultado de la ejecución             |
+| `prompts/list`   | Listar plantillas de prompts    | Ninguno                                         | Array de prompts                      |
+| `prompts/get`    | Obtener prompt por nombre       | `name`, `arguments`                             | Prompt renderizado                    |
 
-### Standard Error Codes
+### Códigos de Error Estándar
 
 ```text
--32700  Parse error
--32600  Invalid request
--32601  Method not found
--32602  Invalid params
--32603  Internal error
--32000 to -32099  Server-defined errors
+-32700  Error de parsing
+-32600  Solicitud inválida
+-32601  Método no encontrado
+-32602  Parámetros inválidos
+-32603  Error interno
+-32000 a -32099  Errores definidos por el servidor
 ```
 
 ---
 
-## 🔧 Common C# Patterns
+## 🔧 Patrones Comunes en C#
 
-### 1. Basic MCP Server (Exercise 1)
+### 1. Servidor MCP Básico (Ejercicio 1)
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -70,7 +70,7 @@ app.MapPost("/", async (HttpContext context) =>
 await app.RunAsync();
 ```
 
-### 2. Tool with Input Schema (Exercise 2)
+### 2. Herramienta con Esquema de Entrada (Ejercicio 2)
 
 ```csharp
 public class GetCustomersTool
@@ -82,7 +82,7 @@ public class GetCustomersTool
         type = "object",
         properties = new
         {
-            region = new { type = "string", description = "Filter by region" },
+            region = new { type = "string", description = "Filtrar por región" },
             limit = new { type = "integer", minimum = 1, maximum = 100 }
         },
         required = new[] { "region" }
@@ -99,7 +99,7 @@ public class GetCustomersTool
 }
 ```
 
-### 3. JWT Authentication Middleware (Exercise 3)
+### 3. Middleware de Autenticación JWT (Ejercicio 3)
 
 ```csharp
 app.Use(async (context, next) =>
@@ -131,7 +131,7 @@ ClaimsPrincipal ValidateToken(string token)
 }
 ```
 
-### 4. Rate Limiting (Exercise 3)
+### 4. Limitación de Velocidad (Ejercicio 3)
 
 ```csharp
 builder.Services.AddRateLimiter(options =>
@@ -156,7 +156,7 @@ builder.Services.AddRateLimiter(options =>
 app.UseRateLimiter();
 ```
 
-### 5. Multi-Server Orchestration (Exercise 4)
+### 5. Orquestación Multi-Servidor (Ejercicio 4)
 
 ```csharp
 public class VirtualAnalyst
@@ -168,19 +168,19 @@ public class VirtualAnalyst
 
     public async Task<string> AnswerAsync(string naturalLanguageQuery)
     {
-        // 1. Parse intent
+        // 1. Parsear la intención
         var intent = ParseQuery(naturalLanguageQuery);
 
-        // 2. Determine which servers to call
+        // 2. Determinar qué servidores llamar
         var tasks = new List<Task<object>>();
         if (intent.NeedsSqlData) tasks.Add(_sqlClient.QueryAsync(intent.SqlQuery));
         if (intent.NeedsCosmosData) tasks.Add(_cosmosClient.GetSessionAsync(intent.SessionId));
         if (intent.NeedsExternalApi) tasks.Add(_restClient.CallAsync(intent.ApiEndpoint));
 
-        // 3. Execute in parallel
+        // 3. Ejecutar en paralelo
         var results = await Task.WhenAll(tasks);
 
-        // 4. Aggregate and format
+        // 4. Agregar y formatear
         return FormatResponse(results, intent);
     }
 }
@@ -188,51 +188,51 @@ public class VirtualAnalyst
 
 ---
 
-## ⚡ PowerShell Commands
+## ⚡ Comandos PowerShell
 
-### Setup & Verification
+### Configuración y Verificación
 
 ```powershell
-# Check all prerequisites
+# Verificar todos los requisitos previos
 .\scripts\check-prerequisites.ps1 -Verbose
 
-# Verify specific exercise
+# Verificar ejercicio específico
 .\scripts\verify-exercise1.ps1
 .\scripts\verify-exercise2.ps1
 .\scripts\verify-exercise3.ps1 -Token "your-jwt-token"
 .\scripts\verify-exercise4.ps1
 
-# Run all tests
+# Ejecutar todas las pruebas
 .\scripts\run-all-tests.ps1 -Coverage $true
 
-# Start all Exercise 4 servers
+# Iniciar todos los servidores del Ejercicio 4
 .\scripts\start-exercise4-servers.ps1
 ```
 
-### Development Workflow
+### Flujo de Desarrollo
 
 ```powershell
-# Create new MCP server project
+# Crear nuevo proyecto de servidor MCP
 dotnet new web -n MyMcpServer
 cd MyMcpServer
 dotnet add package ModelContextProtocol --prerelease
 dotnet add package Microsoft.EntityFrameworkCore --version 10.0.0
 
-# Build and run
+# Compilar y ejecutar
 dotnet build
 dotnet run --urls "http://localhost:5000"
 
-# Run with specific profile
+# Ejecutar con perfil específico
 dotnet run --launch-profile Development
 
-# Watch mode (auto-rebuild)
+# Modo watch (recompilación automática)
 dotnet watch run
 ```
 
-### Testing Endpoints
+### Prueba de Endpoints
 
 ```powershell
-# Test initialize
+# Probar initialize
 $body = @{
     jsonrpc = "2.0"
     method = "initialize"
@@ -246,11 +246,11 @@ $body = @{
 
 Invoke-RestMethod -Uri http://localhost:5000 -Method Post -Body $body -ContentType "application/json"
 
-# Test resources/list
+# Probar resources/list
 $body = @{ jsonrpc="2.0"; method="resources/list"; id=2 } | ConvertTo-Json
 Invoke-RestMethod -Uri http://localhost:5000 -Method Post -Body $body -ContentType "application/json"
 
-# Test tools/call
+# Probar tools/call
 $body = @{
     jsonrpc = "2.0"
     method = "tools/call"
@@ -263,55 +263,55 @@ $body = @{
 
 Invoke-RestMethod -Uri http://localhost:5000 -Method Post -Body $body -ContentType "application/json"
 
-# Test with authentication
+# Probar con autenticación
 $headers = @{ Authorization = "Bearer $token" }
 Invoke-RestMethod -Uri http://localhost:5001 -Method Post -Body $body -ContentType "application/json" -Headers $headers
 ```
 
 ---
 
-## 🐛 Troubleshooting Quick Fixes
+## 🐛 Soluciones Rápidas de Problemas
 
-### Port Conflicts
+### Conflictos de Puerto
 
 ```powershell
-# Change port
+# Cambiar puerto
 $env:ASPNETCORE_URLS="http://localhost:5010"
 dotnet run
 
-# Find and kill process
+# Buscar y cerrar proceso
 netstat -ano | findstr :5000
 taskkill /PID <PID> /F
 ```
 
-### NuGet Issues
+### Problemas con NuGet
 
 ```powershell
-# Clear NuGet cache
+# Limpiar caché de NuGet
 dotnet nuget locals all --clear
 
-# Restore with verbose logging
+# Restaurar con logging detallado
 dotnet restore --verbosity detailed
 
-# Use specific source
+# Usar fuente específica
 dotnet add package ModelContextProtocol --source https://api.nuget.org/v3/index.json --prerelease
 ```
 
-### JWT Debugging
+### Depuración de JWT
 
 ```csharp
-// Log token claims
+// Registrar claims del token
 var handler = new JwtSecurityTokenHandler();
 var token = handler.ReadJwtToken(tokenString);
 Console.WriteLine(string.Join("\n", token.Claims.Select(c => $"{c.Type}: {c.Value}")));
 
-// Decode token online: https://jwt.io
+// Decodificar token en línea: https://jwt.io
 ```
 
-### JSON Serialization
+### Serialización JSON
 
 ```csharp
-// Case-insensitive deserialization
+// Deserialización sin distinguir mayúsculas/minúsculas
 var options = new JsonSerializerOptions
 {
     PropertyNameCaseInsensitive = true,
@@ -320,7 +320,7 @@ var options = new JsonSerializerOptions
 };
 ```
 
-### CORS Errors
+### Errores CORS
 
 ```csharp
 builder.Services.AddCors(options =>
@@ -336,40 +336,40 @@ app.UseCors("AllowAll");
 
 ---
 
-## 📚 Useful Links
+## 📚 Enlaces Útiles
 
-| Resource              | URL                                      |
-| --------------------- | ---------------------------------------- |
-| MCP Specification     | https://spec.modelcontextprotocol.io/    |
-| .NET 10 Documentation | https://learn.microsoft.com/dotnet/core/ |
-| JSON-RPC 2.0 Spec     | https://www.jsonrpc.org/specification    |
-| JWT Debugger          | https://jwt.io                           |
-| JSON Schema Validator | https://www.jsonschemavalidator.net/     |
-| Workshop Repository   | https://github.com/your-org/mcp-workshop |
+| Recurso                     | URL                                      |
+| --------------------------- | ---------------------------------------- |
+| Especificación MCP          | https://modelcontextprotocol.io/    |
+| Documentación .NET 10       | https://learn.microsoft.com/dotnet/core/ |
+| Especificación JSON-RPC 2.0 | https://www.jsonrpc.org/specification    |
+| Depurador JWT               | https://jwt.io                           |
+| Validador JSON Schema       | https://www.jsonschemavalidator.net/     |
 
----
-
-## 🎯 Success Criteria Summary
-
-| Exercise | Criterion                   | Validation Command                             |
-| -------- | --------------------------- | ---------------------------------------------- |
-| 1        | 4 resources exposed         | `.\scripts\verify-exercise1.ps1`               |
-| 2        | 3 tools with schemas        | `.\scripts\verify-exercise2.ps1`               |
-| 3        | JWT auth + rate limiting    | `.\scripts\verify-exercise3.ps1 -Token $token` |
-| 4        | Orchestration of 3+ servers | `.\scripts\verify-exercise4.ps1`               |
 
 ---
 
-## 💡 Pro Tips
+## 🎯 Resumen de Criterios de Éxito
 
-1. **Keep this page open** in a second monitor/tab during exercises
-2. **Copy-paste cautiously**: Understand each line before running
-3. **Read error messages completely**: They often contain the solution
-4. **Test incrementally**: Validate after each method implementation
-5. **Use debugger**: Set breakpoints in VS Code (F5) or VS (F5)
-6. **Check samples**: Reference implementations in `src/McpWorkshop.Servers/`
-7. **Ask for help**: Raise hand if blocked > 3 minutes
+| Ejercicio | Criterio                      | Comando de Validación                          |
+| --------- | ----------------------------- | ---------------------------------------------- |
+| 1         | 4 recursos expuestos          | `.\scripts\verify-exercise1.ps1`               |
+| 2         | 3 herramientas con esquemas   | `.\scripts\verify-exercise2.ps1`               |
+| 3         | Auth JWT + limitación de tasa | `.\scripts\verify-exercise3.ps1 -Token $token` |
+| 4         | Orquestación de 3+ servidores | `.\scripts\verify-exercise4.ps1`               |
 
 ---
 
-**Happy Coding!** 🚀
+## 💡 Consejos Profesionales
+
+1. **Mantén esta página abierta** en un segundo monitor/pestaña durante los ejercicios
+2. **Copia-pega con cuidado**: Entiende cada línea antes de ejecutar
+3. **Lee los mensajes de error completos**: A menudo contienen la solución
+4. **Prueba incrementalmente**: Valida después de cada implementación de método
+5. **Usa el depurador**: Establece breakpoints en VS Code (F5) o VS (F5)
+6. **Revisa los ejemplos**: Implementaciones de referencia en `src/McpWorkshop.Servers/`
+7. **Pide ayuda**: Levanta la mano si estás bloqueado > 3 minutos
+
+---
+
+# **¡Feliz Programación!** 💻

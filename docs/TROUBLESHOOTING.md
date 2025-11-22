@@ -195,7 +195,7 @@ var json = await File.ReadAllTextAsync(Path.Combine(basePath, "Data", "customers
 
 **Síntomas**:
 
-```
+```text
 HTTP 401 Unauthorized
 SecurityTokenException: IDX10214: Audience validation failed
 ```
@@ -315,7 +315,7 @@ RateLimitPartition.GetFixedWindowLimiter(
 
 **Síntomas**:
 
-```
+```text
 Access to fetch at 'http://localhost:5000' from origin 'http://localhost:3000' has been blocked by CORS policy
 ```
 
@@ -362,7 +362,7 @@ app.UseAuthorization();
 
 **Síntomas**:
 
-```
+```text
 System.Text.Json.JsonException: The JSON value could not be converted to...
 ```
 
@@ -406,7 +406,7 @@ public class JsonElementParamsConverter : JsonConverter<object>
 
 **Síntomas**:
 
-```
+```text
 No DbContext was found in assembly...
 ```
 
@@ -567,7 +567,7 @@ var customers = await _context.Customers
 
 **Síntomas**:
 
-```
+```text
 ❌ Test failed: Expected 200, got 500
 ```
 
@@ -716,7 +716,7 @@ app.Use(async (context, next) =>
 
 ---
 
-## 📞 Escalar Problema
+## ☝🏻 Escalar Problema
 
 Si después de 5 minutos no resuelves el problema:
 
@@ -740,8 +740,7 @@ Si después de 5 minutos no resuelves el problema:
 | [MCP Spec](https://spec.modelcontextprotocol.io/) | Dudas del protocolo           |
 | [.NET Docs](https://learn.microsoft.com/dotnet/)  | Errores de C# / ASP.NET       |
 | Instructor                                        | Problemas bloqueantes         |
-| Discord/Slack                                     | Dudas post-workshop           |
 
 ---
 
-**¡No te frustres!** Los errores son oportunidades de aprendizaje. 🚀
+### **¡No te frustres!** Los errores son oportunidades de aprendizaje. 🚀

@@ -27,7 +27,7 @@ variable "upload_sample_data" {
 
 variable "sample_data_path" {
   type    = string
-  default = "../../src/Data"
+  default = "../../../../Data"
 }
 
 variable "tags" {

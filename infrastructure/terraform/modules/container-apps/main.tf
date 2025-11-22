@@ -2,15 +2,6 @@
 # Purpose: Host MCP servers in managed Kubernetes environment
 # Based on: research.md section 2 - Azure Container Apps as primary hosting platform
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.80"
-    }
-  }
-}
-
 # Container Apps Environment (shared by all MCP servers)
 resource "azurerm_container_app_environment" "mcp_workshop" {
   name                       = var.environment_name

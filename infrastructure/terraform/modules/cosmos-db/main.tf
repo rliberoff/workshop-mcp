@@ -2,15 +2,6 @@
 # Purpose: NoSQL database for Exercise 4 Cosmos MCP Server
 # Based on: research.md - Azure Cosmos DB for NoSQL scenarios
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.80"
-    }
-  }
-}
-
 # Cosmos DB Account
 resource "azurerm_cosmosdb_account" "mcp_workshop" {
   name                = var.account_name
@@ -110,6 +101,7 @@ resource "null_resource" "seed_cosmos_data" {
   }
 
   provisioner "local-exec" {
-    command = "pwsh -File ${path.module}/scripts/seed-cosmos.ps1 -Endpoint ${azurerm_cosmosdb_account.mcp_workshop.endpoint} -Key ${azurerm_cosmosdb_account.mcp_workshop.primary_key} -DatabaseName ${var.database_name}"
+    command     = "pwsh -File seed-cosmos.ps1 -Endpoint ${azurerm_cosmosdb_account.mcp_workshop.endpoint} -Key ${azurerm_cosmosdb_account.mcp_workshop.primary_key} -DatabaseName ${var.database_name}"
+    working_dir = "${path.module}/scripts"
   }
 }

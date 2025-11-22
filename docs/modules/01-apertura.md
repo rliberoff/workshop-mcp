@@ -112,6 +112,8 @@ Al finalizar este taller, serás capaz de:
 
 -   ✅ .NET 10.0 SDK
 -   ✅ PowerShell 7+
+-   ✅ Azure CLI 2.80+
+-   ✅ Terraform 1.14+
 -   ✅ Visual Studio Code (recomendado)
 -   ✅ Git (opcional)
 
@@ -127,20 +129,25 @@ Al finalizar este taller, serás capaz de:
 Antes de comenzar, ejecuta el script de verificación:
 
 ```powershell
-.\scripts\verify-setup.ps1 -IncludeOptional
+.\scripts\verify-setup.ps1
 ```
 
 Deberías ver:
 
-```
+```powershell
 ✓ [REQUERIDO] .NET SDK - Versión correcta instalada
 ✓ [REQUERIDO] PowerShell - PowerShell 7+ instalado
 ✓ [REQUERIDO] Puertos TCP - Puertos 5000-5003 disponibles
 ✓ [REQUERIDO] NuGet Sources - NuGet.org configurado correctamente
+✓ [REQUERIDO] Azure CLI - Azure CLI 2.80.0+ instalado
+✓ [REQUERIDO] Terraform - Terraform 1.14.0+ instalado
+✓ [REQUERIDO] Git - Git instalado
 
 ========================================
 Estado general: PASS
 ========================================
+
+✅ El entorno está listo para el taller MCP
 ```
 
 ---
@@ -189,18 +196,41 @@ Al finalizar, consideraremos el taller exitoso si:
 ```
 mcp-workshop/
 ├── docs/
-│   ├── modules/              # Documentación de cada bloque
-│   ├── QUICK_REFERENCE.md    # Referencia rápida
-│   └── TROUBLESHOOTING.md    # Solución de problemas comunes
+│   ├── modules/                  # Documentación de cada bloque del taller
+│   ├── QUICK_REFERENCE.md        # Referencia rápida de comandos y patrones
+│   ├── TROUBLESHOOTING.md        # Solución de problemas comunes
+│   ├── AZURE_DEPLOYMENT.md       # Guía de despliegue en Azure
+│   └── README.md                 # Documentación principal del workshop
 ├── src/
-│   ├── McpWorkshop.Shared/   # Librería compartida
-│   └── McpWorkshop.Servers/  # Implementaciones de ejercicios
+│   ├── McpWorkshop.Shared/       # Librería compartida (helpers, logging, config)
+│   └── McpWorkshop.Servers/      # Servidores MCP de cada ejercicio
+│       ├── Exercise1StaticResources/
+│       ├── Exercise2ParametricQuery/
+│       ├── Exercise3SecureServer/
+│       └── Exercise4VirtualAnalyst/
+├── templates/
+│   ├── exercise1-starter/        # Código inicial para Ejercicio 1
+│   ├── exercise2-starter/        # Código inicial para Ejercicio 2
+│   ├── exercise3-starter/        # Código inicial para Ejercicio 3
+│   └── exercise4-starter/        # Código inicial para Ejercicio 4
+├── tests/
+│   └── McpWorkshop.Tests/        # Tests automatizados de los ejercicios
 ├── scripts/
+│   ├── verify-setup.ps1          # Verifica entorno y dependencias
+│   ├── verify-exercise1.ps1      # Valida Ejercicio 1
+│   ├── verify-exercise2.ps1      # Valida Ejercicio 2
+│   ├── verify-exercise3.ps1      # Valida Ejercicio 3
+│   ├── verify-exercise4.ps1      # Valida Ejercicio 4
 │   ├── create-sample-data.ps1    # Genera datos de muestra
-│   └── verify-setup.ps1           # Verifica entorno
+│   └── run-all-tests.ps1         # Ejecuta todos los tests
 ├── infrastructure/
-│   └── terraform/            # Módulos de Azure
-└── Data/                     # Datos generados (no en repo)
+│   ├── terraform/                # Módulos de Terraform para Azure
+│   └── scripts/
+│       ├── deploy.ps1            # Script de despliegue
+│       └── teardown.ps1          # Script de limpieza
+├── Data/                         # Datos generados (no en el repo)
+├── McpWorkshop.sln               # Solución de Visual Studio
+└── README.md                     # Guía de inicio rápido del repositorio
 ```
 
 ---

@@ -3,47 +3,86 @@
 # Based on: research.md section 2 - Infrastructure architecture
 
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.14.0"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.80"
+      version = "~> 4.54.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.7.2"
     }
   }
 
-  backend "azurerm" {
-    # Backend configuration provided via backend-config file
-    # Example: terraform init -backend-config=environments/dev/backend.hcl
-  }
+  # Using local backend for workshop simplicity
+  # For production, consider using azurerm backend with Azure Storage
+  # backend "azurerm" {
+  #   resource_group_name  = "rg-terraform-state"
+  #   storage_account_name = "sttfstatemcpworkshop"
+  #   container_name       = "tfstate"
+  #   key                  = "workshop.terraform.tfstate"
+  # }
 }
 
 provider "azurerm" {
   features {
-    resource_group {
-      prevent_deletion_if_contains_resources = false
-    }
-
-    key_vault {
+    app_configuration {
       purge_soft_delete_on_destroy = true
+    }
+    cognitive_account {
+      purge_soft_delete_on_destroy = true
+    }
+    log_analytics_workspace {
+      permanently_delete_on_destroy = true
+    }
+    key_vault {
+      purge_soft_deleted_secrets_on_destroy = true
+    }
+    resource_group {
+      # This flag is set to mitigate an open bug in Terraform.
+      # For instance, the Resource Group is not deleted when a `Failure Anomalies` resource is present.
+      # As soon as this is fixed, we should remove this.
+      # Reference: https://github.com/hashicorp/terraform-provider-azurerm/issues/18026
+      prevent_deletion_if_contains_resources = false
     }
   }
 }
 
+# Generate random suffix for globally unique resource names
+resource "random_id" "suffix" {
+  byte_length = 4
+}
+
+locals {
+  # Use random suffix or custom suffix
+  suffix      = lower(var.use_random_suffix ? random_id.suffix.hex : var.suffix)
+  name_suffix = local.suffix != "" ? "-${local.suffix}" : ""
+
+  # Resource names with suffix
+  resource_group_name  = "${var.resource_group_name}${local.name_suffix}"
+  storage_account_name = lower(replace("${var.name_prefix}st${local.suffix}", "-", ""))
+  sql_server_name      = "${var.name_prefix}-sql${local.name_suffix}"
+  cosmos_account_name  = "${var.name_prefix}-cosmos${local.name_suffix}"
+}
+
 # Resource Group
 resource "azurerm_resource_group" "mcp_workshop" {
-  name     = var.resource_group_name
+  name     = local.resource_group_name
   location = var.location
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    Suffix = local.suffix
+  })
 }
 
 # Monitoring Module (Log Analytics + Application Insights)
 module "monitoring" {
   source = "./modules/monitoring"
 
-  workspace_name      = "${var.name_prefix}-law"
-  app_insights_name   = "${var.name_prefix}-ai"
+  workspace_name      = "${var.name_prefix}-law${local.name_suffix}"
+  app_insights_name   = "${var.name_prefix}-ai${local.name_suffix}"
   resource_group_name = azurerm_resource_group.mcp_workshop.name
   location            = var.location
   retention_days      = var.log_retention_days
@@ -55,7 +94,7 @@ module "monitoring" {
 module "storage" {
   source = "./modules/storage"
 
-  storage_account_name = "${var.name_prefix}storage"
+  storage_account_name = local.storage_account_name
   resource_group_name  = azurerm_resource_group.mcp_workshop.name
   location             = var.location
   replication_type     = var.storage_replication_type
@@ -69,7 +108,7 @@ module "storage" {
 module "sql_database" {
   source = "./modules/sql-database"
 
-  server_name             = "${var.name_prefix}-sqlserver"
+  server_name             = local.sql_server_name
   database_name           = var.sql_database_name
   resource_group_name     = azurerm_resource_group.mcp_workshop.name
   location                = var.location
@@ -88,7 +127,7 @@ module "sql_database" {
 module "cosmos_db" {
   source = "./modules/cosmos-db"
 
-  account_name        = "${var.name_prefix}-cosmos"
+  account_name        = local.cosmos_account_name
   database_name       = var.cosmos_database_name
   resource_group_name = azurerm_resource_group.mcp_workshop.name
   location            = var.location
@@ -102,8 +141,8 @@ module "cosmos_db" {
 module "container_apps" {
   source = "./modules/container-apps"
 
-  environment_name           = "${var.name_prefix}-env"
-  name_prefix                = var.name_prefix
+  environment_name           = "${var.name_prefix}-env${local.name_suffix}"
+  name_prefix                = "${var.name_prefix}${local.name_suffix}"
   resource_group_name        = azurerm_resource_group.mcp_workshop.name
   location                   = var.location
   log_analytics_workspace_id = module.monitoring.workspace_id

@@ -58,9 +58,9 @@ variable "enable_sql_server" {
 }
 
 variable "sql_server_image" {
-  description = "Container image for SQL MCP Server"
+  description = "Docker image for SQL MCP Server"
   type        = string
-  default     = "mcpworkshop.azurecr.io/sql-mcp-server:latest"
+  default     = "mcr.microsoft.com/dotnet/aspnet:8.0"
 }
 
 variable "sql_connection_string" {
@@ -77,9 +77,9 @@ variable "enable_cosmos_server" {
 }
 
 variable "cosmos_server_image" {
-  description = "Container image for Cosmos MCP Server"
+  description = "Docker image for Cosmos MCP Server"
   type        = string
-  default     = "mcpworkshop.azurecr.io/cosmos-mcp-server:latest"
+  default     = "mcr.microsoft.com/dotnet/aspnet:8.0"
 }
 
 variable "cosmos_endpoint" {
@@ -107,9 +107,9 @@ variable "enable_rest_server" {
 }
 
 variable "rest_server_image" {
-  description = "Container image for REST MCP Server"
+  description = "Docker image for REST MCP Server"
   type        = string
-  default     = "mcpworkshop.azurecr.io/rest-mcp-server:latest"
+  default     = "mcr.microsoft.com/dotnet/aspnet:8.0"
 }
 
 variable "external_api_base_url" {
@@ -126,9 +126,9 @@ variable "enable_virtual_analyst" {
 }
 
 variable "virtual_analyst_image" {
-  description = "Container image for Virtual Analyst"
+  description = "Docker image for Virtual Analyst"
   type        = string
-  default     = "mcpworkshop.azurecr.io/virtual-analyst:latest"
+  default     = "mcr.microsoft.com/dotnet/aspnet:8.0"
 }
 
 # Authentication Configuration

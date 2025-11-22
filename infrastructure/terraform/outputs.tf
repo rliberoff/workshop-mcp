@@ -1,7 +1,12 @@
 # Root Terraform Outputs for MCP Workshop
 
+output "resource_suffix" {
+  description = "Random suffix used for globally unique resource names"
+  value       = local.suffix
+}
+
 output "resource_group_name" {
-  description = "Name of the resource group"
+  description = "Name of the resource group (with suffix)"
   value       = azurerm_resource_group.mcp_workshop.name
 }
 

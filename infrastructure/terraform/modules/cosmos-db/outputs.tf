@@ -27,12 +27,6 @@ output "secondary_key" {
   sensitive   = true
 }
 
-output "connection_strings" {
-  description = "Connection strings for Cosmos DB account (sensitive)"
-  value       = azurerm_cosmosdb_account.mcp_workshop.connection_strings
-  sensitive   = true
-}
-
 output "database_id" {
   description = "Resource ID of the Cosmos DB database"
   value       = azurerm_cosmosdb_sql_database.mcp_workshop.id

@@ -38,8 +38,8 @@ The infrastructure deploys:
 ## Prerequisites
 
 1. **Azure Subscription** - Active Azure subscription with Contributor permissions
-2. **Azure CLI** - Version 2.50+ ([Install](https://learn.microsoft.com/cli/azure/install-azure-cli))
-3. **Terraform** - Version 1.5.0+ ([Install](https://www.terraform.io/downloads))
+2. **Azure CLI** - Version 2.80.0+ ([Install](https://learn.microsoft.com/cli/azure/install-azure-cli))
+3. **Terraform** - Version 1.14.0+ ([Install](https://www.terraform.io/downloads))
 4. **PowerShell** - Version 7+ recommended ([Install](https://learn.microsoft.com/powershell/scripting/install/installing-powershell))
 
 ## Quick Start
@@ -74,29 +74,31 @@ To get your Azure AD Object ID:
 az ad user show --id your-admin-email@domain.com --query id -o tsv
 ```
 
-### 3. Deploy Dev Environment
+### 3. Deploy Workshop Environment
 
 ```powershell
 cd infrastructure
-.\scripts\deploy.ps1 -Environment dev
+.\scripts\deploy.ps1
 ```
 
 The script will:
 
--   ✅ Validate Terraform and Azure CLI installation
--   ✅ Check Azure authentication
--   ✅ Generate secrets if missing
--   ✅ Initialize Terraform with backend
--   ✅ Validate configuration syntax
--   ✅ Create execution plan
--   ⚠️ Prompt for confirmation before applying
--   ✅ Deploy all resources
--   ✅ Save outputs to `outputs-dev.json`
+-   Validate Terraform and Azure CLI installation
+-   Check Azure authentication
+-   Generate secrets if missing
+-   Initialize Terraform with local backend (state stored locally)
+-   Validate configuration syntax
+-   Create execution plan
+-   Prompt for confirmation before applying
+-   Deploy all resources
+-   Save outputs to `outputs-workshop.json`
+
+**Note:** The workshop uses a local Terraform backend for simplicity. The state file will be stored in `terraform.tfstate` and should not be committed to Git (already in `.gitignore`).
 
 **Auto-approve (skip confirmation):**
 
 ```powershell
-.\scripts\deploy.ps1 -Environment dev -AutoApprove
+.\scripts\deploy.ps1 -AutoApprove
 ```
 
 ### 4. Retrieve Deployment Outputs

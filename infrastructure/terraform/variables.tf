@@ -10,18 +10,30 @@ variable "name_prefix" {
 variable "environment" {
   description = "Environment name (dev, staging, prod)"
   type        = string
-  default     = "dev"
+  default     = "workshop"
 }
 
 variable "resource_group_name" {
-  description = "Name of the Azure resource group"
+  description = "Name of the Azure resource group (suffix will be added automatically)"
   type        = string
 }
 
 variable "location" {
   description = "Azure region for all resources"
   type        = string
-  default     = "westeurope"
+  default     = "swedencentral"
+}
+
+variable "use_random_suffix" {
+  description = "Use random suffix for globally unique resource names"
+  type        = bool
+  default     = true
+}
+
+variable "suffix" {
+  description = "Custom suffix for resource names (only used if use_random_suffix is false)"
+  type        = string
+  default     = ""
 }
 
 variable "tags" {
@@ -80,13 +92,15 @@ variable "sql_admin_password" {
 }
 
 variable "azuread_admin_login" {
-  description = "Azure AD admin login name"
+  description = "Azure AD admin login name (optional, leave empty for workshop)"
   type        = string
+  default     = null
 }
 
 variable "azuread_admin_object_id" {
-  description = "Azure AD admin object ID"
+  description = "Azure AD admin object ID (optional, leave empty for workshop)"
   type        = string
+  default     = null
 }
 
 variable "sql_enable_public_access" {

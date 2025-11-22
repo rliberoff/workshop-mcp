@@ -433,16 +433,71 @@ Authorization: Bearer <token>
 
 ## 📖 Especificación MCP
 
-### Versión Actual: 2024-11-05
+### Versión Actual: 2025-06-18
 
-La especificación oficial define:
+La especificación oficial define un protocolo abierto que permite la integración perfecta entre aplicaciones LLM y fuentes de datos externas y herramientas.
 
--   **Métodos estándar**: `initialize`, `resources/list`, `tools/call`, etc.
--   **Códigos de error**: -32700 (Parse error), -32600 (Invalid request)
--   **Formato de mensajes**: JSON-RPC 2.0 estricto
+**URL oficial**: https://modelcontextprotocol.io/specification/2025-06-18
+
+### Componentes del Protocolo
+
+#### Protocolo Base
+
+-   **Formato de mensajes**: JSON-RPC 2.0
+-   **Conexiones**: Stateful (con estado)
+-   **Negociación**: Capabilities entre servidor y cliente
 -   **Ciclo de vida**: Inicialización → Descubrimiento → Ejecución → Cierre
 
-**URL**: https://spec.modelcontextprotocol.io/
+#### Características del Servidor
+
+Los servidores pueden ofrecer las siguientes características a los clientes:
+
+1. **Resources**: Contexto y datos para uso del usuario o el modelo de IA
+2. **Prompts**: Mensajes y flujos de trabajo con plantillas para usuarios
+3. **Tools**: Funciones para que el modelo de IA ejecute
+
+#### Características del Cliente
+
+Los clientes pueden ofrecer las siguientes características a los servidores:
+
+1. **Sampling**: Comportamientos agénticos iniciados por el servidor e interacciones recursivas con LLM
+2. **Roots**: Consultas iniciadas por el servidor sobre límites de URI o sistema de archivos
+3. **Elicitation**: Solicitudes iniciadas por el servidor para información adicional de usuarios
+
+#### Utilidades Adicionales
+
+-   **Configuration**: Gestión de configuración
+-   **Progress tracking**: Seguimiento de progreso de operaciones
+-   **Cancellation**: Cancelación de operaciones en curso
+-   **Error reporting**: Reporte estructurado de errores
+-   **Logging**: Sistema de logging integrado
+
+### Principios de Seguridad
+
+La especificación 2025-06-18 establece principios clave de seguridad:
+
+1. **Consentimiento y Control del Usuario**
+
+    - Los usuarios deben consentir explícitamente todo acceso a datos
+    - Los usuarios retienen control sobre qué datos se comparten
+    - Interfaces claras para revisar y autorizar actividades
+
+2. **Privacidad de Datos**
+
+    - Consentimiento explícito antes de exponer datos de usuario
+    - No transmitir datos de recursos sin consentimiento
+    - Protección de datos con controles de acceso apropiados
+
+3. **Seguridad de Herramientas**
+
+    - Las herramientas representan ejecución de código arbitrario
+    - Consentimiento explícito antes de invocar herramientas
+    - Los usuarios deben entender qué hace cada herramienta
+
+4. **Controles de Sampling LLM**
+    - Aprobación explícita de solicitudes de sampling
+    - Control del usuario sobre prompts y resultados
+    - Visibilidad limitada del servidor en prompts
 
 ### Extensiones Propietarias
 

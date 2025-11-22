@@ -34,13 +34,15 @@ variable "admin_password" {
 }
 
 variable "azuread_admin_login" {
-  description = "Azure AD administrator login name"
+  description = "Azure AD administrator login name (optional)"
   type        = string
+  default     = null
 }
 
 variable "azuread_admin_object_id" {
-  description = "Azure AD administrator object ID"
+  description = "Azure AD administrator object ID (optional)"
   type        = string
+  default     = null
 }
 
 variable "enable_public_access" {

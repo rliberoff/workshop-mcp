@@ -2,15 +2,6 @@
 # Purpose: Relational database for Exercise 4 SQL MCP Server
 # Based on: research.md - Azure SQL Database for relational data scenarios
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.80"
-    }
-  }
-}
-
 # Azure SQL Server
 resource "azurerm_mssql_server" "mcp_workshop" {
   name                         = var.server_name
@@ -21,9 +12,12 @@ resource "azurerm_mssql_server" "mcp_workshop" {
   administrator_login_password = var.admin_password
   minimum_tls_version          = "1.2"
 
-  azuread_administrator {
-    login_username = var.azuread_admin_login
-    object_id      = var.azuread_admin_object_id
+  dynamic "azuread_administrator" {
+    for_each = var.azuread_admin_object_id != null && var.azuread_admin_object_id != "" ? [1] : []
+    content {
+      login_username = var.azuread_admin_login
+      object_id      = var.azuread_admin_object_id
+    }
   }
 
   public_network_access_enabled = var.enable_public_access

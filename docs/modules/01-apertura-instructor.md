@@ -87,7 +87,7 @@ CON MCP:
     - Ejercicio 4: Integración completa (desafío final)
 
 3. **Tiempo buffer**:
-    > "Verán que tengo tiempos asignados, pero si necesitamos 5 minutos extra en un ejercicio, los tomaremos del cierre. Lo importante es que todos logren avanzar."
+    > "_Verán que tengo tiempos asignados, pero si necesitamos 5 minutos extra en un ejercicio, los tomaremos del cierre. Lo importante es que todos logren avanzar._"
 
 **Preguntas frecuentes anticipadas**:
 
@@ -130,7 +130,7 @@ CON MCP:
 -   [ ] Visual Studio Code abierto con `McpWorkshop.sln` cargado
 -   [ ] Terminal PowerShell visible (fuente grande: 16-18pt)
 -   [ ] Script `verify-setup.ps1` listo para ejecutar
--   [ ] Timer visible (recomendado: https://timer.onlinealarmkur.com/ o app móvil)
+-   [ ] Timer visible (recomendado: https://onlinealarmkur.com/timer/es/ o app móvil)
 -   [ ] Agua y micrófono funcionando
 
 ### Materiales para Distribuir

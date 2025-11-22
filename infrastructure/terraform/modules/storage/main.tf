@@ -1,15 +1,6 @@
 # Azure Storage Module for MCP Workshop
 # Purpose: Blob storage for static resources and sample data files
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.80"
-    }
-  }
-}
-
 resource "azurerm_storage_account" "mcp_workshop" {
   name                     = var.storage_account_name
   resource_group_name      = var.resource_group_name

@@ -4,20 +4,20 @@
 .DESCRIPTION
     Destroys all Terraform-managed resources for cleanup after workshop sessions
 .PARAMETER Environment
-    Target environment to teardown (dev or prod)
+    Target environment to teardown (defaults to 'workshop')
 .PARAMETER Force
     Skip confirmation prompt
 .PARAMETER KeepLogs
     Preserve Log Analytics workspace (useful for post-workshop analysis)
 .EXAMPLE
-    .\teardown.ps1 -Environment dev
-    .\teardown.ps1 -Environment prod -Force
+    .\teardown.ps1
+    .\teardown.ps1 -Force
 #>
 
 param(
-    [Parameter(Mandatory = $true)]
-    [ValidateSet("dev", "prod")]
-    [string]$Environment,
+    [Parameter(Mandatory = $false)]
+    [ValidateSet("workshop")]
+    [string]$Environment = "workshop",
 
     [switch]$Force,
     [switch]$KeepLogs
@@ -32,9 +32,9 @@ Write-Host "Environment: $Environment" -ForegroundColor Red
 Write-Host "========================================" -ForegroundColor Red
 
 if (-not $Force) {
-    Write-Warning "This will DESTROY all resources in environment: $Environment"
+    Write-Warning "This will DESTROY all workshop resources!"
     Write-Host "Resources to be destroyed:" -ForegroundColor Yellow
-    Write-Host "  - Resource Group: rg-mcpworkshop-$Environment" -ForegroundColor Yellow
+    Write-Host "  - Resource Group: rg-mcpworkshop" -ForegroundColor Yellow
     Write-Host "  - Container Apps (4 servers)" -ForegroundColor Yellow
     Write-Host "  - Azure SQL Database" -ForegroundColor Yellow
     Write-Host "  - Cosmos DB" -ForegroundColor Yellow
@@ -111,7 +111,7 @@ try {
 catch {
     Write-Error "Teardown failed: $_"
     Write-Host "`nManual cleanup may be required. Check Azure Portal:" -ForegroundColor Yellow
-    Write-Host "  Resource Group: rg-mcpworkshop-$Environment" -ForegroundColor Yellow
+    Write-Host "  Resource Group: rg-mcpworkshop" -ForegroundColor Yellow
     exit 1
 }
 finally {

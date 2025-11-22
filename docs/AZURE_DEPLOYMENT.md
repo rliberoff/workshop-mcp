@@ -11,15 +11,15 @@ Antes de comenzar el despliegue, asegúrate de tener:
 -   [ ] **Azure CLI** instalado y configurado
 
     ```powershell
-    az --version  # Debe mostrar 2.50+
+    az --version  # Debe mostrar 2.80.0+
     az login
     az account set --subscription "<Your-Subscription-ID>"
     ```
 
--   [ ] **Terraform** instalado (1.5+)
+-   [ ] **Terraform** instalado (1.14.0+)
 
     ```powershell
-    terraform --version  # Debe mostrar 1.5.x+
+    terraform --version  # Debe mostrar 1.14.x+
     ```
 
 -   [ ] **Permisos en Azure**:
@@ -38,20 +38,46 @@ Antes de comenzar el despliegue, asegúrate de tener:
 
 ## 🚀 Quick Start Deployment
 
+> **📌 NOTA IMPORTANTE**: El deployment se realiza en **dos fases**:
+>
+> **Fase 1 (Automática)**: Infraestructura base
+>
+> -   ✅ SQL Server + Database (vacía)
+> -   ✅ Cosmos DB + Containers (vacíos)
+> -   ✅ Storage Account (sin datos)
+> -   ✅ Monitoring (Application Insights + Log Analytics)
+> -   ✅ Container Apps Environment (sin apps)
+>
+> **Fase 2 (Opcional - Manual)**: MCP Servers
+>
+> -   ⚠️ Requiere construir imágenes Docker (ver Step 8)
+> -   ⚠️ Requiere Azure Container Registry o Docker Hub
+> -   ⚠️ Necesario solo para Exercise 4 (orquestación)
+>
+> **Los Exercises 1-3 pueden completarse sin Fase 2**, usando desarrollo local.
+
 ### Option A: One-Command Deployment (Automated)
 
 ```powershell
-# Desde la raíz del repositorio
-.\scripts\deploy-azure.ps1 -Environment workshop -Region eastus2
+# Desde el directorio infrastructure
+cd infrastructure
+.\scripts\deploy.ps1
 
 # Este script ejecuta:
-# 1. Terraform init
-# 2. Terraform plan
-# 3. Terraform apply (pide confirmación)
-# 4. Configuración de connection strings en appsettings
+# 1. Validación de herramientas (Terraform, Azure CLI)
+# 2. Terraform init
+# 3. Terraform plan
+# 4. Terraform apply (pide confirmación)
+# 5. Guarda outputs en outputs-workshop.json
 ```
 
-**Tiempo estimado**: 15-20 minutos
+**Para auto-aprobar sin confirmación**:
+
+```powershell
+.\scripts\deploy.ps1 -AutoApprove
+```
+
+**Tiempo estimado**: 8-12 minutos (solo Fase 1 - infraestructura base)
 
 ---
 
@@ -60,213 +86,436 @@ Antes de comenzar el despliegue, asegúrate de tener:
 #### Step 1: Initialize Terraform
 
 ```powershell
-cd infrastructure\terraform\environments\workshop
+cd infrastructure\terraform
 
-# Inicializar backend de Terraform
+# Inicializar Terraform (usa backend local para simplificar el workshop)
 terraform init
 
 # Verificar que no hay errores
 # Output esperado: "Terraform has been successfully initialized!"
 ```
 
-#### Step 2: Review Infrastructure Plan
+**Nota:** El workshop usa un backend local de Terraform. El estado se guarda en `terraform.tfstate` en el directorio actual y NO debe subirse a Git (ya está en `.gitignore`).
+
+#### Step 2: Configure Environment
+
+Editar el archivo de variables:
+
+```powershell
+code environments\workshop\terraform.tfvars
+```
+
+**Configuración mínima requerida**:
+
+```hcl
+# environments/workshop/terraform.tfvars
+environment         = "workshop"
+location            = "swedencentral"  # Región por defecto
+name_prefix         = "mcpworkshop"
+sql_admin_username  = "mcpadmin"
+
+# Sufijo aleatorio para nombres únicos (habilitado por defecto)
+use_random_suffix   = true
+```
+
+**Nota**: El sufijo aleatorio se genera automáticamente para evitar colisiones en nombres de recursos globales como Storage Accounts y Cosmos DB. Puedes deshabilitarlo estableciendo `use_random_suffix = false` y proporcionando un `suffix` personalizado.
+
+#### Step 3: Generate Secrets
+
+El script de deployment genera automáticamente:
+
+-   JWT secret (64 caracteres)
+-   SQL admin password (20 caracteres)
+
+Archivo generado: `environments/workshop/secrets.auto.tfvars`
+
+**📝 NOTA**: Para el workshop, Azure AD admin es **opcional**. Si lo necesitas, actualiza estos valores después de la generación:
+
+```hcl
+# environments/workshop/secrets.auto.tfvars (opcional)
+azuread_admin_login     = "your-admin-email@domain.com"
+azuread_admin_object_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+Para obtener tu Object ID:
+
+```powershell
+az ad user show --id your-admin-email@domain.com --query id -o tsv
+```
+
+#### Step 4: Review Infrastructure Plan
 
 ```powershell
 # Crear plan de despliegue
-terraform plan -out=workshop.tfplan
+terraform plan -var-file="environments\workshop\terraform.tfvars" -var-file="environments\workshop\secrets.auto.tfvars" -out=workshop.tfplan
 
-# Revisar recursos que se crearán:
-# - Resource Group: rg-mcp-workshop-eastus2
-# - Container Apps Environment: mcpworkshop-env
-# - 7 Container Apps (Exercise1-4 servers + VirtualAnalyst)
+# Revisar recursos que se crearán (deployment inicial):
+# - Resource Group: rg-mcpworkshop-<suffix>
+# - Container Apps Environment: mcpworkshop-env-<suffix> (sin apps todavía)
 # - Azure SQL Database: sqldb-mcpworkshop
-# - Cosmos DB Account: cosmos-mcpworkshop
-# - Azure Blob Storage: stmcpworkshop
-# - Application Insights: ai-mcpworkshop
-# - Log Analytics Workspace: law-mcpworkshop
+# - Azure SQL Server: mcpworkshop-sql-<suffix>
+# - Cosmos DB Account: mcpworkshop-cosmos-<suffix>
+# - Cosmos DB Containers: sessions, cart_events
+# - Azure Blob Storage: mcpworkshopst<suffix> (sin datos todavía)
+# - Application Insights: mcpworkshop-ai-<suffix>
+# - Log Analytics Workspace: mcpworkshop-law-<suffix>
+# Nota: <suffix> es un identificador aleatorio de 8 caracteres hexadecimales
+
+# Los Container Apps (4 servidores MCP) NO se crean en el deployment inicial
+# porque están deshabilitados por defecto (enable_sql_server=false, etc.)
+# Se habilitarán después de construir y publicar las imágenes Docker
 ```
 
-**Recursos estimados**: 12 recursos principales + networking/security
+**Recursos estimados (deployment inicial)**: 8-10 recursos principales
 
-**Costo mensual estimado** (con Free Tier donde aplique):
+**Costo mensual estimado** (deployment inicial, sin Container Apps):
 
--   Container Apps: ~$50-100 (depends on scale)
 -   Azure SQL (Basic tier): ~$5
 -   Cosmos DB (Serverless): ~$0-25 (usage-based)
 -   Blob Storage: ~$1-5
 -   Application Insights: ~$0-10 (Free tier 5GB)
--   **Total estimado**: $60-145/month
+-   **Total estimado inicial**: $5-45/month
 
-#### Step 3: Apply Infrastructure
+**Con Container Apps habilitados** (después de Step 8):
+
+-   Container Apps: +$50-100 (depends on scale)
+-   **Total con apps**: $60-145/month
+
+#### Step 5: Apply Infrastructure
 
 ```powershell
 # Aplicar el plan
 terraform apply workshop.tfplan
 
 # Confirmar cuando pregunte: "yes"
-# Output esperado después de 15-20 min:
-# Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
+# Output esperado después de 8-12 min:
+# Apply complete! Resources: 8-10 added, 0 changed, 0 destroyed.
+
+# Nota: Este deployment inicial NO incluye Container Apps
+# Los MCP servers se habilitarán después de construir las imágenes Docker (Step 8)
 ```
 
-#### Step 4: Capture Output Variables
+#### Step 6: Capture Output Variables
 
 ```powershell
-# Terraform output muestra información crítica:
-terraform output -json > deployment-outputs.json
+# Ver todos los outputs
+terraform output
 
-# Ver valores importantes:
+# Guardar outputs en JSON
+terraform output -json > outputs-workshop.json
+
+# Ver valores específicos:
 terraform output sql_connection_string
 terraform output cosmos_endpoint
-terraform output blob_storage_connection_string
-terraform output container_app_urls
+terraform output storage_connection_string
+terraform output -json deployment_summary
 ```
 
 **Ejemplo de output**:
 
 ```json
 {
+    "resource_suffix": {
+        "sensitive": false,
+        "type": "string",
+        "value": "a1b2c3d4"
+    },
     "sql_connection_string": {
         "sensitive": true,
         "type": "string",
-        "value": "Server=tcp:sql-mcpworkshop.database.windows.net,1433;..."
+        "value": "Server=tcp:mcpworkshop-sql-a1b2c3d4.database.windows.net,1433;..."
     },
     "cosmos_endpoint": {
         "sensitive": false,
         "type": "string",
-        "value": "https://cosmos-mcpworkshop.documents.azure.com:443/"
+        "value": "https://mcpworkshop-cosmos-a1b2c3d4.documents.azure.com:443/"
     },
-    "exercise1_url": {
+    "sql_mcp_server_url": {
         "sensitive": false,
         "type": "string",
-        "value": "https://exercise1-static-resources.politecoast-12345.eastus2.azurecontainerapps.io"
+        "value": "https://sql-mcp-server-a1b2c3d4.azurecontainerapps.io"
     }
 }
 ```
 
-#### Step 5: Configure Applications
+**Nota**: El sufijo aleatorio (ej: `a1b2c3d4`) se genera automáticamente y garantiza que los nombres de recursos sean únicos globalmente.
+
+#### Step 7: Verify Initial Infrastructure
+
+**Verifica que la infraestructura base se desplegó correctamente**:
 
 ```powershell
-# Actualizar connection strings en todos los appsettings.json
-.\scripts\configure-azure-settings.ps1 -OutputFile deployment-outputs.json
+# Obtener el sufijo generado
+$suffix = terraform output -raw resource_suffix
+$rgName = "rg-mcpworkshop-$suffix"
 
-# Este script actualiza automáticamente:
-# - ConnectionStrings:SalesDb en Exercise4SqlMcpServer
-# - CosmosDb:Endpoint en Exercise4CosmosMcpServer
-# - BlobStorage:ConnectionString en Exercise4RestApiMcpServer
-# - ApplicationInsights:InstrumentationKey en todos los servidores
+# Listar recursos creados
+az resource list --resource-group $rgName --output table
+
+# Verificar SQL Server
+az sql server show --name "mcpworkshop-sql-$suffix" --resource-group $rgName
+
+# Verificar Cosmos DB
+az cosmosdb show --name "mcpworkshop-cosmos-$suffix" --resource-group $rgName
+
+# Verificar Container Apps Environment (sin apps todavía)
+az containerapp env list --resource-group $rgName --output table
 ```
 
-#### Step 6: Build and Push Container Images
+**✅ En este punto tienes**:
+
+-   ✅ SQL Server + Database (vacía, sin datos)
+-   ✅ Cosmos DB + Containers (vacíos)
+-   ✅ Storage Account (sin blobs)
+-   ✅ Monitoring (Application Insights + Log Analytics)
+-   ❌ Container Apps (deshabilitados hasta Step 8)
+
+#### Step 8: Build and Deploy Container Apps (Opcional)
+
+**⚠️ IMPORTANTE**: Los Container Apps están **deshabilitados por defecto** en el deployment inicial porque requieren imágenes Docker que no existen todavía.
+
+Para habilitar los MCP servers:
+
+**Opción A: Crear Azure Container Registry y construir imágenes**
 
 ```powershell
-# Construir imágenes Docker para todos los servidores
-.\scripts\build-docker-images.ps1
+# 1. Obtener sufijo
+$suffix = terraform output -raw resource_suffix
+$rgName = "rg-mcpworkshop-$suffix"
 
-# Push a Azure Container Registry
-$acrName = terraform output -raw acr_name
-az acr login --name $acrName
+# 2. Crear ACR
+az acr create `
+  --name "mcpworkshop$suffix" `
+  --resource-group $rgName `
+  --sku Basic `
+  --location swedencentral `
+  --admin-enabled true
 
-docker tag exercise1-static-resources:latest $acrName.azurecr.io/exercise1-static-resources:latest
-docker push $acrName.azurecr.io/exercise1-static-resources:latest
+# 3. Construir y publicar imágenes directamente en ACR
+# (az acr build hace build + push en un solo comando)
+$acrName = "mcpworkshop$suffix"
 
-# Repetir para los 7 servidores
-.\scripts\push-all-images.ps1 -AcrName $acrName
-```
-
-#### Step 7: Deploy to Container Apps
-
-```powershell
-# Terraform ya creó las Container Apps, ahora actualizamos con las imágenes:
-terraform apply -var="deploy_images=true"
-
-# O usar Azure CLI directamente:
-az containerapp update \
-  --name exercise1-static-resources \
-  --resource-group rg-mcp-workshop-eastus2 \
-  --image $acrName.azurecr.io/exercise1-static-resources:latest
-```
-
-#### Step 8: Seed Database
-
-```powershell
-# Ejecutar migraciones de EF Core
+# SQL MCP Server
 cd src\McpWorkshop.Servers\Exercise4SqlMcpServer
+az acr build --registry $acrName --image sql-mcp-server:latest .
 
-$connectionString = terraform output -raw sql_connection_string
-dotnet ef database update --connection $connectionString
+# Cosmos MCP Server
+cd ..\Exercise4CosmosMcpServer
+az acr build --registry $acrName --image cosmos-mcp-server:latest .
 
-# Seed con datos de muestra
-.\scripts\seed-azure-database.ps1 -ConnectionString $connectionString
+# REST MCP Server
+cd ..\Exercise4RestApiMcpServer
+az acr build --registry $acrName --image rest-mcp-server:latest .
+
+# Virtual Analyst
+cd ..\Exercise4VirtualAnalyst
+az acr build --registry $acrName --image virtual-analyst:latest .
 ```
 
-#### Step 9: Validate Deployment
+**Opción B: Usar imágenes de Docker Hub** (si ya las publicaste)
 
 ```powershell
-# Probar cada endpoint en Azure
-$exercise1Url = terraform output -raw exercise1_url
-
-$body = @{ jsonrpc="2.0"; method="resources/list"; id=1 } | ConvertTo-Json
-Invoke-RestMethod -Uri $exercise1Url -Method Post -Body $body -ContentType "application/json"
-
-# Output esperado: Lista de 4 recursos (customers, orders, products, regions)
-
-# Validar todos los ejercicios
-.\scripts\validate-azure-deployment.ps1 -OutputFile deployment-outputs.json
-# Esperado: ✅ 7/7 services healthy
+# Si tienes imágenes públicas en Docker Hub
+# Solo actualiza las variables en terraform.tfvars
 ```
+
+**4. Actualizar Terraform para habilitar Container Apps**:
+
+Editar `environments/workshop/terraform.tfvars`:
+
+```hcl
+# MCP Servers - Habilitar después de construir imágenes
+enable_sql_server      = true
+enable_cosmos_server   = true
+enable_rest_server     = true
+enable_virtual_analyst = true
+```
+
+Si usas ACR, también necesitas actualizar las imágenes en `modules/container-apps/variables.tf` o crear un archivo de override:
+
+```hcl
+# Crear: environments/workshop/images.auto.tfvars
+sql_server_image      = "mcpworkshop<suffix>.azurecr.io/sql-mcp-server:latest"
+cosmos_server_image   = "mcpworkshop<suffix>.azurecr.io/cosmos-mcp-server:latest"
+rest_server_image     = "mcpworkshop<suffix>.azurecr.io/rest-mcp-server:latest"
+virtual_analyst_image = "mcpworkshop<suffix>.azurecr.io/virtual-analyst:latest"
+```
+
+**5. Re-deploy con Container Apps habilitados**:
+
+```powershell
+cd infrastructure\terraform
+terraform plan -var-file="environments/workshop/terraform.tfvars" -var-file="environments/workshop/secrets.auto.tfvars" -out=workshop.tfplan
+terraform apply workshop.tfplan
+```
+
+**Nota**: Este paso es **opcional para el workshop**. Puedes completar los ejercicios 1-3 sin Container Apps, usando solo local development.
+
+#### Step 9: Seed Data (Opcional)
+
+**⚠️ Este paso es opcional** - Solo necesario si quieres datos de ejemplo en las bases de datos.
+
+Por defecto, `seed_sample_data = false` y `upload_sample_data = false` en el deployment inicial.
+
+**Para habilitar seeding de datos**:
+
+1. Actualizar `environments/workshop/terraform.tfvars`:
+
+```hcl
+# Data Seeding - Habilitar para cargar datos de ejemplo
+seed_sample_data     = true  # Cosmos DB
+upload_sample_data   = true  # Blob Storage
+```
+
+2. Re-aplicar Terraform:
+
+```powershell
+cd infrastructure\terraform
+terraform apply -var-file="environments/workshop/terraform.tfvars" -var-file="environments/workshop/secrets.auto.tfvars" -auto-approve
+```
+
+**Para SQL Server**, usar el script existente:
+
+```powershell
+# Obtener connection string
+$connectionString = terraform output -raw sql_connection_string
+
+# Usar script de generación de datos
+cd scripts
+.\create-sample-data.ps1
+
+# El script creará tablas y datos de ejemplo en Azure SQL
+```
+
+#### Step 10: Validate Deployment
+
+**Validar infraestructura base** (sin Container Apps):
+
+```powershell
+# Verificar que todos los recursos existen
+$suffix = terraform output -raw resource_suffix
+$rgName = "rg-mcpworkshop-$suffix"
+
+# Contar recursos
+$resourceCount = az resource list --resource-group $rgName --query "length(@)"
+Write-Host "✅ Recursos desplegados: $resourceCount"
+
+# Verificar SQL Database
+$sqlServer = "mcpworkshop-sql-$suffix"
+az sql db show --name "mcpworkshop" --server $sqlServer --resource-group $rgName --query "status"
+
+# Verificar Cosmos DB
+$cosmosAccount = "mcpworkshop-cosmos-$suffix"
+az cosmosdb show --name $cosmosAccount --resource-group $rgName --query "provisioningState"
+
+# Verificar Storage
+$storageAccount = "mcpworkshopst$suffix"
+az storage account show --name $storageAccount --resource-group $rgName --query "provisioningState"
+```
+
+**Validar Container Apps** (si completaste Step 8):
+
+```powershell
+# Probar health checks
+$suffix = terraform output -raw resource_suffix
+
+# Verificar que las apps existen
+az containerapp list --resource-group "rg-mcpworkshop-$suffix" --query "[].{Name:name, Status:properties.runningStatus}" --output table
+
+# Probar endpoints (si las apps están corriendo)
+$sqlUrl = terraform output -raw sql_mcp_server_url
+if ($sqlUrl) {
+    try {
+        Invoke-RestMethod -Uri "$sqlUrl/health" -Method Get -TimeoutSec 5
+        Write-Host "✅ SQL MCP Server is healthy"
+    } catch {
+        Write-Host "❌ SQL MCP Server no responde: $_"
+    }
+}
+```
+
+**✅ Deployment Completo**
+
+En este punto tienes:
+
+-   ✅ Infraestructura base desplegada (SQL, Cosmos, Storage, Monitoring)
+-   ✅ Sufijo único generado para evitar colisiones de nombres
+-   ✅ Secrets generados y configurados
+-   ⚠️ Container Apps: Opcionales (solo si completaste Step 8)
+-   ⚠️ Data seeding: Opcional (solo si completaste Step 9)
 
 ---
 
 ## 🏗️ Infrastructure Details
 
-### Resource Group Structure
+### Resource Group Structure (Deployment Inicial)
 
 ```text
-rg-mcp-workshop-eastus2/
+rg-mcpworkshop-<suffix>/
 ├── Container Apps Environment
-│   ├── exercise1-static-resources (Container App)
-│   ├── exercise2-parametric-query (Container App)
-│   ├── exercise3-secure-server (Container App)
-│   ├── exercise4-sql-mcp-server (Container App)
-│   ├── exercise4-cosmos-mcp-server (Container App)
-│   ├── exercise4-rest-api-mcp-server (Container App)
-│   └── exercise4-virtual-analyst (Container App)
+│   └── mcpworkshop-env-<suffix> (sin Container Apps todavía)
+├── Azure SQL Database
+│   ├── sqldb-mcpworkshop (Database - vacía)
+│   └── mcpworkshop-sql-<suffix> (Logical Server)
+├── Cosmos DB Account
+│   ├── mcpworkshop-cosmos-<suffix> (Account)
+│   ├── workshop-db (Database)
+│   ├── sessions (Container - vacío)
+│   └── cart_events (Container - vacío)
+├── Blob Storage
+│   ├── mcpworkshopst<suffix> (Storage Account)
+│   └── sample-data (Container - vacío)
+├── Application Insights
+│   ├── mcpworkshop-ai-<suffix> (Insights)
+│   └── mcpworkshop-law-<suffix> (Log Analytics)
+
+Nota: <suffix> es un identificador aleatorio de 8 caracteres (ej: a1b2c3d4)
+```
+
+### Resource Group Structure (Después de Step 8 - Con Container Apps)
+
+```text
+rg-mcpworkshop-<suffix>/
+├── Container Apps Environment
+│   ├── mcpworkshop-env-<suffix>
+│   ├── sql-mcp-server-<suffix> (Container App) ✅
+│   ├── cosmos-mcp-server-<suffix> (Container App) ✅
+│   ├── rest-mcp-server-<suffix> (Container App) ✅
+│   └── virtual-analyst-<suffix> (Container App) ✅
 ├── Azure SQL Database
 │   ├── sqldb-mcpworkshop (Database)
-│   └── sql-mcpworkshop (Logical Server)
+│   └── mcpworkshop-sql-<suffix> (Logical Server)
 ├── Cosmos DB Account
-│   ├── cosmos-mcpworkshop (Account)
-│   └── sessions-db (Database)
+│   ├── mcpworkshop-cosmos-<suffix> (Account)
+│   └── workshop-db (Database + Containers)
 ├── Blob Storage
-│   └── stmcpworkshop (Storage Account)
+│   └── mcpworkshopst<suffix> (Storage Account)
 ├── Application Insights
-│   ├── ai-mcpworkshop (Insights)
-│   └── law-mcpworkshop (Log Analytics)
-└── Networking
-    ├── Virtual Network (VNet)
-    ├── Subnets (for Container Apps)
-    └── Private Endpoints (for SQL, Cosmos, Blob)
+│   ├── mcpworkshop-ai-<suffix> (Insights)
+│   └── mcpworkshop-law-<suffix> (Log Analytics)
+└── (Opcional) Azure Container Registry
+    └── mcpworkshop<suffix> (ACR para imágenes Docker)
+
+Nota: <suffix> es un identificador aleatorio de 8 caracteres (ej: a1b2c3d4)
 ```
 
 ### Terraform Module Organization
 
 ```text
 infrastructure/terraform/
+├── main.tf                    # Root module
+├── variables.tf               # Input variables
+├── outputs.tf                 # Output values
 ├── modules/
-│   ├── container-apps/       # Container Apps Environment + Apps
+│   ├── container-apps/        # Container Apps Environment + Apps
 │   ├── sql-database/          # Azure SQL configuration
 │   ├── cosmos-db/             # Cosmos DB Serverless
-│   ├── blob-storage/          # Blob Storage with containers
-│   ├── monitoring/            # App Insights + Log Analytics
-│   └── networking/            # VNet, subnets, NSGs
+│   ├── storage/               # Blob Storage with containers
+│   └── monitoring/            # App Insights + Log Analytics
 └── environments/
-    ├── workshop/              # Workshop deployment (non-prod)
-    │   ├── main.tf
-    │   ├── variables.tf
-    │   ├── outputs.tf
-    │   └── terraform.tfvars
-    ├── dev/                   # Dev environment (optional)
-    └── prod/                  # Production example (optional)
+    └── workshop/
+        ├── terraform.tfvars   # Workshop configuration
+        └── secrets.auto.tfvars # Auto-generated secrets (git-ignored)
 ```
 
 ---
@@ -275,82 +524,73 @@ infrastructure/terraform/
 
 ### 1. Network Security
 
-**Private Endpoints** (enabled by default for prod):
+**Private Endpoints** (opcional para el workshop):
 
 ```hcl
-# En terraform.tfvars:
-enable_private_endpoints = true  # SQL, Cosmos, Blob no son accesibles públicamente
+# En environments/workshop/terraform.tfvars:
+enable_private_endpoints = false  # Deshabilitado por defecto para simplificar el workshop
+# Cambiar a true para escenarios de producción
 ```
-
-**VNet Integration**:
-
--   Container Apps en subnet dedicada (10.0.1.0/24)
--   SQL en subnet con Service Endpoint (10.0.2.0/24)
--   Cosmos/Blob con Private Link
 
 ### 2. Secrets Management
 
-**Azure Key Vault** (opcional, para producción):
+**Usando Terraform-generated secrets**:
+
+Los secrets se generan automáticamente en `secrets.auto.tfvars` y se pasan como variables de entorno a los Container Apps.
+
+**Para producción, considera Azure Key Vault**:
 
 ```powershell
+# Obtener el sufijo del output de Terraform
+$suffix = terraform output -raw resource_suffix
+
 # Crear Key Vault
 az keyvault create \
-  --name kv-mcpworkshop \
-  --resource-group rg-mcp-workshop-eastus2 \
-  --location eastus2
+  --name "kv-mcpworkshop-$suffix" \
+  --resource-group "rg-mcpworkshop-$suffix" \
+  --location swedencentral
 
 # Almacenar connection strings
 az keyvault secret set \
-  --vault-name kv-mcpworkshop \
+  --vault-name "kv-mcpworkshop-$suffix" \
   --name "SqlConnectionString" \
-  --value "<connection-string>"
+  --value "$connectionString"
 
-# Referenciar desde Container Apps
+# Referenciar desde Container Apps (requiere actualizar Terraform)
 az containerapp update \
-  --name exercise4-sql-mcp-server \
-  --secrets sql-conn=keyvaultref:https://kv-mcpworkshop.vault.azure.net/secrets/SqlConnectionString
+  --name "sql-mcp-server-$suffix" \
+  --secrets "sql-conn=keyvaultref:https://kv-mcpworkshop-$suffix.vault.azure.net/secrets/SqlConnectionString"
 ```
 
 ### 3. Authentication & Authorization
 
-**Managed Identity** (recomendado):
+**Managed Identity** (ya configurado en módulo container-apps):
 
 ```hcl
-# En Terraform module container-apps/main.tf:
+# Ya implementado en modules/container-apps/main.tf:
 identity {
   type = "SystemAssigned"
-}
-
-# Grant permissions to SQL
-resource "azurerm_sql_active_directory_administrator" "admin" {
-  login               = azurerm_container_app.sql_mcp_server.identity[0].principal_id
-  object_id           = azurerm_container_app.sql_mcp_server.identity[0].principal_id
 }
 ```
 
 ### 4. Firewall Rules
 
-**SQL Server Firewall**:
+**SQL Server Firewall** (ya configurado):
 
-```hcl
-# Permitir Azure services (Container Apps):
-resource "azurerm_sql_firewall_rule" "allow_azure_services" {
-  name                = "AllowAzureServices"
-  resource_group_name = azurerm_resource_group.workshop.name
-  server_name         = azurerm_sql_server.sql.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
-}
+-   Permite servicios de Azure (Container Apps)
+-   Requiere configurar IPs adicionales para acceso desde localhost durante desarrollo
 
-# Para workshop: permitir IPs de asistentes (temporalmente)
-resource "azurerm_sql_firewall_rule" "workshop_ips" {
-  count               = length(var.workshop_allowed_ips)
-  name                = "WorkshopIP-${count.index}"
-  resource_group_name = azurerm_resource_group.workshop.name
-  server_name         = azurerm_sql_server.sql.name
-  start_ip_address    = var.workshop_allowed_ips[count.index]
-  end_ip_address      = var.workshop_allowed_ips[count.index]
-}
+```powershell
+# Obtener el sufijo y agregar tu IP temporalmente
+$suffix = terraform output -raw resource_suffix
+$myIp = (Invoke-RestMethod -Uri "https://api.ipify.org").Trim()
+
+az sql server firewall-rule create \
+  --resource-group "rg-mcpworkshop-$suffix" \
+  --server "mcpworkshop-sql-$suffix" \
+  --name "MyWorkstation" \
+  --start-ip-address $myIp \
+  --end-ip-address $myIp
 ```
 
 ---
@@ -359,15 +599,7 @@ resource "azurerm_sql_firewall_rule" "workshop_ips" {
 
 ### Application Insights Integration
 
-Todos los servidores envían telemetría a Application Insights:
-
-```csharp
-// Ya configurado en Program.cs:
-builder.Services.AddApplicationInsightsTelemetry(options =>
-{
-    options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
-});
-```
+Los Container Apps están configurados para enviar telemetría a Application Insights mediante variable de entorno `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 
 **Queries útiles en Log Analytics**:
 
@@ -394,18 +626,18 @@ dependencies
 
 ### Health Checks
 
-Todos los Container Apps exponen endpoint `/health`:
+Todos los Container Apps deben exponer endpoint `/health`:
 
 ```powershell
-# Verificar health de todos los servicios:
-$urls = terraform output -json container_app_urls | ConvertFrom-Json
-
-$urls.PSObject.Properties | ForEach-Object {
-    $name = $_.Name
-    $url = $_.Value + "/health"
+# Verificar health de todos los servicios
+terraform output -json deployment_summary | ConvertFrom-Json |
+  Select-Object -ExpandProperty mcp_servers |
+  ForEach-Object {
+    $name = $_.PSObject.Properties.Name
+    $url = $_.PSObject.Properties.Value.Value + "/health"
 
     try {
-        $response = Invoke-RestMethod -Uri $url -TimeoutSec 5
+        Invoke-RestMethod -Uri $url -TimeoutSec 5 | Out-Null
         Write-Host "✅ $name is healthy" -ForegroundColor Green
     } catch {
         Write-Host "❌ $name is DOWN: $_" -ForegroundColor Red
@@ -415,81 +647,34 @@ $urls.PSObject.Properties | ForEach-Object {
 
 ---
 
-## 🔄 Continuous Deployment (Optional)
-
-### GitHub Actions Workflow
-
-Crear `.github/workflows/deploy-azure.yml`:
-
-```yaml
-name: Deploy to Azure
-
-on:
-    push:
-        branches: [main]
-    workflow_dispatch:
-
-jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: Azure Login
-              uses: azure/login@v1
-              with:
-                  creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v2
-              with:
-                  terraform_version: 1.5.0
-
-            - name: Terraform Init
-              run: |
-                  cd infrastructure/terraform/environments/workshop
-                  terraform init
-
-            - name: Terraform Apply
-              run: |
-                  cd infrastructure/terraform/environments/workshop
-                  terraform apply -auto-approve
-
-            - name: Build Docker Images
-              run: |
-                  .\scripts\build-docker-images.ps1
-
-            - name: Push to ACR
-              run: |
-                  az acr login --name ${{ secrets.ACR_NAME }}
-                  .\scripts\push-all-images.ps1 -AcrName ${{ secrets.ACR_NAME }}
-
-            - name: Update Container Apps
-              run: |
-                  .\scripts\update-container-apps.ps1
-```
-
-**Secrets necesarios en GitHub**:
-
--   `AZURE_CREDENTIALS`: Service Principal JSON
--   `ACR_NAME`: Nombre del Azure Container Registry
-
----
-
 ## 🧹 Cleanup & Teardown
 
 ### Remove All Resources
 
 ```powershell
-# Opción A: Terraform destroy (RECOMENDADO)
-cd infrastructure\terraform\environments\workshop
-terraform destroy
+# Opción A: Usando script de teardown (RECOMENDADO)
+cd infrastructure
+.\scripts\teardown.ps1
 
-# Confirmar cuando pregunte: "yes"
+# Confirmar escribiendo: "destroy"
 # Tiempo estimado: 10-15 minutos
 
-# Opción B: Delete Resource Group (más rápido pero menos seguro)
-az group delete --name rg-mcp-workshop-eastus2 --yes --no-wait
+# Para auto-aprobar:
+.\scripts\teardown.ps1 -Force
+
+# Para preservar logs:
+.\scripts\teardown.ps1 -KeepLogs
+```
+
+```powershell
+# Opción B: Terraform destroy manual
+cd infrastructure\terraform
+terraform destroy -var-file="environments\workshop\terraform.tfvars" -var-file="environments\workshop\secrets.auto.tfvars"
+```
+
+```powershell
+# Opción C: Delete Resource Group (más rápido pero menos seguro)
+az group delete --name rg-mcpworkshop --yes --no-wait
 ```
 
 ### Cost Optimization
@@ -499,18 +684,23 @@ az group delete --name rg-mcp-workshop-eastus2 --yes --no-wait
 1. **Scale to Zero** después del workshop:
 
     ```powershell
-    az containerapp update --name exercise1-static-resources --min-replicas 0
+    az containerapp update \
+      --name sql-mcp-server \
+      --resource-group rg-mcpworkshop \
+      --min-replicas 0 \
+      --max-replicas 0
     ```
 
 2. **Pause SQL Database**:
 
     ```powershell
-    az sql db pause --name sqldb-mcpworkshop --server sql-mcpworkshop
+    az sql db pause \
+      --name sqldb-mcpworkshop \
+      --server sql-mcpworkshop \
+      --resource-group rg-mcpworkshop
     ```
 
-3. **Disable Cosmos DB** (no soporta pause, pero escala a 0):
-    - Cosmos Serverless ya escala automáticamente
-    - Solo pagas por RU/s consumidos
+3. **Cosmos DB Serverless**: Ya escala automáticamente a 0, solo pagas por RU/s consumidos
 
 ---
 
@@ -527,12 +717,13 @@ Error: Failed to get existing workspaces: containers.Client#ListBlobs: Failure r
 **Solución**:
 
 ```powershell
-# Verificar permisos en Storage Account del backend
-az storage account show --name <backend-storage> --query "id"
-
-# Re-autenticar:
+# Re-autenticar en Azure
 az login
 az account set --subscription "<subscription-id>"
+
+# Limpiar estado local y reinicializar
+Remove-Item .terraform -Recurse -Force
+terraform init -reconfigure
 ```
 
 ---
@@ -542,25 +733,27 @@ az account set --subscription "<subscription-id>"
 **Diagnóstico**:
 
 ```powershell
-# Ver logs en tiempo real:
+# Ver logs en tiempo real
 az containerapp logs show \
-  --name exercise1-static-resources \
-  --resource-group rg-mcp-workshop-eastus2 \
+  --name sql-mcp-server \
+  --resource-group rg-mcpworkshop \
   --follow
 
-# Revisar replica count:
+# Revisar replicas
 az containerapp revision list \
-  --name exercise1-static-resources \
-  --resource-group rg-mcp-workshop-eastus2
+  --name sql-mcp-server \
+  --resource-group rg-mcpworkshop \
+  --query "[].{Name:name, Active:properties.active, Replicas:properties.replicas}" \
+  --output table
 ```
 
 **Solución**:
 
 ```powershell
-# Restart container app:
+# Restart container app
 az containerapp revision restart \
-  --name exercise1-static-resources \
-  --resource-group rg-mcp-workshop-eastus2 \
+  --name sql-mcp-server \
+  --resource-group rg-mcpworkshop \
   --revision <revision-name>
 ```
 
@@ -577,28 +770,68 @@ Microsoft.Data.SqlClient.SqlException: A network-related or instance-specific er
 **Diagnóstico**:
 
 ```powershell
-# Verificar firewall rules:
+# Verificar firewall rules
 az sql server firewall-rule list \
-  --resource-group rg-mcp-workshop-eastus2 \
-  --server sql-mcpworkshop
+  --resource-group rg-mcpworkshop \
+  --server sql-mcpworkshop \
+  --output table
 
-# Test connectivity desde Container App:
+# Test connectivity desde Container App
 az containerapp exec \
-  --name exercise4-sql-mcp-server \
-  --resource-group rg-mcp-workshop-eastus2 \
+  --name sql-mcp-server \
+  --resource-group rg-mcpworkshop \
   --command "/bin/sh" -- -c "nc -zv sql-mcpworkshop.database.windows.net 1433"
 ```
 
 **Solución**:
 
 ```powershell
-# Agregar regla para Container Apps subnet:
-az sql server firewall-rule create \
-  --resource-group rg-mcp-workshop-eastus2 \
+# Verificar que "Allow Azure services" está habilitado
+az sql server firewall-rule show \
+  --resource-group rg-mcpworkshop \
   --server sql-mcpworkshop \
-  --name AllowContainerApps \
-  --start-ip-address 10.0.1.0 \
-  --end-ip-address 10.0.1.255
+  --name AllowAllWindowsAzureIps
+
+# Si no existe, crearlo
+az sql server firewall-rule create \
+  --resource-group rg-mcpworkshop \
+  --server sql-mcpworkshop \
+  --name AllowAllWindowsAzureIps \
+  --start-ip-address 0.0.0.0 \
+  --end-ip-address 0.0.0.0
+```
+
+---
+
+### Issue: Secrets Not Generated
+
+**Error**:
+
+```
+Error: Missing required variable: sql_admin_password
+```
+
+**Solución**:
+
+El script `deploy.ps1` genera automáticamente `secrets.auto.tfvars` si no existe. Si falla:
+
+```powershell
+# Generar manualmente
+cd infrastructure\terraform\environments\workshop
+
+# Crear archivo secrets.auto.tfvars
+$jwtSecret = -join ((65..90) + (97..122) + (48..57) | Get-Random -Count 64 | ForEach-Object { [char]$_ })
+$sqlPassword = -join ((65..90) + (97..122) + (48..57) + (33, 35, 36, 37, 38, 42, 43, 45, 61) | Get-Random -Count 20 | ForEach-Object { [char]$_ })
+
+@"
+jwt_secret          = "$jwtSecret"
+sql_admin_password  = "$sqlPassword"
+
+azuread_admin_login     = "admin@example.com"
+azuread_admin_object_id = "00000000-0000-0000-0000-000000000000"
+"@ | Out-File -FilePath "secrets.auto.tfvars" -Encoding UTF8
+
+Write-Host "✓ secrets.auto.tfvars creado. Actualiza los valores de Azure AD."
 ```
 
 ---
@@ -611,9 +844,10 @@ az sql server firewall-rule create \
 | Terraform Azure Provider  | https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs       |
 | Azure SQL Best Practices  | https://learn.microsoft.com/azure/azure-sql/database/security-best-practice |
 | Cosmos DB Serverless      | https://learn.microsoft.com/azure/cosmos-db/serverless                      |
+| Infrastructure README     | [infrastructure/README.md](../infrastructure/README.md)                     |
 
 ---
 
 **Deployment Complete!** 🎉
 
-Para soporte adicional, consultar [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) o abrir issue en GitHub.
+Para soporte adicional, consultar [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) o los scripts en [`infrastructure/scripts/`](../infrastructure/scripts/).
