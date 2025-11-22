@@ -560,14 +560,29 @@ app.MapPost("/mcp", async (
 
     try
     {
-        // Verificar autorización
+        // Verificar autorización para métodos que requieren autenticación
+        var requiredScope = authz.GetRequiredScopeForMethod(request.Method);
+
+        // Si el método requiere scope y no hay usuario autenticado, denegar acceso
+        if (!string.IsNullOrEmpty(requiredScope) && user == null)
+        {
+            logger.LogError(request.Method, requestId, new Exception("Authentication required"));
+            return Results.Ok(CreateErrorResponse(-32004, "Authentication required", new
+            {
+                requiredScope = requiredScope,
+                message = "Este método requiere autenticación"
+            }, request.Id));
+        }
+
+        // Si hay usuario autenticado, verificar autorización
         if (user != null && !authz.IsAuthorized(user, request.Method))
         {
             logger.LogError(request.Method, requestId, new Exception("Unauthorized"));
             return Results.Ok(CreateErrorResponse(-32004, "Insufficient permissions", new
             {
-                requiredScope = authz.GetRequiredScopeForMethod(request.Method),
-                userScopes = user.Scopes
+                requiredScope = requiredScope,
+                userScopes = user.Scopes,
+                message = $"Requiere scope '{requiredScope}' pero solo tienes: {string.Join(", ", user.Scopes)}"
             }, request.Id));
         }
 
