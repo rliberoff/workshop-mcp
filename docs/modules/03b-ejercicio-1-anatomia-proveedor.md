@@ -696,7 +696,6 @@ Aprenderás a:
 
 ## 📖 Recursos Adicionales
 
--   **Contrato de referencia**: `specs/001-mcp-workshop-course/contracts/exercise-1-static-resource.json`
 -   **Documentación MCP**: <https://modelcontextprotocol.io/specification/2025-06-18>
 
 ---

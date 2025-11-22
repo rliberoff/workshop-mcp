@@ -121,7 +121,7 @@ cd Exercise3Server
 dotnet add reference ../../McpWorkshop.Shared/McpWorkshop.Shared.csproj
 
 # Agregar paquete JWT
-dotnet add package System.IdentityModel.Tokens.Jwt --version 8.3.1
+dotnet add package System.IdentityModel.Tokens.Jwt --version 8.15.0
 
 # Agregar a solución
 cd ../../..
@@ -1027,7 +1027,6 @@ En el siguiente bloque el instructor profundizará en:
 
 ## 📖 Recursos Adicionales
 
--   **Contrato de referencia**: `specs/001-mcp-workshop-course/contracts/exercise-3-secure-server.json`
 -   **JWT.io**: https://jwt.io/ (decodificador de tokens)
 -   **OWASP Top 10**: https://owasp.org/www-project-top-ten/
 -   **Rate Limiting Patterns**: https://learn.microsoft.com/en-us/azure/architecture/patterns/rate-limiting-pattern
