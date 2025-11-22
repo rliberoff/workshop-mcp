@@ -744,7 +744,7 @@ info: Now listening on: http://localhost:5003
 Invoke-WebRequest -Uri "http://localhost:5003" -Method GET
 ```
 
-**Respuesta esperada**: Status 200 con JSON `{"status": "healthy", "server": "Exercise3SecureServer", ...}`
+**Respuesta esperada**: Status 200 con JSON `{"status": "healthy", "server": "Exercise3Server", ...}`
 
 ### 6.2 Prueba 1: Generar token (usuario con scope `read`)
 
@@ -834,7 +834,7 @@ $body = @{
         arguments = @{ action = "test" }
     }
     id = "call-001"
-} | ConvertTo-Json -Depth 10
+} | ConvertTo-Json
 
 $headers = @{ Authorization = "Bearer $tokenRead" }
 try {
@@ -859,7 +859,7 @@ $body = @{
         arguments = @{ action = "test" }
     }
     id = "call-002"
-} | ConvertTo-Json -Depth 10
+} | ConvertTo-Json
 
 $headers = @{ Authorization = "Bearer $tokenWrite" }
 Invoke-RestMethod -Uri "http://localhost:5003/mcp" -Method POST -Body $body -Headers $headers -ContentType "application/json"
@@ -894,6 +894,49 @@ $headers = @{ Authorization = "Bearer $tokenRead" }
 ```
 
 **Resultado esperado**: Primeras 10 solicitudes pasan, las 11 y 12 fallan con error `429 Too Many Requests`.
+
+✅ **PASS**
+
+### 6.9 Prueba 8: Endpoints Públicos (sin autenticación)
+
+**IMPORTANTE**: Los métodos `initialize`, `resources/list` y `tools/list` deben ser **públicos** (no requieren token).
+
+```powershell
+# Prueba initialize sin token
+$body = @{
+    jsonrpc = "2.0"
+    method = "initialize"
+    params = @{}
+    id = 1
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri "http://localhost:5003/mcp" -Method POST -Body $body -ContentType "application/json"
+Write-Host "✅ initialize es público: $($response.result.protocolVersion)" -ForegroundColor Green
+
+# Prueba resources/list sin token
+$body = @{
+    jsonrpc = "2.0"
+    method = "resources/list"
+    params = @{}
+    id = 2
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri "http://localhost:5003/mcp" -Method POST -Body $body -ContentType "application/json"
+Write-Host "✅ resources/list es público: $($response.result.resources.Count) recursos" -ForegroundColor Green
+
+# Prueba tools/list sin token
+$body = @{
+    jsonrpc = "2.0"
+    method = "tools/list"
+    params = @{}
+    id = 3
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri "http://localhost:5003/mcp" -Method POST -Body $body -ContentType "application/json"
+Write-Host "✅ tools/list es público: $($response.result.tools.Count) herramientas" -ForegroundColor Green
+```
+
+**Resultado esperado**: Las tres llamadas funcionan sin necesidad de token `Authorization`.
 
 ✅ **PASS**
 
