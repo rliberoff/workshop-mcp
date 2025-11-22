@@ -134,7 +134,14 @@ app.MapPost("/mcp", async (
     IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings) =>
 {
     var requestId = request.Id?.ToString() ?? "unknown";
-    logger.LogRequest(request.Method, requestId, request.Params);
+
+    IDictionary<string, object>? paramsDict = null;
+    if (request.Params != null)
+    {
+        paramsDict = JsonSerializer.Deserialize<IDictionary<string, object>>(JsonSerializer.Serialize(request.Params));
+    }
+
+    logger.LogRequest(request.Method, requestId, paramsDict);
 
     try
     {
@@ -142,7 +149,7 @@ app.MapPost("/mcp", async (
         {
             "initialize" => HandleInitialize(settings),
             "resources/list" => HandleResourcesList(),
-            "resources/read" => HandleResourcesRead(request.Params, customers),
+            "resources/read" => HandleResourcesRead(paramsDict, customers),
             _ => CreateErrorResponse(-32601, "Method not found", null, request.Id)
         };
 
@@ -156,7 +163,7 @@ app.MapPost("/mcp", async (
     }
 });
 
-app.Run("http://localhost:5000");
+await app.RunAsync("http://localhost:5000");
 
 // Métodos helper
 static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
@@ -166,7 +173,7 @@ static JsonRpcResponse HandleInitialize(IOptions<McpWorkshop.Shared.Configuratio
         JsonRpc = "2.0",
         Result = new
         {
-            protocolVersion = "2024-11-05",
+            protocolVersion = settings.Value.Server.ProtocolVersion,
             capabilities = new
             {
                 resources = new { },
@@ -204,12 +211,10 @@ static JsonRpcResponse HandleResourcesList()
     };
 }
 
-static JsonRpcResponse HandleResourcesRead(object? parameters, List<Customer> customers)
+static JsonRpcResponse HandleResourcesRead(IDictionary<string, object>? parameters, List<Customer> customers)
 {
     // Parsear el URI del recurso
-    var paramsJson = JsonSerializer.Serialize(parameters);
-    var paramsDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(paramsJson);
-    var uri = paramsDict?["uri"].GetString();
+    var uri = parameters?["uri"] as string;
 
     if (uri == "mcp://customers")
     {
@@ -234,7 +239,6 @@ static JsonRpcResponse HandleResourcesRead(object? parameters, List<Customer> cu
 
     throw new ArgumentException($"Unknown resource URI: {uri}");
 }
-
 static JsonRpcResponse CreateErrorResponse(int code, string message, object? data, object? id)
 {
     return new JsonRpcResponse
