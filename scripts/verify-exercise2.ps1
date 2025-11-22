@@ -37,7 +37,7 @@ function Test-UninitializedAccess {
     Write-Host "`n🧪 Test 1: Verificar error sin Initialize" -ForegroundColor Cyan
     
     $response = Invoke-McpRequest -Method "tools/call" -Params @{
-        name = "search_customers"
+        name      = "search_customers"
         arguments = @{ name = "Test" }
     }
 
