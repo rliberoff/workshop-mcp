@@ -18,6 +18,15 @@ var sessions = LoadData<UserSession>("Data/sessions.json");
 var cartEvents = LoadData<CartEvent>("Data/cart-events.json");
 Console.WriteLine($"✅ Loaded {sessions.Length} sessions, {cartEvents.Length} cart events");
 
+// Health check endpoint
+app.MapGet("/", () => Results.Ok(new
+{
+    status = "healthy",
+    server = "Exercise4CosmosMcpServer",
+    version = "1.0.0",
+    timestamp = DateTime.UtcNow
+}));
+
 app.MapPost("/mcp", async (HttpContext context) =>
 {
     using var reader = new StreamReader(context.Request.Body);

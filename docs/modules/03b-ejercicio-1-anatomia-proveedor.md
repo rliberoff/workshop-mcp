@@ -329,14 +329,33 @@ dotnet run
 
 **Salida esperada**:
 
-```
+```text
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://localhost:5001
 ```
 
+#### 4.2 Verificar Health Check (Opcional)
+
+Antes de probar MCP, verifica que el servidor responde:
+
+```powershell
+Invoke-WebRequest -Uri "http://localhost:5001" -Method GET
+```
+
+**Salida esperada**:
+
+```json
+{
+    "status": "healthy",
+    "server": "Exercise1StaticResources",
+    "version": "1.0.0",
+    "timestamp": "2024-11-22T10:30:00Z"
+}
+```
+
 ---
 
-#### 4.2 Test 1: Initialize (Todos lo ejecutan)
+#### 4.3 Test 1: Initialize (Todos lo ejecutan)
 
 > **💬 Instructor**: "Abran una segunda terminal y ejecuten esto todos juntos"
 
@@ -362,7 +381,7 @@ Invoke-RestMethod -Uri "http://localhost:5001/mcp" `
 
 > **💬 Instructor**: "¡Perfecto! El servidor respondió con su información. Ahora sabemos que habla MCP 2024-11-05."
 
-#### 4.3 Test 2: Resources/List
+#### 4.4 Test 2: Resources/List
 
 ```powershell
 $body = @{
@@ -382,7 +401,7 @@ Invoke-RestMethod -Uri "http://localhost:5001/mcp" `
 
 > **💬 Instructor**: "Perfecto. El servidor lista ambos recursos. Ahora vamos a leer cada uno."
 
-#### 4.4 Test 3: Resources/Read (Customers)
+#### 4.5 Test 3: Resources/Read (Customers)
 
 ```powershell
 $body = @{
@@ -400,7 +419,7 @@ Invoke-RestMethod -Uri "http://localhost:5001/mcp" `
 
 **✅ Debe devolver**: JSON con array de clientes.
 
-#### 4.5 Test 4: Resources/Read (Products)
+#### 4.6 Test 4: Resources/Read (Products)
 
 ```powershell
 $body = @{

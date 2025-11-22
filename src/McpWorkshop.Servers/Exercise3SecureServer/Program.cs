@@ -30,6 +30,15 @@ app.UseMiddleware<JwtAuthMiddleware>();
 app.UseMiddleware<ScopeAuthorizationMiddleware>();
 app.UseMiddleware<RateLimitMiddleware>();
 
+// Health check endpoint
+app.MapGet("/", () => Results.Ok(new
+{
+    status = "healthy",
+    server = "Exercise3SecureServer",
+    version = "1.0.0",
+    timestamp = DateTime.UtcNow
+}));
+
 // MCP endpoint
 app.MapPost("/mcp", async (HttpContext context) =>
 {

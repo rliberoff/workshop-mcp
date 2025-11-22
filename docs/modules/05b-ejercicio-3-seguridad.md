@@ -725,9 +725,17 @@ dotnet run
 
 Deberías ver:
 
-```
+```text
 info: Now listening on: http://localhost:5003
 ```
+
+### 6.2 Verificar Health Check
+
+```powershell
+Invoke-WebRequest -Uri "http://localhost:5003" -Method GET
+```
+
+**Respuesta esperada**: Status 200 con JSON `{"status": "healthy", "server": "Exercise3SecureServer", ...}`
 
 ### 6.2 Prueba 1: Generar token (usuario con scope `read`)
 

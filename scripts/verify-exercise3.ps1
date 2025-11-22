@@ -73,15 +73,13 @@ function Test-Result {
 
 Write-Host "`n🔐 VERIFICACIÓN EJERCICIO 3: SECURE SERVER" -ForegroundColor Cyan
 Write-Host "=" * 60
-
-# Check connectivity
 Write-Host "`n🔌 Verificando conectividad..." -ForegroundColor Yellow
 try {
-    $response = Invoke-WebRequest -Uri $mcpEndpoint -Method POST -Body '{}' -UseBasicParsing -ErrorAction Stop
-    Write-Host "  ✅ Servidor accesible en $mcpEndpoint" -ForegroundColor Green
+    $response = Invoke-WebRequest -Uri $serverUrl -Method GET -TimeoutSec 2 -ErrorAction Stop
+    Write-Host "  ✅ Servidor accesible en $serverUrl" -ForegroundColor Green
 }
 catch {
-    Write-Host "  ❌ Error: No se puede conectar al servidor en $mcpEndpoint" -ForegroundColor Red
+    Write-Host "  ❌ Error: No se puede conectar al servidor en $serverUrl" -ForegroundColor Red
     Write-Host "  💡 Asegúrate de que el servidor esté ejecutándose: dotnet run --project src/McpWorkshop.Servers/Exercise3SecureServer" -ForegroundColor Yellow
     exit 1
 }

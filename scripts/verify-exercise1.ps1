@@ -152,7 +152,6 @@ Write-Host "══════════════════════�
 Write-Host "Server: $ServerUrl" -ForegroundColor Gray
 
 try {
-    # Verificar que el servidor está ejecutándose
     Write-Host "`n🔍 Verificando conectividad..." -ForegroundColor Yellow
     $null = Invoke-WebRequest -Uri $ServerUrl -Method GET -TimeoutSec 2 -ErrorAction Stop
     Write-Host "✅ Servidor accesible" -ForegroundColor Green

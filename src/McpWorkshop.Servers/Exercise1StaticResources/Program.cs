@@ -42,6 +42,15 @@ T[] LoadData<T>(string fileName) where T : class
     return data ?? Array.Empty<T>();
 }
 
+// Health check endpoint
+app.MapGet("/", () => Results.Ok(new
+{
+    status = "healthy",
+    server = "Exercise1StaticResources",
+    version = "1.0.0",
+    timestamp = DateTime.UtcNow
+}));
+
 // Endpoint MCP
 app.MapPost("/mcp", async (HttpContext context, PerformanceTracker tracker) =>
 {

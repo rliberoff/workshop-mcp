@@ -594,9 +594,17 @@ dotnet run
 
 Deberías ver:
 
-```
+```text
 info: Now listening on: http://localhost:5002
 ```
+
+#### 4.2 Verificar Health Check
+
+```powershell
+Invoke-WebRequest -Uri "http://localhost:5002" -Method GET
+```
+
+**Respuesta esperada**: Status 200 con JSON `{"status": "healthy", "server": "Exercise2ParametricQuery", ...}`
 
 #### 4.2 Prueba 1: Tools/List
 

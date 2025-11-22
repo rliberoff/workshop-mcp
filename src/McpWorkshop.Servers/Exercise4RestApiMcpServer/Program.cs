@@ -14,6 +14,15 @@ var app = builder.Build();
 
 Console.WriteLine("✅ RestApiMcpServer initialized");
 
+// Health check endpoint
+app.MapGet("/", () => Results.Ok(new
+{
+    status = "healthy",
+    server = "Exercise4RestApiMcpServer",
+    version = "1.0.0",
+    timestamp = DateTime.UtcNow
+}));
+
 app.MapPost("/mcp", async (HttpContext context) =>
 {
     using var reader = new StreamReader(context.Request.Body);
