@@ -129,7 +129,7 @@ dotnet run  # Puerto 5012
 
 -   [01 - Apertura](docs/modules/01b-apertura.md)
 -   [02 - Fundamentos](docs/modules/02b-fundamentos.md)
--   [03 - Anatomía de un Proveedor MCP + Ejercicio 1](docs/modules/03b-anatomia-proveedor.md)
+-   [03 - Ejercicio 1: Anatomía de un Proveedor MCP](docs/modules/03b-ejercicio-1-anatomia-proveedor.md)
 -   [04 - Ejercicio 2: Consultas Paramétricas](docs/modules/04b-ejercicio-2-consultas-parametricas.md)
 -   [05 - Ejercicio 3: Seguridad](docs/modules/05b-ejercicio-3-seguridad.md)
 -   [06 - Seguridad & Gobernanza](docs/modules/06b-seguridad-gobernanza.md)
