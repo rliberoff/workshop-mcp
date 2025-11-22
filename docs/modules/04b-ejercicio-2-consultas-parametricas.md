@@ -421,10 +421,10 @@ builder.Services.Configure<McpWorkshop.Shared.Configuration.WorkshopSettings>(op
 
 var app = builder.Build();
 
-// Cargar datos
-var customers = LoadData<Customer>("../../../Data/customers.json");
-var products = LoadData<Product>("../../../Data/products.json");
-var orders = LoadData<Order>("../../../Data/orders.json");
+// Variables para almacenar los datos cargados durante initialize
+List<Customer>? customers = null;
+List<Product>? products = null;
+List<Order>? orders = null;
 
 // Health check endpoint
 app.MapGet("/", (IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings) => Results.Ok(new
@@ -455,7 +455,7 @@ app.MapPost("/mcp", async (
     {
         var response = request.Method switch
         {
-            "initialize" => HandleInitialize(request.Id, settings),
+            "initialize" => HandleInitialize(request.Id, settings, ref customers, ref products, ref orders),
             "tools/list" => HandleToolsList(request.Id),
             "tools/call" => HandleToolsCall(request.Id, paramsDict, customers, products, orders),
             _ => CreateErrorResponse(-32601, "Method not found", null, request.Id)
@@ -474,8 +474,18 @@ app.MapPost("/mcp", async (
 app.Run("http://localhost:5002");
 
 // Handlers
-static JsonRpcResponse HandleInitialize(object? requestId, IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings)
+static JsonRpcResponse HandleInitialize(
+    object? requestId,
+    IOptions<McpWorkshop.Shared.Configuration.WorkshopSettings> settings,
+    ref List<Customer>? customers,
+    ref List<Product>? products,
+    ref List<Order>? orders)
 {
+    // Cargar datos durante la inicialización
+    customers = LoadData<Customer>("../../../Data/customers.json");
+    products = LoadData<Product>("../../../Data/products.json");
+    orders = LoadData<Order>("../../../Data/orders.json");
+
     return new JsonRpcResponse
     {
         JsonRpc = "2.0",
@@ -514,10 +524,16 @@ static JsonRpcResponse HandleToolsList(object? requestId)
 static JsonRpcResponse HandleToolsCall(
     object? requestId,
     IDictionary<string, object>? parameters,
-    List<Customer> customers,
-    List<Product> products,
-    List<Order> orders)
+    List<Customer>? customers,
+    List<Product>? products,
+    List<Order>? orders)
 {
+    // Validar que los datos estén inicializados
+    if (customers == null || products == null || orders == null)
+    {
+        throw new InvalidOperationException("Los datos no han sido inicializados. Debe llamar a 'initialize' primero.");
+    }
+
     // Parsear el nombre de la herramienta
     string? toolName = null;
     if (parameters != null && parameters.TryGetValue("name", out var nameValue))
@@ -615,7 +631,7 @@ info: Now listening on: http://localhost:5002
 Invoke-WebRequest -Uri "http://localhost:5002" -Method GET
 ```
 
-**Respuesta esperada**: Status 200 con JSON `{"status": "healthy", "server": "Exercise2ParametricQuery", ...}`
+**Respuesta esperada**: Status 200 con JSON `{"status": "healthy", "server": "Exercise2Server", ...}`
 
 #### 4.2 Prueba 1: Tools/List
 
@@ -644,15 +660,15 @@ $body = @{
     method = "tools/call"
     params = @{
         name = "search_customers"
-        arguments = @{ name = "John" }
+        arguments = @{ name = "Carlos" }
     }
     id = "call-search"
-} | ConvertTo-Json -Depth 10
+} | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:5002/mcp" -Method POST -Body $body -ContentType "application/json"
 ```
 
-**Resultado esperado**: Clientes con "John" en el nombre.
+**Resultado esperado**: Clientes con "Carlos" en el nombre.
 
 ✅ **PASS**
 
@@ -664,15 +680,15 @@ $body = @{
     method = "tools/call"
     params = @{
         name = "get_order_details"
-        arguments = @{ orderId = 1 }
+        arguments = @{ orderId = 1001 }
     }
     id = "call-order"
-} | ConvertTo-Json -Depth 10
+} | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:5002/mcp" -Method POST -Body $body -ContentType "application/json"
 ```
 
-**Resultado esperado**: Detalles del pedido #1 con información del cliente y producto.
+**Resultado esperado**: Detalles del pedido `1001` con información del cliente y producto.
 
 ✅ **PASS**
 
@@ -687,7 +703,7 @@ $body = @{
         arguments = @{ metricType = "sales" }
     }
     id = "call-metrics"
-} | ConvertTo-Json -Depth 10
+} | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:5002/mcp" -Method POST -Body $body -ContentType "application/json"
 ```

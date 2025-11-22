@@ -33,8 +33,32 @@ function Invoke-McpRequest {
     }
 }
 
+function Test-UninitializedAccess {
+    Write-Host "`n🧪 Test 1: Verificar error sin Initialize" -ForegroundColor Cyan
+    
+    $response = Invoke-McpRequest -Method "tools/call" -Params @{
+        name = "search_customers"
+        arguments = @{ name = "Test" }
+    }
+
+    if ($response -and $response.error) {
+        Write-Host "✅ Uninitialized Access: PASS" -ForegroundColor Green
+        Write-Host "   Error detectado correctamente: $($response.error.message)" -ForegroundColor Gray
+        return $true
+    }
+    elseif ($response -and $response.result) {
+        Write-Host "❌ Uninitialized Access: FAIL (se permitió acceso sin initialize)" -ForegroundColor Red
+        Write-Host "   El servidor debería rechazar requests antes de initialize" -ForegroundColor Yellow
+        return $false
+    }
+    else {
+        Write-Host "❌ Uninitialized Access: FAIL (respuesta inesperada)" -ForegroundColor Red
+        return $false
+    }
+}
+
 function Test-Initialize {
-    Write-Host "`n🧪 Test 1: Initialize" -ForegroundColor Cyan
+    Write-Host "`n🧪 Test 2: Initialize" -ForegroundColor Cyan
     
     $response = Invoke-McpRequest -Method "initialize" -Params @{
         protocolVersion = "2024-11-05"
@@ -44,7 +68,7 @@ function Test-Initialize {
         }
     }
 
-    if ($response -and $response.result.serverInfo.name -eq "Exercise2ParametricQuery") {
+    if ($response -and $response.result.serverInfo.name -like "Exercise2*") {
         Write-Host "✅ Initialize: PASS" -ForegroundColor Green
         Write-Host "   Server: $($response.result.serverInfo.name) v$($response.result.serverInfo.version)" -ForegroundColor Gray
         return $true
@@ -56,7 +80,7 @@ function Test-Initialize {
 }
 
 function Test-ToolsList {
-    Write-Host "`n🧪 Test 2: Tools/List" -ForegroundColor Cyan
+    Write-Host "`n🧪 Test 3: Tools/List" -ForegroundColor Cyan
     
     $response = Invoke-McpRequest -Method "tools/list"
 
@@ -85,26 +109,25 @@ function Test-ToolsList {
 }
 
 function Test-SearchCustomers {
-    Write-Host "`n🧪 Test 3: Tool Call - search_customers" -ForegroundColor Cyan
+    Write-Host "`n🧪 Test 4: Tool Call - search_customers" -ForegroundColor Cyan
     
     $response = Invoke-McpRequest -Method "tools/call" -Params @{
         name      = "search_customers"
         arguments = @{
-            country = "España"
+            name = "a"
         }
     }
 
-    if ($response -and $response.result) {
-        $data = $response.result.data
+    if ($response -and $response.result -and $response.result.content) {
+        $contentText = $response.result.content[0].text
         
-        if ($data.Count -ge 1) {
+        if ($contentText -match "Se encontraron \d+ cliente\(s\)") {
             Write-Host "✅ search_customers: PASS" -ForegroundColor Green
-            Write-Host "   Found: $($data.Count) customers in España" -ForegroundColor Gray
-            Write-Host "   Sample: $($data[0].name)" -ForegroundColor Gray
+            Write-Host "   Response: $($contentText.Substring(0, [Math]::Min(100, $contentText.Length)))..." -ForegroundColor Gray
             return $true
         }
         else {
-            Write-Host "❌ search_customers: FAIL (no customers found)" -ForegroundColor Red
+            Write-Host "❌ search_customers: FAIL (unexpected response format)" -ForegroundColor Red
             return $false
         }
     }
@@ -114,78 +137,74 @@ function Test-SearchCustomers {
     }
 }
 
-function Test-FilterProducts {
-    Write-Host "`n🧪 Test 4: Tool Call - filter_products" -ForegroundColor Cyan
+function Test-GetOrderDetails {
+    Write-Host "`n🧪 Test 5: Tool Call - get_order_details" -ForegroundColor Cyan
     
     $response = Invoke-McpRequest -Method "tools/call" -Params @{
-        name      = "filter_products"
+        name      = "get_order_details"
         arguments = @{
-            category    = "Electrónica"
-            inStockOnly = $true
+            orderId = 1001
         }
     }
 
-    if ($response -and $response.result) {
-        $data = $response.result.data
+    if ($response -and $response.result -and $response.result.content) {
+        $contentText = $response.result.content[0].text
         
-        if ($data.Count -ge 1) {
-            Write-Host "✅ filter_products: PASS" -ForegroundColor Green
-            Write-Host "   Found: $($data.Count) products in Electrónica" -ForegroundColor Gray
-            Write-Host "   Sample: $($data[0].name) - Stock: $($data[0].stock)" -ForegroundColor Gray
+        if ($contentText -match "Detalles del pedido #\d+") {
+            Write-Host "✅ get_order_details: PASS" -ForegroundColor Green
+            Write-Host "   Response: $($contentText.Substring(0, [Math]::Min(100, $contentText.Length)))..." -ForegroundColor Gray
             return $true
         }
         else {
-            Write-Host "❌ filter_products: FAIL (no products found)" -ForegroundColor Red
+            Write-Host "❌ get_order_details: FAIL (unexpected response format)" -ForegroundColor Red
             return $false
         }
     }
     else {
-        Write-Host "❌ filter_products: FAIL (no response)" -ForegroundColor Red
+        Write-Host "❌ get_order_details: FAIL (no response)" -ForegroundColor Red
         return $false
     }
 }
 
-function Test-AggregateSales {
-    Write-Host "`n🧪 Test 5: Tool Call - aggregate_sales" -ForegroundColor Cyan
+function Test-CalculateMetrics {
+    Write-Host "`n🧪 Test 6: Tool Call - calculate_metrics" -ForegroundColor Cyan
     
     $response = Invoke-McpRequest -Method "tools/call" -Params @{
-        name      = "aggregate_sales"
+        name      = "calculate_metrics"
         arguments = @{
-            period = "monthly"
+            metricType = "sales"
         }
     }
 
-    if ($response -and $response.result) {
-        $data = $response.result.data
+    if ($response -and $response.result -and $response.result.content) {
+        $contentText = $response.result.content[0].text
         
-        if ($data.summary.totalSales -gt 0) {
-            Write-Host "✅ aggregate_sales: PASS" -ForegroundColor Green
-            Write-Host "   Total Sales: $($data.summary.totalSales)" -ForegroundColor Gray
-            Write-Host "   Total Orders: $($data.summary.totalOrders)" -ForegroundColor Gray
-            Write-Host "   Periods: $($data.summary.periodCount)" -ForegroundColor Gray
+        if ($contentText -match "Total de ventas:") {
+            Write-Host "✅ calculate_metrics: PASS" -ForegroundColor Green
+            Write-Host "   Result: $contentText" -ForegroundColor Gray
             return $true
         }
         else {
-            Write-Host "❌ aggregate_sales: FAIL (no sales data)" -ForegroundColor Red
+            Write-Host "❌ calculate_metrics: FAIL (unexpected response format)" -ForegroundColor Red
             return $false
         }
     }
     else {
-        Write-Host "❌ aggregate_sales: FAIL (no response)" -ForegroundColor Red
+        Write-Host "❌ calculate_metrics: FAIL (no response)" -ForegroundColor Red
         return $false
     }
 }
 
 function Test-ParameterValidation {
-    Write-Host "`n🧪 Test 6: Parameter Validation - Invalid Period" -ForegroundColor Cyan
+    Write-Host "`n🧪 Test 7: Parameter Validation - Invalid Metric Type" -ForegroundColor Cyan
     
     $body = @{
         jsonrpc = "2.0"
         method  = "tools/call"
         params  = @{
-            name      = "aggregate_sales"
+            name      = "calculate_metrics"
             arguments = @{
-                period = "invalid_period"
+                metricType = "invalid_metric"
             }
         }
         id      = 99
@@ -200,7 +219,7 @@ function Test-ParameterValidation {
             return $true
         }
         else {
-            Write-Host "❌ Parameter Validation: FAIL (should return error for invalid period)" -ForegroundColor Red
+            Write-Host "❌ Parameter Validation: FAIL (should return error for invalid metric type)" -ForegroundColor Red
             return $false
         }
     }
@@ -228,11 +247,12 @@ catch {
 }
 
 # Ejecutar tests
+if (Test-UninitializedAccess) { $testsPassed++ } else { $testsFailed++ }
 if (Test-Initialize) { $testsPassed++ } else { $testsFailed++ }
 if (Test-ToolsList) { $testsPassed++ } else { $testsFailed++ }
 if (Test-SearchCustomers) { $testsPassed++ } else { $testsFailed++ }
-if (Test-FilterProducts) { $testsPassed++ } else { $testsFailed++ }
-if (Test-AggregateSales) { $testsPassed++ } else { $testsFailed++ }
+if (Test-GetOrderDetails) { $testsPassed++ } else { $testsFailed++ }
+if (Test-CalculateMetrics) { $testsPassed++ } else { $testsFailed++ }
 if (Test-ParameterValidation) { $testsPassed++ } else { $testsFailed++ }
 
 # Resumen
