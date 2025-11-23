@@ -217,6 +217,7 @@ public class SpanishQueryParser
         // Intent: Nuevos clientes
         if (query.Contains("clientes nuevos") || query.Contains("nuevos clientes"))
         {
+            var country = ExtractCountry(query);
             var city = ExtractCity(query);
             var since = ExtractDateRange(query) ?? DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-dd");
 
@@ -224,6 +225,7 @@ public class SpanishQueryParser
                 Intent: "new_customers",
                 Parameters: new Dictionary<string, string>
                 {
+                    { "country", country ?? "España" },
                     { "city", city ?? "all" },
                     { "since", since }
                 },
@@ -278,6 +280,31 @@ public class SpanishQueryParser
             Parameters: new Dictionary<string, string>(),
             RequiredServers: new List<string>()
         );
+    }
+
+    private string? ExtractCountry(string query)
+    {
+        var countries = new Dictionary<string, string>
+        {
+            { "españa", "España" },
+            { "spain", "España" },
+            { "méxico", "México" },
+            { "mexico", "México" },
+            { "argentina", "Argentina" },
+            { "chile", "Chile" },
+            { "colombia", "Colombia" },
+            { "perú", "Perú" },
+            { "peru", "Perú" }
+        };
+
+        foreach (var (key, value) in countries)
+        {
+            if (query.Contains(key))
+            {
+                return value;
+            }
+        }
+        return null;
     }
 
     private string? ExtractCity(string query)
@@ -401,10 +428,13 @@ public class OrchestratorService
     {
         // Single server: SQL - usa query_customers_by_country
         var sqlClient = _servers["sql"];
+        var country = parameters.GetValueOrDefault("country", "España");
+        var city = parameters.GetValueOrDefault("city", "all");
+
         var result = await sqlClient.CallToolAsync<dynamic>("query_customers_by_country", new
         {
-            country = "España",
-            city = parameters["city"]
+            country = country,
+            city = city != "all" ? city : null
         });
         return result ?? "No data";
     }
