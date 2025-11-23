@@ -36,7 +36,7 @@ Al terminar este bloque, los asistentes deben:
 **Antes de comenzar el ejercicio**:
 
 -   [ ] Detén el `Exercise1Server` si está corriendo (puerto 5001 libre)
--   [ ] Confirma que `Data/orders.json` existe (generado por `create-sample-data.ps1`)
+-   [ ] Confirma que `data/orders.json` existe (generado por `create-sample-data.ps1`)
 -   [ ] Prepara 3 terminales en VS Code:
     -   Terminal 1: Comandos de creación de proyecto
     -   Terminal 2: Ejecución del servidor (puerto 5002)
@@ -290,7 +290,7 @@ options.Server.Port = 5002;  // Diferente al Exercise1Server
 **2. Carga de datos (agrega orders)**:
 
 ```csharp
-var orders = LoadData<Order>("../../../Data/orders.json");
+var orders = LoadData<Order>("../../../data/orders.json");
 ```
 
 **3. Routing con tools**:

@@ -14,9 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 // Load data
-var customers = LoadData<Customer>("Data/customers.json");
-var products = LoadData<Product>("Data/products.json");
-var orders = LoadData<Order>("Data/orders.json");
+var customers = LoadData<Customer>("../../../data/customers.json");
+var products = LoadData<Product>("../../../data/products.json");
+var orders = LoadData<Order>("../../../data/orders.json");
 Console.WriteLine($"✅ Loaded {customers.Length} customers, {products.Length} products, {orders.Length} orders");
 
 // Health check endpoint

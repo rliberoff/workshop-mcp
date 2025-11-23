@@ -25,8 +25,9 @@ function Test-Result {
     }
 }
 
-Write-Host "`n🔐 VERIFICACIÓN EJERCICIO 3: SECURE SERVER" -ForegroundColor Cyan
-Write-Host ("=" * 50) -ForegroundColor Cyan
+Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+Write-Host " 🔐 Verificación: Ejercicio 3 - Secure Server" -ForegroundColor Cyan
+Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
 
 # Connectivity Check
 Write-Host "`n🔌 Verificando conectividad..." -ForegroundColor Yellow
@@ -278,7 +279,7 @@ try {
     } | ConvertTo-Json
 
     $response = Invoke-RestMethod -Uri $mcpEndpoint -Method POST -Body $body -ContentType "application/json"
-    $hasResources = $response.result.resources -ne $null
+    $hasResources = ($response.result.resources -ne $null) -and ($response.result.resources.Count -gt 0)
     Test-Result $hasResources "Método 'resources/list' es público"
 }
 catch {
@@ -294,7 +295,7 @@ try {
     } | ConvertTo-Json
 
     $response = Invoke-RestMethod -Uri $mcpEndpoint -Method POST -Body $body -ContentType "application/json"
-    $hasTools = $response.result.tools -ne $null
+    $hasTools = ($response.result.tools -ne $null) -and ($response.result.tools.Count -gt 0)
     Test-Result $hasTools "Método 'tools/list' es público"
 }
 catch {

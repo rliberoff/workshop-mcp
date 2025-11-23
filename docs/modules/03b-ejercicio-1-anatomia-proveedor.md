@@ -25,7 +25,7 @@ flowchart TB
     A["Program.cs<br/>(Entry Point)"]
     B["McpServerBase<br/>(Shared Library)"]
     C["DemoServer<br/>(Implementation)"]
-    D["Data/customers.json<br/>(Static Data)"]
+    D["data/customers.json<br/>(Static Data)"]
 
     A --> C
     C -.inherits.-> B
@@ -197,8 +197,8 @@ static JsonRpcResponse HandleInitialize(
     ref List<Product>? products)
 {
     // Cargar datos de muestra durante la inicialización
-    customers = LoadData<Customer>("../../../Data/customers.json");
-    products = LoadData<Product>("../../../Data/products.json");
+    customers = LoadData<Customer>("../../../data/customers.json");
+    products = LoadData<Product>("../../../data/products.json");
 
     return new JsonRpcResponse
     {
@@ -575,10 +575,10 @@ app.Run("http://localhost:5002");
 ```powershell
 # Verificar que ejecutaste el script de datos
 .\scripts\create-sample-data.ps1
-Get-Item Data/customers.json  # Debe existir
+Get-Item data/customers.json  # Debe existir
 
 # Ajustar ruta en LoadData si es necesario
-var customers = LoadData<Customer>("../../../../Data/customers.json");
+var customers = LoadData<Customer>("../../../../data/customers.json");
 ```
 
 ### Error: "JsonException: The JSON value could not be converted"
@@ -637,7 +637,7 @@ Si terminaste antes de los 30 minutos, prueba estas extensiones:
 ### Extensión 1: Agregar Recurso de Pedidos
 
 1. Crea `Models/Order.cs`
-2. Carga los datos: `var orders = LoadData<Order>("../../../Data/orders.json");`
+2. Carga los datos: `var orders = LoadData<Order>("../../../data/orders.json");`
 3. Agrega el recurso en `HandleResourcesList`
 4. Agrega el caso en `HandleResourcesRead`
 

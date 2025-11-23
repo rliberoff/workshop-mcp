@@ -157,6 +157,14 @@ public class McpServerClient
 }
 ```
 
+Crea `Models/QueryRequest.cs`:
+
+```csharp
+namespace Exercise4Server.Models;
+
+public record QueryRequest(string Query);
+```
+
 ---
 
 ### Paso 3: Query Parser (7 minutos)
@@ -288,9 +296,10 @@ public class SpanishQueryParser
 Crea `Orchestration/OrchestratorService.cs`:
 
 ```csharp
+using System.Collections.Concurrent;
+
 using Exercise4Server.Models;
 using Exercise4Server.Parsers;
-using System.Collections.Concurrent;
 
 namespace Exercise4Server.Orchestration;
 
@@ -449,6 +458,7 @@ public class OrchestratorService
 ### Paso 5: Program.cs (3 minutos)
 
 ```csharp
+using Exercise4Server.Models;
 using Exercise4Server.Orchestration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -462,9 +472,21 @@ app.MapPost("/query", async (QueryRequest request, OrchestratorService orchestra
     return Results.Ok(new { answer = result });
 });
 
+Console.WriteLine("✅ VirtualAnalyst Orchestrator running on http://localhost:5004/query");
+Console.WriteLine("📋 Intenciones soportadas:");
+Console.WriteLine("  - new_customers: '¿Cuántos clientes nuevos hay en Madrid?'");
+Console.WriteLine("  - abandoned_carts: '¿Usuarios con carrito abandonado últimas 24 horas?'");
+Console.WriteLine("  - order_status: '¿Estado del pedido 1001?'");
+Console.WriteLine("  - sales_summary: 'Resumen de ventas de esta semana'");
+Console.WriteLine("  - top_products: 'Top 10 productos más vendidos'");
+Console.WriteLine("\n🔧 Servidores MCP requeridos:");
+Console.WriteLine("  - SqlMcpServer (http://localhost:5010)");
+Console.WriteLine("  - CosmosMcpServer (http://localhost:5011)");
+Console.WriteLine("  - RestApiMcpServer (http://localhost:5012)");
 app.Run("http://localhost:5004");
 
-record QueryRequest(string Query);
+await app.RunAsync("http://localhost:5004");
+
 ```
 
 ---

@@ -17,7 +17,7 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string]$OutputPath = "./Data"
+    [string]$OutputPath = "./data"
 )
 
 # Crear directorio de salida si no existe

@@ -482,9 +482,9 @@ static JsonRpcResponse HandleInitialize(
     ref List<Order>? orders)
 {
     // Cargar datos durante la inicialización
-    customers = LoadData<Customer>("../../../Data/customers.json");
-    products = LoadData<Product>("../../../Data/products.json");
-    orders = LoadData<Order>("../../../Data/orders.json");
+    customers = LoadData<Customer>("../../../data/customers.json");
+    products = LoadData<Product>("../../../data/products.json");
+    orders = LoadData<Order>("../../../data/orders.json");
 
     return new JsonRpcResponse
     {
@@ -756,7 +756,7 @@ name = "search_customers"  # Debe ser exactamente este string
 **Solución**: Lista los IDs disponibles primero:
 
 ```powershell
-Get-Content Data/orders.json | ConvertFrom-Json | Select-Object -ExpandProperty Id
+Get-Content data/orders.json | ConvertFrom-Json | Select-Object -ExpandProperty Id
 ```
 
 Usa un ID válido en la prueba.

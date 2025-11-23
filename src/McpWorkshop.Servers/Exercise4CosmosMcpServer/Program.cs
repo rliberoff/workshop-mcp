@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 // Load data
-var sessions = LoadData<UserSession>("Data/sessions.json");
-var cartEvents = LoadData<CartEvent>("Data/cart-events.json");
+var sessions = LoadData<UserSession>("../../../data/sessions.json");
+var cartEvents = LoadData<CartEvent>("../../../data/cart-events.json");
 Console.WriteLine($"✅ Loaded {sessions.Length} sessions, {cartEvents.Length} cart events");
 
 // Health check endpoint

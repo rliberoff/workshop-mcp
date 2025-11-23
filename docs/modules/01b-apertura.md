@@ -223,7 +223,7 @@ mcp-workshop/
 │   └── scripts/
 │       ├── deploy.ps1            # Script de despliegue
 │       └── teardown.ps1          # Script de limpieza
-├── Data/                         # Datos generados (no en el repo)
+├── data/                         # Datos generados (no en el repo)
 ├── McpWorkshop.sln               # Solución de Visual Studio
 └── README.md                     # Guía de inicio rápido del repositorio
 ```

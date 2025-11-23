@@ -168,7 +168,7 @@ function Test-ResourceReadProducts {
 
 # Ejecutar tests
 Write-Host "═══════════════════════════════════════════════════" -ForegroundColor Cyan
-Write-Host " Verificación: Ejercicio 1 - Static Resources" -ForegroundColor Cyan
+Write-Host " 📦 Verificación: Ejercicio 1 - Static Resources" -ForegroundColor Cyan
 Write-Host "═══════════════════════════════════════════════════" -ForegroundColor Cyan
 Write-Host "Server: $ServerUrl" -ForegroundColor Gray
 

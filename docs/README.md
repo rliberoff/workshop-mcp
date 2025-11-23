@@ -248,7 +248,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 -   📜 [Contratos JSON](../specs/001-mcp-workshop-course/contracts/) - Especificaciones de cada ejercicio
 -   🧪 [Tests](../tests/McpWorkshop.Tests/) - 96 tests automatizados
 -   ☁️ [Terraform Modules](../infrastructure/terraform/) - Despliegue en Azure
--   📊 [Sample Data](../src/Data/) - Datos de ejemplo (clientes, productos, órdenes)
+-   📊 [Sample Data](../src/data/) - Datos de ejemplo (clientes, productos, órdenes)
 
 ---
 

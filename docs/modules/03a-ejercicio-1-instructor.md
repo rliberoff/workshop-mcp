@@ -25,7 +25,7 @@
 
 -   [ ] Terminal PowerShell abierta y visible (fuente 16-18pt)
 -   [ ] Visual Studio Code con solución `McpWorkshop.sln` cargada
--   [ ] Script `create-sample-data.ps1` ya ejecutado (Data/customers.json existe)
+-   [ ] Script `create-sample-data.ps1` ya ejecutado (data/customers.json existe)
 -   [ ] Segunda terminal preparada para pruebas (split screen)
 -   [ ] Snippets de código preparados (por si hay problemas de tipeo)
 -   [ ] Backup: Carpeta `DemoServer-backup/` con código completo
@@ -332,7 +332,7 @@ static JsonRpcResponse CreateErrorResponse(int code, string message, object? dat
 
 static List<Customer> LoadCustomers()
 {
-    var json = File.ReadAllText("../../../Data/customers.json");
+    var json = File.ReadAllText("../../../data/customers.json");
     return JsonSerializer.Deserialize<List<Customer>>(json) ?? new List<Customer>();
 }
 ```

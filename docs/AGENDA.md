@@ -120,8 +120,8 @@ Café, networking, verificar que todos siguen el ritmo.
 
 **Tarea**: Crear `Exercise1Server` que expone:
 
--   **Recurso**: `customers` (lee `Data/customers.json`)
--   **Recurso**: `products` (lee `Data/products.json`)
+-   **Recurso**: `customers` (lee `data/customers.json`)
+-   **Recurso**: `products` (lee `data/products.json`)
 -   Handlers: `initialize`, `resources/list`, `resources/read`
 
 **Criterios de éxito**:
@@ -444,10 +444,10 @@ ROI = ((Beneficio Anual - Costo Inversión) / Costo Inversión) × 100%
 **Causa**: Proceso previo no cerrado.  
 **Solución**: `Get-Process | Where-Object {$_.Path -like "*dotnet*"} | Stop-Process -Force`
 
-#### "No encuentro Data/customers.json"
+#### "No encuentro data/customers.json"
 
 **Causa**: Script `create-sample-data.ps1` no ejecutado.  
-**Solución**: Ejecutar script o compartir carpeta `Data/` completa.
+**Solución**: Ejecutar script o compartir carpeta `data/` completa.
 
 #### "Compilation error CS0246"
 

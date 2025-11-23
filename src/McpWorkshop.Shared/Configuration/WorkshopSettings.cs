@@ -89,5 +89,5 @@ public class DataSourceSettings
     public string CosmosConnectionString { get; set; } = string.Empty;
     public string CosmosDatabase { get; set; } = "workshop";
     public string BlobStorageConnectionString { get; set; } = string.Empty;
-    public string LocalDataPath { get; set; } = "./Data";
+    public string LocalDataPath { get; set; } = "../../../data";
 }

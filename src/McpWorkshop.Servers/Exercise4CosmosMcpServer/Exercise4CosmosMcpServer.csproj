@@ -14,10 +14,4 @@
         <ProjectReference Include="..\..\McpWorkshop.Shared\McpWorkshop.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <None Update="Data\*.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
 </Project>

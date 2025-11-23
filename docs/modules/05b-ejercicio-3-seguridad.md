@@ -637,7 +637,7 @@ static JsonRpcResponse HandleResourcesList(object? requestId)
         {
             resources = new[]
             {
-                new { uri = "mcp://secure-data", name = "Secure Data", description = "Datos protegidos (requiere scope 'read')", mimeType = "application/json" }
+                new { uri = "mcp://secure-data", name = "Secure Data", description = "Datos sensibles del sistema (lectura requiere scope 'read')", mimeType = "application/json" }
             }
         },
         Id = requestId
@@ -677,7 +677,7 @@ static JsonRpcResponse HandleToolsList(object? requestId)
                 new
                 {
                     name = "secure_action",
-                    description = "Acción protegida (requiere scope 'write')",
+                    description = "Ejecuta una acción protegida en el sistema (ejecución requiere scope 'write')",
                     inputSchema = new
                     {
                         type = "object",

@@ -231,7 +231,7 @@ function Test-ParameterValidation {
 
 # Ejecutar tests
 Write-Host "═══════════════════════════════════════════════════" -ForegroundColor Cyan
-Write-Host " Verificación: Ejercicio 2 - Parametric Query" -ForegroundColor Cyan
+Write-Host " 🧮 Verificación: Ejercicio 2 - Parametric Query" -ForegroundColor Cyan
 Write-Host "═══════════════════════════════════════════════════" -ForegroundColor Cyan
 Write-Host "Server: $ServerUrl" -ForegroundColor Gray
 

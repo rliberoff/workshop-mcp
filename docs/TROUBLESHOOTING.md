@@ -165,7 +165,7 @@ Get-ChildItem -Recurse *.json
 ```xml
 <!-- En .csproj, asegurar: -->
 <ItemGroup>
-  <Content Include="Data\**\*.json">
+  <Content Include="data\**\*.json">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Content>
 </ItemGroup>
@@ -179,7 +179,7 @@ var json = await File.ReadAllTextAsync("customers.json");
 
 // A:
 var basePath = AppContext.BaseDirectory;
-var json = await File.ReadAllTextAsync(Path.Combine(basePath, "Data", "customers.json"));
+var json = await File.ReadAllTextAsync(Path.Combine(basePath, "data", "customers.json"));
 ```
 
 **Opción C - Regenerar Sample Data**:
@@ -638,11 +638,11 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 **Opción B - Crear Datos Manualmente**:
 
 ```powershell
-# Crear carpeta Data si no existe:
-New-Item -Path ".\src\McpWorkshop.Servers\Exercise1StaticResources\Data" -ItemType Directory -Force
+# Crear carpeta data si no existe:
+New-Item -Path ".\src\McpWorkshop.Servers\Exercise1StaticResources\data" -ItemType Directory -Force
 
 # Copiar datos de referencia:
-Copy-Item ".\reference-data\*.json" -Destination ".\src\McpWorkshop.Servers\Exercise1StaticResources\Data\"
+Copy-Item ".\reference-data\*.json" -Destination ".\src\McpWorkshop.Servers\Exercise1StaticResources\data\"
 ```
 
 ---
