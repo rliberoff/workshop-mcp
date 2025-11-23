@@ -66,7 +66,7 @@ Copy-Item -Recurse src\McpWorkshop.Servers backup\solutions
 
 -   [ ] Repositorio accesible (GitHub/GitLab)
 -   [ ] Slides actualizadas con branding del evento
--   [ ] Datos de ejemplo generados (`.\scripts\create-sample-data.ps1`)
+-   [ ] Datos de ejemplo incluidos en `data/` del repositorio (customers.json, products.json, etc.)
 -   [ ] Tokens JWT pre-generados para Exercise 3
 -   [ ] Backup de código en USB (contingencia sin internet)
 

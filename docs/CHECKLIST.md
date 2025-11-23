@@ -65,16 +65,19 @@ Checklist de validación completa para instructores. Ejecutar 24 horas antes del
 
 ### 3. Datos de Muestra
 
--   [ ] **Datos de muestra generados**
+-   [ ] **Datos de muestra presentes en el repositorio**
 
     ```powershell
-    .\scripts\create-sample-data.ps1
+    # Verificar que los archivos de datos están presentes
+    Get-ChildItem data\*.json
+    # Debe mostrar: customers.json, products.json, orders.json, sessions.json, etc.
     ```
 
--   [ ] **Archivos JSON existen** en proyectos
+-   [ ] **Archivos JSON accesibles**
     ```powershell
-    Get-ChildItem -Recurse -Include "*.json" -Path .\src\McpWorkshop.Servers\Exercise*\Data
-    # Debe mostrar: customers.json, orders.json, products.json, regions.json
+    # Verificar contenido de un archivo de ejemplo
+    Get-Content data\customers.json | ConvertFrom-Json | Measure-Object
+    # Debe mostrar varios registros
     ```
 
 ### 4. Validación de Ejercicios

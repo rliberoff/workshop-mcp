@@ -141,8 +141,13 @@ infrastructure/                         # Azure provisioning
 
 scripts/                                # Workshop utilities
 ├── verify-setup.ps1                   # Pre-workshop environment check
-├── create-sample-data.ps1             # Generate test datasets
 └── run-all-tests.ps1                  # Execute full test suite
+
+data/                                   # Sample datasets (included in repository)
+├── customers.json
+├── products.json
+├── orders.json
+└── (other JSON files)
 
 .github/
 ├── copilot-instructions.md            # Repository instructions

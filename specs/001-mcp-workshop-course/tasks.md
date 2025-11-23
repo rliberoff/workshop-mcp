@@ -39,7 +39,7 @@
 -   [x] T007 [P] Implement logging abstractions in src/McpWorkshop.Shared/Logging/StructuredLogger.cs
 -   [x] T008 [P] Implement configuration helpers in src/McpWorkshop.Shared/Configuration/WorkshopSettings.cs
 -   [x] T009 [P] Create base MCP server abstractions in src/McpWorkshop.Shared/Mcp/McpServerBase.cs
--   [x] T010 Create sample data generator script in scripts/create-sample-data.ps1 for customers, products, orders, sessions
+-   [x] ~~T010 Create sample data generator script~~ (OBSOLETE: Data files now included in repository)
 -   [x] T011 Create environment verification script in scripts/verify-setup.ps1 (validates .NET 10.0, NuGet packages, ports)
 -   [x] T012 Create xUnit test project McpWorkshop.Tests.csproj in tests/McpWorkshop.Tests/
 -   [x] T013 [P] Setup test utilities in tests/McpWorkshop.Tests/Helpers/McpTestClient.cs for protocol validation
@@ -388,9 +388,8 @@ git checkout -b feature/ex1-starter
 git checkout -b feature/ex1-reference
 # Complete T048
 
-# Team Member C: Create sample data (parallel with B)
-git checkout -b feature/ex1-data
-# Complete T049, T050 in parallel
+# Team Member C: (Previously: sample data - now obsolete)
+# Data files are included in repository
 
 # Team Member D: Create verification script (parallel with B, C)
 git checkout -b feature/ex1-verification

@@ -216,14 +216,13 @@ mcp-workshop/
 │   ├── verify-exercise2.ps1      # Valida Ejercicio 2
 │   ├── verify-exercise3.ps1      # Valida Ejercicio 3
 │   ├── verify-exercise4.ps1      # Valida Ejercicio 4
-│   ├── create-sample-data.ps1    # Genera datos de muestra
 │   └── run-all-tests.ps1         # Ejecuta todos los tests
 ├── infrastructure/
 │   ├── terraform/                # Módulos de Terraform para Azure
 │   └── scripts/
 │       ├── deploy.ps1            # Script de despliegue
 │       └── teardown.ps1          # Script de limpieza
-├── data/                         # Datos generados (no en el repo)
+├── data/                         # Datos de ejemplo (incluidos en el repo)
 ├── McpWorkshop.sln               # Solución de Visual Studio
 └── README.md                     # Guía de inicio rápido del repositorio
 ```

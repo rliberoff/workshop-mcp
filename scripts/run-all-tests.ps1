@@ -66,7 +66,7 @@ $TestProject = Join-Path $SolutionRoot "tests\McpWorkshop.Tests\McpWorkshop.Test
 $CoverageDir = Join-Path $SolutionRoot "coverage"
 
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "MCP Workshop - Test Execution Script" -ForegroundColor Cyan
+Write-Host " 🧪 MCP Workshop - Test Execution Script" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 

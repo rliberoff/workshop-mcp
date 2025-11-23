@@ -1,0 +1,47 @@
+[
+  {
+    "status": "completed",
+    "productId": 101,
+    "quantity": 1,
+    "id": 1001,
+    "orderDate": "2024-06-01T10:00:00Z",
+    "customerId": 1,
+    "totalAmount": 1299.99
+  },
+  {
+    "status": "completed",
+    "productId": 102,
+    "quantity": 2,
+    "id": 1002,
+    "orderDate": "2024-06-02T14:30:00Z",
+    "customerId": 2,
+    "totalAmount": 59.98
+  },
+  {
+    "status": "pending",
+    "productId": 104,
+    "quantity": 1,
+    "id": 1003,
+    "orderDate": "2024-06-03T09:15:00Z",
+    "customerId": 1,
+    "totalAmount": 349.99
+  },
+  {
+    "status": "shipped",
+    "productId": 105,
+    "quantity": 1,
+    "id": 1004,
+    "orderDate": "2024-06-04T16:45:00Z",
+    "customerId": 4,
+    "totalAmount": 79.99
+  },
+  {
+    "status": "completed",
+    "productId": 101,
+    "quantity": 1,
+    "id": 1005,
+    "orderDate": "2024-06-05T11:20:00Z",
+    "customerId": 5,
+    "totalAmount": 1299.99
+  }
+]

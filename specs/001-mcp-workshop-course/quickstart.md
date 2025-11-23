@@ -169,26 +169,24 @@ dotnet build
 
 ---
 
-## Step 5: Setup Sample Data
+## Step 5: Verify Sample Data
 
-Run the data generation script to create local JSON files for exercises:
+The repository includes sample data files for all exercises. Verify they are present:
 
 ```powershell
 # From repository root
-.\scripts\create-sample-data.ps1
+Get-ChildItem data/*.json
 
 # Expected output:
-# ✓ Created ./data/customers.json (100 records)
-# ✓ Created ./data/products.json (50 records)
-# ✓ Created ./data/orders.json (200 records)
-# ✓ Created ./data/analytics.json (500 events)
+# customers.json, products.json, orders.json, sessions.json
+# cart-events.json, abandoned-carts.json
 ```
 
-**Verify data files:**
+**Note**: These files are included in the repository and do not need to be generated.
 
 ```bash
 ls -l data/
-# Expected: customers.json, products.json, orders.json, analytics.json
+# Expected: customers.json, products.json, orders.json, etc.
 ```
 
 ---
@@ -476,8 +474,8 @@ dotnet restore --force --no-cache
 # macOS/Linux: Use Docker container
 docker pull mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
 
-# Download sample datasets
-.\scripts\create-sample-data.ps1 --offline-mode
+# Sample datasets are included in the repository (data/ folder)
+# No additional setup needed
 ```
 
 ---

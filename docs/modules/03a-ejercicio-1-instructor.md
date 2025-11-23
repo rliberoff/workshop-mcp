@@ -25,7 +25,7 @@
 
 -   [ ] Terminal PowerShell abierta y visible (fuente 16-18pt)
 -   [ ] Visual Studio Code con solución `McpWorkshop.sln` cargada
--   [ ] Script `create-sample-data.ps1` ya ejecutado (data/customers.json existe)
+-   [ ] Verificar que los datos de ejemplo existen en `data/` (customers.json, products.json, etc.)
 -   [ ] Segunda terminal preparada para pruebas (split screen)
 -   [ ] Snippets de código preparados (por si hay problemas de tipeo)
 -   [ ] Backup: Carpeta `DemoServer-backup/` con código completo

@@ -36,7 +36,7 @@ Al terminar este bloque, los asistentes deben:
 **Antes de comenzar el ejercicio**:
 
 -   [ ] Detén el `Exercise1Server` si está corriendo (puerto 5001 libre)
--   [ ] Confirma que `data/orders.json` existe (generado por `create-sample-data.ps1`)
+-   [ ] Confirma que `data/orders.json` existe (incluido en el repositorio)
 -   [ ] Prepara 3 terminales en VS Code:
     -   Terminal 1: Comandos de creación de proyecto
     -   Terminal 2: Ejecución del servidor (puerto 5002)

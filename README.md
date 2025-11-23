@@ -48,12 +48,11 @@ cd mcp-workshop
 # 2. Verificar entorno
 .\scripts\verify-setup.ps1
 
-# 3. Generar datos de ejemplo
-.\scripts\create-sample-data.ps1
-
-# 4. Construir solución
+# 3. Construir solución
 dotnet build McpWorkshop.sln
 ```
+
+> **Nota**: Los datos de ejemplo (`customers.json`, `products.json`, `orders.json`, etc.) están incluidos en la carpeta `data/` del repositorio.
 
 ### Ejecutar Ejercicios
 
@@ -196,7 +195,6 @@ mcp-workshop/
 │
 ├── scripts/                       # Scripts de automatización
 │   ├── verify-setup.ps1          # Verificación de prerrequisitos
-│   ├── create-sample-data.ps1    # Generación de datos de ejemplo
 │   ├── verify-exercise1.ps1      # Validación Ejercicio 1
 │   ├── verify-exercise2.ps1      # Validación Ejercicio 2
 │   ├── verify-exercise3.ps1      # Validación Ejercicio 3

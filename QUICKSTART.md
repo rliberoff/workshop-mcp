@@ -19,20 +19,28 @@ cd mcp-workshop
 # 2. Verificar el entorno
 .\scripts\verify-setup.ps1
 
-# 3. Generar datos de ejemplo
-.\scripts\create-sample-data.ps1
-
-# 4. Construir la solución
+# 3. Construir la solución
 dotnet build McpWorkshop.sln
 ```
 
+> **Nota**: Los datos de ejemplo están incluidos en `data/` (customers.json, products.json, orders.json, etc.).
+
 **Salida esperada del script de verificación**:
 
-```
-✓ .NET SDK 10.0.x detectado
-✓ PowerShell 7.x detectado
-✓ Puertos 5000-5012 disponibles
-✓ Paquetes NuGet restaurados correctamente
+```text
+✓ [REQUERIDO] .NET SDK - Versión correcta instalada
+✓ [REQUERIDO] PowerShell - PowerShell 7+ instalado
+✓ [REQUERIDO] Puertos TCP - Puertos 5000-5003 disponibles
+✓ [REQUERIDO] NuGet Sources - NuGet.org configurado correctamente
+✓ [REQUERIDO] Azure CLI - Azure CLI 2.80.0+ instalado
+✓ [REQUERIDO] Terraform - Terraform 1.14.0+ instalado
+✓ [REQUERIDO] Git - Git instalado
+
+========================================
+Estado general: PASS
+========================================
+
+✅ El entorno está listo para el taller MCP
 ```
 
 ---

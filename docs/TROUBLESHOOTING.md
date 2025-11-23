@@ -182,11 +182,14 @@ var basePath = AppContext.BaseDirectory;
 var json = await File.ReadAllTextAsync(Path.Combine(basePath, "data", "customers.json"));
 ```
 
-**Opción C - Regenerar Sample Data**:
+**Opción C - Verificar Clonado del Repositorio**:
 
 ```powershell
-.\scripts\create-sample-data.ps1
-# Crea todos los JSON necesarios
+# Verificar que los archivos de datos están presentes
+Get-ChildItem data/*.json
+# Deben existir: customers.json, products.json, orders.json, etc.
+
+# Si no existen, re-clonar el repositorio
 ```
 
 ---
@@ -614,28 +617,38 @@ return new
 
 ## 💾 Problemas de Datos
 
-### 13. Los datos de muestra no se generan
+### 13. Los datos de muestra no están presentes
 
 **Síntomas**:
 
 ```powershell
-.\scripts\create-sample-data.ps1
-# No output, archivos no creados
+# Error al buscar archivos de datos
+Get-Item data/customers.json
+# Error: Cannot find path
 ```
 
 **Soluciones**:
 
-**Opción A - ExecutionPolicy Bloqueada**:
+**Opción A - Verificar Clonado Completo**:
 
 ```powershell
-# Verificar policy actual:
-Get-ExecutionPolicy
+# Verificar que los archivos de datos existen
+Get-ChildItem data/*.json
 
-# Si es Restricted, cambiar temporalmente:
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+# Si no existen, el repositorio no se clonó correctamente
+# Re-clonar o hacer git pull
+git pull origin main
 ```
 
-**Opción B - Crear Datos Manualmente**:
+**Opción B - Verificar .gitignore**:
+
+```powershell
+# Asegurar que data/ no está en .gitignore
+Get-Content .gitignore | Select-String "data"
+# No debe aparecer "Data/" o "data/"
+```
+
+**Opción C - Crear Datos Manualmente (si es necesario)**:
 
 ```powershell
 # Crear carpeta data si no existe:

@@ -573,10 +573,10 @@ app.Run("http://localhost:5002");
 ### Error: "Cannot find customers.json"
 
 ```powershell
-# Verificar que ejecutaste el script de datos
-.\scripts\create-sample-data.ps1
+# Verificar que el archivo existe (incluido en el repositorio)
 Get-Item data/customers.json  # Debe existir
 
+# Si no existe, verifica que clonaste el repositorio correctamente
 # Ajustar ruta en LoadData si es necesario
 var customers = LoadData<Customer>("../../../../data/customers.json");
 ```

@@ -1,0 +1,37 @@
+[
+  {
+    "price": 1299.99,
+    "category": "Informática",
+    "inStock": true,
+    "name": "Laptop Pro 15",
+    "id": 101
+  },
+  {
+    "price": 29.99,
+    "category": "Accesorios",
+    "inStock": true,
+    "name": "Mouse Inalámbrico",
+    "id": 102
+  },
+  {
+    "price": 89.99,
+    "category": "Accesorios",
+    "inStock": false,
+    "name": "Teclado Mecánico",
+    "id": 103
+  },
+  {
+    "price": 349.99,
+    "category": "Informática",
+    "inStock": true,
+    "name": "Monitor 27 pulgadas",
+    "id": 104
+  },
+  {
+    "price": 79.99,
+    "category": "Electrónica",
+    "inStock": true,
+    "name": "Webcam HD",
+    "id": 105
+  }
+]
