@@ -1,5 +1,7 @@
 # Bloque 9: Ejercicio 5 - Agente de IA con Microsoft Agent Framework (30 minutos)
 
+**⚠️ Requisito**: Necesitas tener un recurso **Azure OpenAI** configurado y accesible (endpoint y API key) para poder completar este ejercicio. Consulta con el instructor si no tienes acceso.
+
 **Tipo**: Ejercicio individual con soporte grupal  
 **Duración**: 30 minutos  
 **Nivel**: Avanzado - Integración de conceptos  
@@ -19,7 +21,23 @@ Al completar este ejercicio, habrás:
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ Arquitectura
+
+```text
+Usuario (Lenguaje Natural en Español)
+    ↓
+Microsoft Agent Framework (AIAgent)
+    ↓
+Function Calling → Selecciona herramientas MCP
+    ↓
+╔═══════════════╦═══════════════╦═══════════════╗
+║  SQL Server   ║  Cosmos DB    ║  REST API     ║
+║  MCP Client   ║  MCP Client   ║  MCP Client   ║
+╠═══════════════╬═══════════════╬═══════════════╣
+║  Clientes     ║  Carritos     ║  Productos    ║
+║  Pedidos      ║  Sesiones     ║  Inventario   ║
+╚═══════════════╩═══════════════╩═══════════════╝
+```
 
 ```mermaid
 flowchart TB
@@ -107,8 +125,8 @@ Crea el proyecto del agente:
 ```powershell
 # Crear proyecto
 cd src/McpWorkshop.Servers
-dotnet new console -n Exercise5AgentServer -f net10.0
-cd Exercise5AgentServer
+dotnet new console -n Exercise5Agent -f net10.0
+cd Exercise5Agent
 
 # Agregar referencias necesarias
 dotnet add package Azure.AI.OpenAI --prerelease
@@ -121,7 +139,7 @@ dotnet add package Microsoft.Extensions.Configuration.EnvironmentVariables
 
 # Agregar a la solución
 cd ../../..
-dotnet sln add src/McpWorkshop.Servers/Exercise5AgentServer/Exercise5AgentServer.csproj
+dotnet sln add src/McpWorkshop.Servers/Exercise5Agent/Exercise5Agent.csproj
 ```
 
 **✅ Checkpoint**: Proyecto creado y agregado a la solución.
@@ -167,7 +185,7 @@ Crea `McpClientHelper.cs` para gestionar conexiones a los servidores MCP:
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Client.Transports;
 
-namespace Exercise5AgentServer;
+namespace Exercise5Agent;
 
 /// <summary>
 /// Helper para crear y gestionar clientes MCP que se conectan a servidores HTTP
@@ -288,7 +306,7 @@ using Azure.Identity;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.Configuration;
 using ModelContextProtocol.Client;
-using Exercise5AgentServer;
+using Exercise5Agent;
 
 // Cargar configuración
 var config = new ConfigurationBuilder()
@@ -459,7 +477,7 @@ dotnet run
 
 ```powershell
 # Terminal 4: Agente
-cd src/McpWorkshop.Servers/Exercise5AgentServer
+cd src/McpWorkshop.Servers/Exercise5Agent
 dotnet run
 ```
 

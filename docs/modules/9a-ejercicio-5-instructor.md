@@ -1,5 +1,7 @@
 # Bloque 9: Ejercicio 5 - Guía para Instructores
 
+**⚠️ Requisito**: Es imprescindible contar con un recurso **Azure OpenAI** configurado y accesible para realizar este ejercicio. Asegúrate de que los alumnos tengan el endpoint y la API key antes de comenzar.
+
 **Duración**: 30 minutos  
 **Dificultad**: Avanzada  
 **Prerequisitos**: Ejercicios 1, 2 y 3 completados
@@ -14,6 +16,24 @@ Este ejercicio es la **culminación del taller**, donde los alumnos:
 2. **Aplican** el Microsoft Agent Framework para crear agentes conversacionales
 3. **Experimentan** con IA generativa en un contexto empresarial real
 4. **Comprenden** la arquitectura de sistemas multi-agente con herramientas MCP
+
+## 🏗️ Arquitectura
+
+```text
+Usuario (Lenguaje Natural en Español)
+    ↓
+Microsoft Agent Framework (AIAgent)
+    ↓
+Function Calling → Selecciona herramientas MCP
+    ↓
+╔═══════════════╦═══════════════╦═══════════════╗
+║  SQL Server   ║  Cosmos DB    ║  REST API     ║
+║  MCP Client   ║  MCP Client   ║  MCP Client   ║
+╠═══════════════╬═══════════════╬═══════════════╣
+║  Clientes     ║  Carritos     ║  Productos    ║
+║  Pedidos      ║  Sesiones     ║  Inventario   ║
+╚═══════════════╩═══════════════╩═══════════════╝
+```
 
 ---
 
