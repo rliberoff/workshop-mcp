@@ -1,58 +1,79 @@
 [
     {
         "userId": "user_1",
-        "productId": 101,
+        "productId": 102,
         "action": "addToCart",
-        "timestamp": "2024-06-10T08:30:00Z",
-        "quantity": 1
-    },
-    {
-        "userId": "user_1",
-        "productId": 101,
-        "action": "checkout",
-        "timestamp": "2024-06-10T08:40:00Z",
+        "timestamp": "2025-11-23T07:00:00Z",
         "quantity": 1
     },
     {
         "userId": "user_2",
-        "productId": 102,
+        "productId": 103,
         "action": "addToCart",
-        "timestamp": "2024-06-10T09:45:00Z",
+        "timestamp": "2025-11-23T03:00:00Z",
+        "quantity": 1
+    },
+    {
+        "userId": "user_3",
+        "productId": 101,
+        "action": "addToCart",
+        "timestamp": "2025-11-22T15:00:00Z",
+        "quantity": 1
+    },
+    {
+        "userId": "user_3",
+        "productId": 104,
+        "action": "addToCart",
+        "timestamp": "2025-11-22T15:15:00Z",
+        "quantity": 1
+    },
+    {
+        "userId": "user_4",
+        "productId": 105,
+        "action": "addToCart",
+        "timestamp": "2025-11-21T15:00:00Z",
         "quantity": 2
     },
     {
-        "userId": "user_2",
-        "productId": 103,
+        "userId": "user_4",
+        "productId": 106,
         "action": "addToCart",
-        "timestamp": "2024-06-10T09:55:00Z",
+        "timestamp": "2025-11-21T15:10:00Z",
         "quantity": 1
     },
     {
-        "userId": "user_2",
-        "productId": 103,
-        "action": "removeFromCart",
-        "timestamp": "2024-06-10T09:58:00Z",
-        "quantity": 1
-    },
-    {
-        "userId": "user_1",
-        "productId": 104,
+        "userId": "user_5",
+        "productId": 107,
         "action": "addToCart",
-        "timestamp": "2024-06-11T14:30:00Z",
+        "timestamp": "2025-11-20T15:00:00Z",
+        "quantity": 3
+    },
+    {
+        "userId": "user_5",
+        "productId": 108,
+        "action": "addToCart",
+        "timestamp": "2025-11-20T15:20:00Z",
         "quantity": 1
     },
     {
-        "userId": "user_3",
+        "userId": "user_6",
         "productId": 101,
         "action": "addToCart",
-        "timestamp": "2024-06-11T16:00:00Z",
+        "timestamp": "2025-11-23T14:00:00Z",
         "quantity": 1
     },
     {
-        "userId": "user_3",
-        "productId": 104,
+        "userId": "user_6",
+        "productId": 101,
+        "action": "checkout",
+        "timestamp": "2025-11-23T14:30:00Z",
+        "quantity": 1
+    },
+    {
+        "userId": "user_7",
+        "productId": 102,
         "action": "addToCart",
-        "timestamp": "2024-06-11T16:20:00Z",
+        "timestamp": "2025-11-19T10:00:00Z",
         "quantity": 1
     }
 ]

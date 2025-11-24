@@ -1,8 +1,22 @@
 [
   {
-    "abandonedAt": "2024-06-10T10:00:00Z",
-    "daysAgo": 7,
+    "abandonedAt": "2025-11-23T07:00:00Z",
+    "hoursAgo": 8,
     "id": "cart_001",
+    "userId": "user_1",
+    "totalValue": 249.99,
+    "items": [
+      {
+        "price": 249.99,
+        "quantity": 1,
+        "productId": 102
+      }
+    ]
+  },
+  {
+    "abandonedAt": "2025-11-23T03:00:00Z",
+    "hoursAgo": 12,
+    "id": "cart_002",
     "userId": "user_2",
     "totalValue": 89.99,
     "items": [
@@ -14,9 +28,9 @@
     ]
   },
   {
-    "abandonedAt": "2024-06-11T16:30:00Z",
-    "daysAgo": 6,
-    "id": "cart_002",
+    "abandonedAt": "2025-11-22T15:00:00Z",
+    "hoursAgo": 24,
+    "id": "cart_003",
     "userId": "user_3",
     "totalValue": 1649.98,
     "items": [
@@ -29,6 +43,44 @@
         "price": 349.99,
         "quantity": 1,
         "productId": 104
+      }
+    ]
+  },
+  {
+    "abandonedAt": "2025-11-21T15:00:00Z",
+    "hoursAgo": 48,
+    "id": "cart_004",
+    "userId": "user_4",
+    "totalValue": 549.98,
+    "items": [
+      {
+        "price": 199.99,
+        "quantity": 2,
+        "productId": 105
+      },
+      {
+        "price": 149.99,
+        "quantity": 1,
+        "productId": 106
+      }
+    ]
+  },
+  {
+    "abandonedAt": "2025-11-20T15:00:00Z",
+    "hoursAgo": 72,
+    "id": "cart_005",
+    "userId": "user_5",
+    "totalValue": 399.97,
+    "items": [
+      {
+        "price": 79.99,
+        "quantity": 3,
+        "productId": 107
+      },
+      {
+        "price": 159.99,
+        "quantity": 1,
+        "productId": 108
       }
     ]
   }

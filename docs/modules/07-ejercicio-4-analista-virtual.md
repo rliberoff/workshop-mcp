@@ -236,13 +236,13 @@ public class SpanishQueryParser
         // Intent: Carritos abandonados
         if (query.Contains("carrito") && (query.Contains("abandonado") || query.Contains("abandonaron")))
         {
-            var timeRange = query.Contains("24 horas") || query.Contains("24h") ? "24h" : "7d";
+            var hours = ExtractHours(query);
+            var timeRange = hours > 0 ? $"{hours}h" : "24h";
 
             return new ParsedQuery(
                 Intent: "abandoned_carts",
                 Parameters: new Dictionary<string, string>
                 {
-                    { "behaviorType", "cart_abandonment" },
                     { "timeRange", timeRange }
                 },
                 RequiredServers: new List<string> { "cosmos" }
@@ -318,6 +318,25 @@ public class SpanishQueryParser
             }
         }
         return null;
+    }
+
+    private int ExtractHours(string query)
+    {
+        // Buscar patrones como "últimas 24 horas", "últimas 72 horas", etc.
+        var match = System.Text.RegularExpressions.Regex.Match(query, @"últimas?\s+(\d+)\s+horas?");
+        if (match.Success && int.TryParse(match.Groups[1].Value, out var hours))
+        {
+            return hours;
+        }
+
+        // Buscar patrones como "24h", "72h"
+        match = System.Text.RegularExpressions.Regex.Match(query, @"(\d+)h");
+        if (match.Success && int.TryParse(match.Groups[1].Value, out hours))
+        {
+            return hours;
+        }
+
+        return 0; // No se encontró
     }
 
     private string? ExtractOrderId(string query)
@@ -443,7 +462,16 @@ public class OrchestratorService
     {
         // Single server: Cosmos - usa get_abandoned_carts
         var cosmosClient = _servers["cosmos"];
-        var hours = parameters["timeRange"] == "24h" ? 24 : 168; // 24h o 7 días
+
+        // Extraer horas del parámetro timeRange (formato: "24h", "72h", etc.)
+        var timeRange = parameters.GetValueOrDefault("timeRange", "24h");
+        var hours = 24; // Default
+
+        if (timeRange.EndsWith("h") && int.TryParse(timeRange.TrimEnd('h'), out var parsedHours))
+        {
+            hours = parsedHours;
+        }
+
         var result = await cosmosClient.CallToolAsync<dynamic>("get_abandoned_carts", new
         {
             hours = hours
@@ -606,7 +634,30 @@ $body = @{ query = "¿Qué usuarios abandonaron carritos en las últimas 24 hora
 Invoke-RestMethod -Uri "http://localhost:5004/query" -Method POST -Body $body -ContentType "application/json"
 ```
 
-### Prueba 3: Caching
+**Resultado esperado**: Query parseado como `abandoned_carts`, servidor Cosmos invocado con `hours=24`.
+
+### Prueba 3: Resumen de ventas (Patrón paralelo)
+
+```powershell
+$body = @{ query = "Dame un resumen de ventas de esta semana más productos más vendidos" } | ConvertTo-Json
+Invoke-RestMethod -Uri "http://localhost:5004/query" -Method POST -Body $body -ContentType "application/json"
+```
+
+**Resultado esperado**: Query parseado como `sales_summary`, servidores SQL y REST API invocados en paralelo.
+
+### Prueba 4: Estado de pedido (Patrón secuencial)
+
+```powershell
+$body = @{ query = "¿Cuál es el estado del pedido #1001?" } | ConvertTo-Json
+Invoke-RestMethod -Uri "http://localhost:5004/query" -Method POST -Body $body -ContentType "application/json"
+```
+
+**Resultado esperado**: Query parseado como `order_status`, patrón secuencial:
+
+1. Primero consulta SQL MCP para obtener detalles del pedido
+2. Luego usa esos datos para consultar REST API MCP (inventario y envío)
+
+### Prueba 5: Caching
 
 Ejecuta la misma query dos veces rápidamente:
 
@@ -650,6 +701,95 @@ Invoke-RestMethod -Uri "http://localhost:5004/query" -Method POST -Body $body -C
 3. **Patrones de Ejecución**: Paralelo vs Secuencial según dependencias
 4. **Caching Estratégico**: TTL para reducir latencia en queries frecuentes
 5. **Manejo de Errores**: Fallbacks cuando servidores no responden
+
+---
+
+## 📐 Comparación Visual: Paralelo vs Secuencial
+
+### Patrón Paralelo (ExecuteSalesSummaryAsync)
+
+```text
+Timeline:
+0ms ────────> Task.WhenAll inicia
+              ├── SQL: get_sales_summary (500ms)
+              └── REST: get_top_products (300ms)
+500ms ──────> ✅ Ambos completan (toma el máximo)
+
+Total: ~500ms
+```
+
+**Código**:
+
+```csharp
+var salesTask = sqlClient.CallToolAsync<dynamic>("get_sales_summary", new { });
+var topProductsTask = restClient.CallToolAsync<dynamic>("get_top_products", new { limit = 5 });
+
+await Task.WhenAll(salesTask, topProductsTask); // Espera a que AMBOS completen
+
+return new
+{
+    sales = salesTask.Result,        // Ya completado
+    topProducts = topProductsTask.Result  // Ya completado
+};
+```
+
+**¿Cuándo usar?**: Consultas **independientes** que no dependen entre sí.
+
+---
+
+### Patrón Secuencial (ExecuteOrderStatusAsync)
+
+```text
+Timeline:
+0ms ────────> SQL: get_order_details (200ms)
+200ms ──────> ✅ Order recibido, extraer productId
+              REST: check_inventory con productId (300ms)
+500ms ──────> ✅ Inventory recibido
+              REST: get_shipping_status con orderId (200ms)
+700ms ──────> ✅ Shipping recibido
+
+Total: ~700ms (suma de todas las llamadas)
+```
+
+**Código**:
+
+```csharp
+// 1️⃣ Primero: Obtener detalles del pedido
+var order = await sqlClient.CallToolAsync<dynamic>("get_order_details", new
+{
+    orderId = int.Parse(parameters["orderId"])
+});
+
+// 2️⃣ Segundo: Usar productId del pedido para consultar inventario
+var inventory = await restClient.CallToolAsync<dynamic>("check_inventory", new
+{
+    productId = order.ProductId  // ⬅️ DEPENDE del resultado anterior
+});
+
+// 3️⃣ Tercero: Consultar estado de envío
+var shipping = await restClient.CallToolAsync<dynamic>("get_shipping_status", new
+{
+    orderId = parameters["orderId"]
+});
+
+return new { order, inventory, shipping };
+```
+
+**¿Cuándo usar?**: Consultas **dependientes** donde una necesita datos de la anterior.
+
+---
+
+### Comparación de Tiempos
+
+| Patrón         | Tiempo Total    | Uso de Red               | Caso de Uso                       |
+| -------------- | --------------- | ------------------------ | --------------------------------- |
+| **Paralelo**   | ~500ms (máximo) | 2 conexiones simultáneas | Resumen de ventas + top productos |
+| **Secuencial** | ~700ms (suma)   | 1 conexión a la vez      | Pedido → Inventario → Envío       |
+
+**Regla de oro**:
+
+-   Si los datos **NO dependen entre sí** → **Paralelo** (Task.WhenAll)
+-   Si una consulta **necesita resultados de otra** → **Secuencial** (await en cadena)
 
 ---
 
