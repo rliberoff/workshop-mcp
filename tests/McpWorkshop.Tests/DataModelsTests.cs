@@ -150,11 +150,10 @@ public class DataModelsTests
         var session = new UserSession
         {
             UserId = "user-123",
-            SessionStart = new DateTime(2024, 1, 1, 10, 0, 0, DateTimeKind.Utc),
-            SessionEnd = new DateTime(2024, 1, 1, 11, 0, 0, DateTimeKind.Utc),
-            PageViews = 25,
-            Actions = 15,
-            LastPage = "/checkout"
+            StartTime = new DateTime(2024, 1, 1, 10, 0, 0, DateTimeKind.Utc),
+            EndTime = new DateTime(2024, 1, 1, 11, 0, 0, DateTimeKind.Utc),
+            PagesViewed = 25,
+            Actions = new[] { "view", "click", "scroll", "add_to_cart", "view", "click", "scroll", "checkout", "view", "click", "scroll", "remove_from_cart", "view", "click", "purchase" }
         };
 
         // Act
@@ -164,9 +163,8 @@ public class DataModelsTests
         // Assert
         Assert.NotNull(deserialized);
         Assert.Equal(session.UserId, deserialized.UserId);
-        Assert.Equal(session.PageViews, deserialized.PageViews);
+        Assert.Equal(session.PagesViewed, deserialized.PagesViewed);
         Assert.Equal(session.Actions, deserialized.Actions);
-        Assert.Equal(session.LastPage, deserialized.LastPage);
     }
 
     [Fact]
@@ -202,9 +200,8 @@ public class DataModelsTests
 
         // Assert
         Assert.Equal(string.Empty, session.UserId);
-        Assert.Equal(0, session.PageViews);
-        Assert.Equal(0, session.Actions);
-        Assert.Equal(string.Empty, session.LastPage);
+        Assert.Equal(0, session.PagesViewed);
+        Assert.Empty(session.Actions);
     }
 
     [Fact]

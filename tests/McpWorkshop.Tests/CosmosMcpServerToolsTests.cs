@@ -101,11 +101,10 @@ public class CosmosMcpServerToolsTests
             new UserSession
             {
                 UserId = "user-456",
-                SessionStart = DateTime.Now.AddHours(-2),
-                SessionEnd = DateTime.Now.AddHours(-1),
-                PageViews = 10,
-                Actions = 5,
-                LastPage = "/checkout"
+                StartTime = DateTime.Now.AddHours(-2),
+                EndTime = DateTime.Now.AddHours(-1),
+                PagesViewed = 10,
+                Actions = new[] { "view", "click", "scroll", "add_to_cart", "checkout" }
             }
         };
         var cartEvents = new[]
@@ -138,20 +137,18 @@ public class CosmosMcpServerToolsTests
             new UserSession
             {
                 UserId = "user-123",
-                SessionStart = new DateTime(2024, 1, 1, 10, 0, 0),
-                SessionEnd = new DateTime(2024, 1, 1, 10, 30, 0),
-                PageViews = 15,
-                Actions = 8,
-                LastPage = "/products"
+                StartTime = new DateTime(2024, 1, 1, 10, 0, 0, DateTimeKind.Utc),
+                EndTime = new DateTime(2024, 1, 1, 10, 30, 0, DateTimeKind.Utc),
+                PagesViewed = 15,
+                Actions = new[] { "view", "click", "scroll", "add_to_cart", "view", "click", "scroll", "checkout" }
             },
             new UserSession
             {
                 UserId = "user-123",
-                SessionStart = new DateTime(2024, 1, 2, 14, 0, 0),
-                SessionEnd = new DateTime(2024, 1, 2, 14, 45, 0),
-                PageViews = 20,
-                Actions = 12,
-                LastPage = "/cart"
+                StartTime = new DateTime(2024, 1, 2, 14, 0, 0, DateTimeKind.Utc),
+                EndTime = new DateTime(2024, 1, 2, 14, 45, 0, DateTimeKind.Utc),
+                PagesViewed = 20,
+                Actions = new[] { "view", "click", "scroll", "add_to_cart", "view", "click", "scroll", "checkout", "view", "click", "scroll", "remove_from_cart" }
             }
         };
     }
@@ -163,17 +160,17 @@ public class CosmosMcpServerToolsTests
             new CartEvent
             {
                 UserId = "user-123",
-                ProductId = 1,
+                ProductId = 101,
                 Action = "addToCart",
-                Timestamp = new DateTime(2024, 1, 1, 10, 15, 0),
+                Timestamp = new DateTime(2024, 1, 1, 10, 15, 0, DateTimeKind.Utc),
                 Quantity = 2
             },
             new CartEvent
             {
                 UserId = "user-123",
-                ProductId = 2,
-                Action = "addToCart",
-                Timestamp = new DateTime(2024, 1, 2, 14, 20, 0),
+                ProductId = 202,
+                Action = "checkout",
+                Timestamp = new DateTime(2024, 1, 2, 14, 20, 0, DateTimeKind.Utc),
                 Quantity = 1
             }
         };
