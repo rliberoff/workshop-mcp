@@ -36,11 +36,12 @@ Este taller intensivo de 3 horas te enseñará a crear servidores MCP (Model Con
 | **[7. Ejercicio 4: Analista Virtual](#bloque-7-ejercicio-4-25-min)**       | 128-153 min | 25 min   | Ejercicio Grupo | Orquestación multi-fuente                       |
 | **🔄 Descanso**                                                            | 153-156 min | 3 min    | -               | Formar equipos                                  |
 | **[8. Orquestación Multi-Fuente](#bloque-8-orquestacion-15-min)**          | 156-171 min | 15 min   | Sesión          | Patrones: paralelo, secuencial, caching         |
-| **[9. Roadmap y Casos B2B](#bloque-9-roadmap-10-min)**                     | 171-181 min | 10 min   | Business        | ROI, casos reales, monetización                 |
-| **[10. Cierre y Retrospectiva](#bloque-10-cierre-10-min)**                 | 181-191 min | 10 min   | Cierre          | Retrospectiva 3-2-1, Q&A, próximos pasos        |
-| **Buffer**                                                                 | 196-200 min | 4 min    | -               | Tiempo reserva para atrasos                     |
+| **[9. Ejercicio 5: Agente con MAF](#bloque-9-ejercicio-5-30-min)**         | 171-201 min | 30 min   | Ejercicio       | Agente IA con Microsoft Agent Framework         |
+| **[10. Roadmap y Casos B2B](#bloque-10-roadmap-10-min)**                   | 201-211 min | 10 min   | Business        | ROI, casos reales, monetización                 |
+| **[11. Cierre y Retrospectiva](#bloque-11-cierre-10-min)**                 | 211-221 min | 10 min   | Cierre          | Retrospectiva 3-2-1, Q&A, próximos pasos        |
+| **Buffer**                                                                 | 221-230 min | 9 min    | -               | Tiempo reserva para atrasos                     |
 
-**Tiempo total**: 196 minutos efectivos + 4 min buffer = **200 min (3h 20m asignados)**
+**Tiempo total**: 221 minutos efectivos + 9 min buffer = **230 min (3h 50m asignados)**
 
 ---
 
@@ -104,7 +105,7 @@ flowchart LR
 
 **Código resultado**: `DemoServer` funcional con recursos estáticos.
 
-**[📄 Documentación completa →](./modules/03b-anatomia-proveedor.md)**
+**[📄 Documentación completa →](./modules/03b-ejercicio-1-anatomia-proveedor.md)**
 
 ---
 
@@ -132,7 +133,7 @@ Café, networking, verificar que todos siguen el ritmo.
 
 **Tiempo**: 15 minutos guiados con checkpoints cada 3 minutos.
 
-**[📄 Documentación completa →](./modules/03b-anatomia-proveedor.md)** _(Fusionado: Demostración + Ejercicio guiado)_
+**[📄 Documentación completa →](./modules/03b-ejercicio-1-anatomia-proveedor.md)** _(Fusionado: Demostración + Ejercicio guiado)_
 
 ---
 
@@ -154,7 +155,7 @@ Café, networking, verificar que todos siguen el ritmo.
 
 **Tiempo**: 20 minutos semi-independientes con soporte roaming.
 
-**[📄 Documentación completa →](./modules/05b-ejercicio-2-consultas-parametricas.md)**
+**[📄 Documentación completa →](./modules/04b-ejercicio-2-consultas-parametricas.md)**
 
 ---
 
@@ -190,7 +191,7 @@ Pausa breve, estirar piernas.
 
 **Tiempo**: 20 minutos con plantillas pre-creadas.
 
-**[📄 Documentación completa →](./modules/06b-ejercicio-3-seguridad.md)**
+**[📄 Documentación completa →](./modules/05b-ejercicio-3-seguridad.md)**
 
 ---
 
@@ -222,7 +223,7 @@ flowchart LR
 
 **Checklist producción**: 30+ items (autenticación, autorización, comunicación, auditoría, infraestructura, compliance).
 
-**[📄 Documentación completa →](./modules/07b-seguridad-gobernanza.md)**
+**[📄 Documentación completa →](./modules/06b-seguridad-gobernanza.md)**
 
 ---
 
@@ -259,7 +260,7 @@ Crear `Exercise4VirtualAnalyst` que:
 
 **Tiempo**: 25 minutos (desafío más complejo del taller).
 
-**[📄 Documentación completa →](./modules/08-ejercicio-4-analista-virtual.md)**
+**[📄 Documentación completa →](./modules/07-ejercicio-4-analista-virtual.md)**
 
 ---
 
@@ -282,11 +283,55 @@ Crear `Exercise4VirtualAnalyst` que:
 -   Paralelo: **500ms** (3x más rápido)
 -   Paralelo + Cache: **50ms** (30x más rápido)
 
-**[📄 Documentación completa →](./modules/09-orquestacion-multifuente.md)**
+**[📄 Documentación completa →](./modules/08-orquestacion-multifuente.md)**
 
 ---
 
-### Bloque 9: Roadmap y Casos B2B (10 min)
+### Bloque 9: Ejercicio 5 - Agente con Microsoft Agent Framework (30 min)
+
+**Objetivo**: Crear un agente conversacional inteligente que integra los MCP servers creados en ejercicios anteriores.
+
+**Tarea** (Individual/Parejas):
+Crear `Exercise5AgentServer` que:
+
+1. **Conecta con los 3 servidores MCP** (SQL, Cosmos, REST API)
+2. **Descubre herramientas automáticamente** usando `ListToolsAsync()`
+3. **Crea un agente conversacional** con Microsoft Agent Framework
+4. **Entiende preguntas en lenguaje natural** en español
+5. **Mantiene contexto** entre mensajes (conversación multi-turno)
+
+**Ejemplos de conversaciones**:
+
+```
+Usuario: "¿Cuántos clientes tenemos en Madrid?"
+Agente:  [Usa herramienta list_customers_by_city]
+         "Actualmente hay 342 clientes registrados en Madrid."
+
+Usuario: "¿Y en toda España?"
+Agente:  [Mantiene contexto, usa list_customers_by_country]
+         "En total tenemos 1,247 clientes en España."
+```
+
+**Conceptos clave**:
+
+-   **Microsoft Agent Framework (MAF)**: Framework para crear agentes conversacionales
+-   **Function Calling**: LLM decide qué herramienta MCP usar
+-   **AgentThread**: Mantiene el contexto de la conversación
+-   **Transport Layer**: HTTP vs Stdio para conectar con MCP servers
+
+**Componentes**:
+
+-   `McpClientHelper.cs`: Helper para conectar a servidores MCP
+-   `appsettings.json`: Configuración de Azure OpenAI y servidores MCP
+-   `Program.cs`: Loop de conversación interactivo
+
+**Tiempo**: 30 minutos (ejercicio de culminación del taller).
+
+**[📄 Documentación completa →](./modules/9b-ejercicio-5-agente-maf.md)**
+
+---
+
+### Bloque 10: Roadmap y Casos B2B (10 min)
 
 **Objetivo**: Conectar MCP con valor de negocio y oportunidades comerciales.
 

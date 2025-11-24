@@ -1,4 +1,4 @@
-# Bloque 10: Cierre y Retrospectiva (10 minutos)
+# Bloque 11: Cierre y Retrospectiva (10 minutos)
 
 **Tipo**: Cierre interactivo  
 **Duración**: 10 minutos (5 min retrospectiva + 5 min Q&A/buffer)  

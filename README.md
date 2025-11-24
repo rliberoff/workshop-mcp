@@ -116,6 +116,23 @@ dotnet run  # Puerto 5012
 .\scripts\verify-exercise4.ps1
 ```
 
+#### Ejercicio 5: Agente con Microsoft Agent Framework
+
+```powershell
+# Asegúrate de que los 3 servidores MCP estén corriendo
+# (Exercise4SqlMcpServer, Exercise4CosmosMcpServer, Exercise4RestApiMcpServer)
+
+# Configurar Azure OpenAI endpoint en appsettings.json
+cd src\McpWorkshop.Servers\Exercise5AgentServer
+code appsettings.json  # Actualiza tu endpoint y deployment
+
+# Ejecutar el agente
+dotnet run
+
+# Verificar
+.\scripts\verify-exercise5.ps1
+```
+
 ## 📖 Documentación
 
 -   **[Agenda Completa](docs/AGENDA.md)** - Cronograma detallado del taller
@@ -134,8 +151,9 @@ dotnet run  # Puerto 5012
 -   [06 - Seguridad & Gobernanza](docs/modules/06b-seguridad-gobernanza.md)
 -   [07 - Ejercicio 4: Analista Virtual](docs/modules/07-ejercicio-4-analista-virtual.md)
 -   [08 - Orquestación Multi-Fuente](docs/modules/08-orquestacion-multifuente.md)
--   [09 - Roadmap & Casos B2B](docs/modules/09-roadmap-casos-b2b.md)
--   [10 - Cierre](docs/modules/10-cierre.md)
+-   [09 - Ejercicio 5: Agente con Microsoft Agent Framework](docs/modules/9b-ejercicio-5-agente-maf.md)
+-   [10 - Roadmap & Casos B2B](docs/modules/10-roadmap-casos-b2b.md)
+-   [11 - Cierre](docs/modules/11-cierre.md)
 
 ## 🏗️ Estructura del Proyecto
 
@@ -145,14 +163,13 @@ mcp-workshop/
 │   ├── modules/                   # 11 módulos educativos (teoría + ejercicios)
 │   │   ├── 01b-apertura.md
 │   │   ├── 02b-fundamentos.md
-│   │   ├── 03b-anatomia-proveedor.md
-│   │   ├── 04b-ejercicio-1-recursos-estaticos.md (eliminado, fusionado en 03b)
-│   │   ├── 05b-ejercicio-2-consultas-parametricas.md
-│   │   ├── 06b-ejercicio-3-seguridad.md
-│   │   ├── 07b-seguridad-gobernanza.md
-│   │   ├── 08-ejercicio-4-analista-virtual.md
-│   │   ├── 09-orquestacion-multifuente.md
-│   │   ├── 10-roadmap-casos-b2b.md
+│   │   ├── 03b-ejercicio-1-anatomia-proveedor.md
+│   │   ├── 04b-ejercicio-2-consultas-parametricas.md
+│   │   ├── 05b-ejercicio-3-seguridad.md
+│   │   ├── 06b-seguridad-gobernanza.md
+│   │   ├── 07-ejercicio-4-analista-virtual.md
+│   │   ├── 08-orquestacion-multifuente.md
+│   │   ├── 09-roadmap-casos-b2b.md
 │   │   └── 11-cierre.md
 │   ├── AGENDA.md                  # Cronograma detallado 180 minutos
 │   ├── INSTRUCTOR_HANDBOOK.md     # Guía para instructores
@@ -169,6 +186,7 @@ mcp-workshop/
 │       ├── Exercise4CosmosMcpServer/      # Puerto 5010: Servidor MCP para Cosmos
 │       ├── Exercise4RestApiMcpServer/     # Puerto 5011: Servidor MCP para REST APIs
 │       ├── Exercise4VirtualAnalyst/       # Puerto 5012: Orquestador principal
+│       ├── Exercise5AgentServer/          # Agente con Microsoft Agent Framework
 │       └── McpWorkshop.Shared/            # Utilidades compartidas
 │
 ├── tests/                         # Suite de pruebas
@@ -258,7 +276,7 @@ mcp-workshop/
 .\scripts\verify-exercise1.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/03b-anatomia-proveedor.md)** _(Fusionado con demostración en vivo)_
+**[📄 Guía completa →](docs/modules/03b-ejercicio-1-anatomia-proveedor.md)** _(Fusionado con demostración en vivo)_
 
 ---
 
@@ -288,7 +306,7 @@ mcp-workshop/
 .\scripts\verify-exercise2.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/05b-ejercicio-2-consultas-parametricas.md)**
+**[📄 Guía completa →](docs/modules/04b-ejercicio-2-consultas-parametricas.md)**
 
 ---
 
@@ -319,7 +337,7 @@ mcp-workshop/
 .\scripts\verify-exercise3.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/06b-ejercicio-3-seguridad.md)**
+**[📄 Guía completa →](docs/modules/05b-ejercicio-3-seguridad.md)**
 
 ---
 
@@ -366,7 +384,29 @@ Usuario (español) → Orquestador → [SQL Server | Cosmos DB | REST API]
 .\scripts\verify-exercise4.ps1
 ```
 
-**[📄 Guía completa →](docs/modules/08-ejercicio-4-analista-virtual.md)**
+**[📄 Guía completa →](docs/modules/07-ejercicio-4-analista-virtual.md)**
+
+### Ejercicio 5: Agente con Microsoft Agent Framework (30 min)
+
+**Objetivo**: Crear un agente conversacional inteligente que integra los MCP servers creados en ejercicios anteriores.
+
+**Conceptos clave**:
+
+-   Integración de múltiples servidores MCP (SQL, Cosmos, REST API)
+-   Descubrimiento automático de herramientas (`ListToolsAsync()`)
+-   Microsoft Agent Framework (MAF) para agentes conversacionales
+-   Comprensión de lenguaje natural en español
+-   Mantenimiento de contexto conversacional (multi-turno)
+
+**Servidor**: `Exercise5AgentServer`
+
+**Verificación**:
+
+```powershell
+./scripts/verify-exercise5.ps1
+```
+
+**[📄 Guía completa →](docs/modules/9b-ejercicio-5-agente-maf.md)**
 
 ## 🛠️ Tecnologías
 
