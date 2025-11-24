@@ -602,52 +602,10 @@ await app.RunAsync("http://localhost:5004");
 
 **📝 Nota sobre Tools MCP**: Los servidores `Exercise4SqlMcpServer`, `Exercise4CosmosMcpServer` y `Exercise4RestApiMcpServer` ya están implementados con todos los tools necesarios:
 
--   **SQL Server**: `query_customers_by_country`, `get_sales_summary`, `get_order_details`
--   **Cosmos Server**: `get_abandoned_carts`
--   **REST API Server**: `check_inventory`, `get_shipping_status`, `get_top_products`
+-   **SQL Server**: `query_customers_by_country`, `get_sales_summary` y `get_order_details`
+-   **Cosmos Server**: `get_abandoned_carts` y `analyze_user_behavior`
+-   **REST API Server**: `check_inventory`, `get_shipping_status` y `get_top_products`
 
-> **💡 Detalles de Implementación - Tool `get_order_details`**:
->
-> Este tool es especialmente importante para el patrón secuencial. Su implementación en `Exercise4SqlMcpServer/Tools/GetOrderDetailsTool.cs` incluye:
->
-> ```csharp
-> public static object Execute(Dictionary<string, JsonElement> arguments, Order[] orders, Customer[] customers, Product[] products)
-> {
->     var orderId = arguments["orderId"].GetInt32();
->     var order = orders.FirstOrDefault(o => o.Id == orderId);
->
->     if (order == null)
->     {
->         return new { found = false, message = $"No se encontró el pedido con ID {orderId}" };
->     }
->
->     var customer = customers.FirstOrDefault(c => c.Id == order.CustomerId);
->     var product = products.FirstOrDefault(p => p.Id == order.ProductId);
->
->     return new
->     {
->         found = true,
->         order = new
->         {
->             id = order.Id,
->             customerId = order.CustomerId,
->             customerName = customer?.Name ?? "Unknown",
->             productId = order.ProductId,
->             productName = product?.Name ?? "Unknown",
->             quantity = order.Quantity,
->             totalAmount = order.TotalAmount,
->             orderDate = order.OrderDate,
->             status = order.Status
->         }
->     };
-> }
-> ```
->
-> **Características clave**:
->
-> -   Retorna estructura con `found` (boolean) para validar si el pedido existe
-> -   Enriquece la respuesta con datos de `Customer` y `Product` usando JOINs en memoria
-> -   El orquestador usa `orderResponse.TryGetProperty("found", ...)` para validar antes de continuar
 
 ```powershell
 # Terminal 1: SQL Server

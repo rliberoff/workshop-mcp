@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Exercise4CosmosMcpServer.Models;
 using Exercise4CosmosMcpServer.Tools;
 
@@ -128,8 +125,9 @@ app.MapPost("/mcp", async (HttpContext context) =>
 
 Console.WriteLine("✅ CosmosMcpServer running on http://localhost:5011/mcp");
 Console.WriteLine("📊 Resources: user-sessions, cart-events");
-Console.WriteLine("🔧 Tools: get_abandoned_carts, analyze_user_behavior");
-app.Run("http://localhost:5011");
+Console.WriteLine("🔧 Tools: get_abandoned_carts, analyze_user_behavior \n");
+
+await app.RunAsync("http://localhost:5011");
 
 T[] LoadData<T>(string path)
 {

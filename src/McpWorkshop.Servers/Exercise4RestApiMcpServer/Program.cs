@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Exercise4RestApiMcpServer.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -96,10 +93,11 @@ app.MapPost("/mcp", async (HttpContext context) =>
 });
 
 Console.WriteLine("✅ RestApiMcpServer running on http://localhost:5012/mcp");
-Console.WriteLine("🔧 Tools: check_inventory, get_shipping_status, get_top_products");
-app.Run("http://localhost:5012");
+Console.WriteLine("🔧 Tools: check_inventory, get_shipping_status, get_top_products \n");
 
-object HandleToolCall(JsonElement request)
+await app.RunAsync("http://localhost:5012");
+
+static object HandleToolCall(JsonElement request)
 {
     var paramsObj = request.GetProperty("params");
     var toolName = paramsObj.GetProperty("name").GetString();
