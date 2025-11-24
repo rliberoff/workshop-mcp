@@ -32,7 +32,7 @@ flowchart TB
 
     Cache[(Cache<br/>TTL 5 min)]
 
-    User -->|"¿Cuántos clientes nuevos<br/>hubo en Madrid?"| Orchestrator
+    User -->|"¿Cuántos clientes nuevos<br/>hubo en España?"| Orchestrator
     Orchestrator -->|Query Parser| Orchestrator
     Orchestrator -.->|Check cache| Cache
     Orchestrator -->|Paralelo| SQL
@@ -60,11 +60,11 @@ flowchart TB
 
 **Ejemplos de preguntas** (del contrato):
 
-1. **"¿Cuántos clientes nuevos registrados en Madrid este mes?"**
+1. **"¿Cuántos clientes nuevos registrados en España este mes?"**
 
     - Servidor: SQL MCP
     - Método: `tools/call` → `query_customers_by_country`
-    - Parámetros: `{ country: "España", city: "Madrid" }`
+    - Parámetros: `{ country: "España" }`
 
 2. **"¿Qué usuarios abandonaron carritos en las últimas 24 horas?"**
 
@@ -507,7 +507,7 @@ public class OrchestratorService
 
         var shipping = await restClient.CallToolAsync<dynamic>("get_shipping_status", new
         {
-            orderId = parameters["orderId"]
+            orderId = int.Parse(parameters["orderId"])
         });
 
         return new
@@ -578,7 +578,7 @@ app.MapPost("/query", async (QueryRequest request, OrchestratorService orchestra
 
 Console.WriteLine("✅ VirtualAnalyst Orchestrator running on http://localhost:5004/query");
 Console.WriteLine("📋 Intenciones soportadas:");
-Console.WriteLine("  - new_customers: '¿Cuántos clientes nuevos hay en Madrid?'");
+Console.WriteLine("  - new_customers: '¿Cuántos clientes nuevos hay en España?'");
 Console.WriteLine("  - abandoned_carts: '¿Usuarios con carrito abandonado últimas 24 horas?'");
 Console.WriteLine("  - order_status: '¿Estado del pedido 1001?'");
 Console.WriteLine("  - sales_summary: 'Resumen de ventas de esta semana'");
@@ -676,10 +676,10 @@ dotnet run
 
 ---
 
-### Prueba 1: Clientes nuevos en Madrid
+### Prueba 1: Clientes nuevos en España
 
 ```powershell
-$body = @{ query = "¿Cuántos clientes nuevos registrados en Madrid este mes?" } | ConvertTo-Json
+$body = @{ query = "¿Cuántos clientes nuevos registrados en España este mes?" } | ConvertTo-Json
 Invoke-RestMethod -Uri "http://localhost:5004/query" -Method POST -Body $body -ContentType "application/json"
 ```
 
@@ -721,7 +721,7 @@ Ejecuta la misma query dos veces rápidamente:
 
 ```powershell
 # Primera vez: consulta real
-$body = @{ query = "¿Cuántos clientes nuevos en Madrid?" } | ConvertTo-Json
+$body = @{ query = "¿Cuántos clientes nuevos en España?" } | ConvertTo-Json
 Invoke-RestMethod -Uri "http://localhost:5004/query" -Method POST -Body $body -ContentType "application/json"
 
 # Segunda vez: desde cache (debe responder con [CACHE])
@@ -908,6 +908,42 @@ var inventory = await restClient.CallToolAsync<dynamic>("check_inventory", new
     productId = order.GetProperty("productId").GetInt32()
 });
 ```
+
+---
+
+#### Error: "requires an element of type 'Number', but the target element has type 'String'"
+
+**Síntoma**: Al ejecutar la Prueba 4 (estado de pedido), recibes un error sobre tipos incompatibles:
+
+```json
+{
+    "answer": "❌ Error al ejecutar la consulta: MCP Server error: Internal error: The requested operation requires an element of type 'Number', but the target element has type 'String'."
+}
+```
+
+**Causa**: El parámetro `orderId` se está enviando como `string` al tool `get_shipping_status`, pero este espera un `number` (int).
+
+**Solución**: Asegúrate de convertir el `orderId` a `int` antes de pasarlo:
+
+```csharp
+// ❌ INCORRECTO - Envía string
+var shipping = await restClient.CallToolAsync<dynamic>("get_shipping_status", new
+{
+    orderId = parameters["orderId"]  // ⬅️ Esto es un string
+});
+
+// ✅ CORRECTO - Convierte a int
+var shipping = await restClient.CallToolAsync<dynamic>("get_shipping_status", new
+{
+    orderId = int.Parse(parameters["orderId"])  // ⬅️ Convierte a int
+});
+```
+
+**Regla general**: Siempre revisa el schema del tool en el servidor para conocer el tipo esperado:
+
+-   `"type": "number"` → usa `int.Parse()` o `.GetInt32()`
+-   `"type": "string"` → usa el valor directo
+-   `"type": "boolean"` → usa `bool.Parse()` o `.GetBoolean()`
 
 ---
 

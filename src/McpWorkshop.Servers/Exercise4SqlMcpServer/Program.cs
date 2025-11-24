@@ -94,7 +94,8 @@ app.MapPost("/mcp", async (HttpContext context) =>
                 tools = new[]
                 {
                     QueryCustomersByCountryTool.GetDefinition(),
-                    GetSalesSummaryTool.GetDefinition()
+                    GetSalesSummaryTool.GetDefinition(),
+                    GetOrderDetailsTool.GetDefinition()
                 }
             },
 
@@ -125,8 +126,9 @@ app.MapPost("/mcp", async (HttpContext context) =>
 
 Console.WriteLine("✅ SqlMcpServer running on http://localhost:5010/mcp");
 Console.WriteLine("📊 Resources: customers, orders, products");
-Console.WriteLine("🔧 Tools: query_customers_by_country, get_sales_summary");
-app.Run("http://localhost:5010");
+Console.WriteLine("🔧 Tools: query_customers_by_country, get_sales_summary, get_order_details \n");
+
+await app.RunAsync("http://localhost:5010");
 
 T[] LoadData<T>(string path)
 {
@@ -181,6 +183,7 @@ object HandleToolCall(JsonElement request)
     {
         "query_customers_by_country" => QueryCustomersByCountryTool.Execute(arguments, customers),
         "get_sales_summary" => GetSalesSummaryTool.Execute(arguments, orders),
+        "get_order_details" => GetOrderDetailsTool.Execute(arguments, orders, customers, products),
         _ => throw new InvalidOperationException($"Unknown tool: {toolName}")
     };
 }
