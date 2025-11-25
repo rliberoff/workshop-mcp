@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ###
 
-# Pruab 1: Tools/List
+# Prueba 1: Tools/List
 POST http://localhost:5002/mcp
 Content-Type: application/json
 
