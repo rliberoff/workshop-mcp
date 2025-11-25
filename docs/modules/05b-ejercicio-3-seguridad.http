@@ -1,0 +1,138 @@
+# Verificar Health Check
+GET http://localhost:5003
+###
+
+# Prueba 1: Generar token (usuario con scope read)
+POST http://localhost:5003/auth/token
+Content-Type: application/json
+
+{
+    "userId": "user-001",
+    "name": "Ana García",
+    "scopes": ["read"],
+    "tier": "base"
+}
+
+###
+
+# Prueba 2: Generar token (usuario con scopes read y write)
+POST http://localhost:5003/auth/token
+Content-Type: application/json
+
+{
+    "userId": "user-002",
+    "name": "Carlos Pérez",
+    "scopes": ["read", "write"],
+    "tier": "premium"
+}
+
+###
+
+# Prueba 3: Acceso sin autenticación (debe fallar en resources/read)
+POST http://localhost:5003/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "resources/read",
+    "params": { "uri": "mcp://secure-data" },
+    "id": "read-001"
+}
+
+###
+
+# Prueba 4: Acceso con scope read (debe funcionar)
+POST http://localhost:5003/mcp
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFuYSBHYXJjw61hIiwic2NvcGVzIjoicmVhZCIsInRpZXIiOiJiYXNlIiwiZXhwIjoxNzY0MDgwNDI0fQ.ltTHbDFiw8DVqCK2gwmTL3zGGfS5Q3tASDHzmoD7fJA
+
+{
+    "jsonrpc": "2.0",
+    "method": "resources/read",
+    "params": { "uri": "mcp://secure-data" },
+    "id": "read-002"
+}
+
+###
+
+# Prueba 5: Acceso a tools/call con solo read (debe fallar)
+POST http://localhost:5003/mcp
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFuYSBHYXJjw61hIiwic2NvcGVzIjoicmVhZCIsInRpZXIiOiJiYXNlIiwiZXhwIjoxNzY0MDgwNDI0fQ.ltTHbDFiw8DVqCK2gwmTL3zGGfS5Q3tASDHzmoD7fJA
+
+{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+        "name": "secure_action",
+        "arguments": { "action": "test" }
+    },
+    "id": "call-001"
+}
+
+###
+
+# Prueba 6: Acceso a tools/call con write (debe funcionar)
+POST http://localhost:5003/mcp
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkNhcmxvcyBQw6lyZXoiLCJzY29wZXMiOiJyZWFkLHdyaXRlIiwidGllciI6InByZW1pdW0iLCJleHAiOjE3NjQwODA4MzN9.A0HGf67xkUjSYKx7mnQ-NwWThHj5wrRckY76C8vWPPw
+
+{ 
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+        "name": "secure_action",
+        "arguments": { "action": "test" }
+    },
+    "id": "call-002"
+}
+
+###
+
+# Prueba 7: Rate Limiting (usuario base: 10 req/min)
+POST http://localhost:5003/mcp
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFuYSBHYXJjw61hIiwic2NvcGVzIjoicmVhZCIsInRpZXIiOiJiYXNlIiwiZXhwIjoxNzY0MDgwNDI0fQ.ltTHbDFiw8DVqCK2gwmTL3zGGfS5Q3tASDHzmoD7fJA
+
+{
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {},
+    "id": "init-$_"
+}
+
+###
+
+# Prueba 8: Endpoints Públicos (sin autenticación)
+POST http://localhost:5003/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {},
+    "id": 1
+}    
+
+###
+POST http://localhost:5003/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "resources/list",
+    "params": {},
+    "id": 2
+}
+
+###
+
+POST http://localhost:5003/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "tools/list",
+    "params": {},
+    "id": 3
+}
