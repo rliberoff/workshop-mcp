@@ -1,0 +1,79 @@
+# Verificar Health Check
+GET http://localhost:5002
+###
+
+# Test 1: Initialize (Todos lo ejecutan)
+POST http://localhost:5002/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {
+        "protocolVersion": "2024-11-05",
+        "capabilities": {},
+        "clientInfo": { "name": "WorkshopClient", "version": "1.0.0" }
+    },
+    "id": "init-001"
+}
+
+###
+
+# Pruab 1: Tools/List
+POST http://localhost:5002/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "tools/list",
+    "params": {},
+    "id": "list-tools"
+}
+
+###
+
+# Prueba 2: Search Customers (por nombre)
+POST http://localhost:5002/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+        "name": "search_customers",
+        "arguments": { "name": "Carlos" }
+    },
+    "id": "call-search"
+}
+
+###
+
+# Prueba 3: Get Order Details
+POST http://localhost:5002/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+        "name": "get_order_details",
+        "arguments": { "orderId": 1001 }
+    },
+    "id": "call-order"
+}
+
+###
+
+# Prueba 4: Calculate Metrics (ventas totales)
+POST http://localhost:5002/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+        "name": "calculate_metrics",
+        "arguments": { "metricType": "sales" }
+    },
+    "id": "call-metrics"
+}
