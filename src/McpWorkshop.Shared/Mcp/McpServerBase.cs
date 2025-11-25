@@ -1,4 +1,5 @@
-using McpWorkshop.Shared.Logging;
+﻿using McpWorkshop.Shared.Logging;
+
 using Microsoft.Extensions.Options;
 
 namespace McpWorkshop.Shared.Mcp;
@@ -9,42 +10,49 @@ namespace McpWorkshop.Shared.Mcp;
 /// </summary>
 public abstract class McpServerBase
 {
-    protected readonly IStructuredLogger Logger;
-    protected readonly Configuration.WorkshopSettings Settings;
+    private readonly IStructuredLogger logger;
 
+    private readonly Configuration.WorkshopSettings settings;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="McpServerBase"/> class.
+    /// </summary>
+    /// <param name="logger">The structured logger instance.</param>
+    /// <param name="settings">The workshop settings.</param>
     protected McpServerBase(
         IStructuredLogger logger,
         IOptions<Configuration.WorkshopSettings> settings)
     {
-        Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        Settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
     }
 
     /// <summary>
-    /// Gets server information for initialize response
+    /// Gets the structured logger instance.
     /// </summary>
-    public virtual ServerInfo GetServerInfo()
-    {
-        return new ServerInfo
-        {
-            Name = Settings.Server.Name,
-            Version = Settings.Server.Version,
-            ProtocolVersion = Settings.Server.ProtocolVersion
-        };
-    }
+    protected IStructuredLogger Logger => logger;
 
     /// <summary>
-    /// Generates a unique request ID for tracking
+    /// Gets the workshop settings.
     /// </summary>
-    protected string GenerateRequestId()
+    protected Configuration.WorkshopSettings Settings => settings;
+
+    /// <summary>
+    /// Generates a unique request ID for tracking.
+    /// </summary>
+    /// <returns>A unique request identifier.</returns>
+    public static string GenerateRequestId()
     {
         return Guid.NewGuid().ToString("N")[..12];
     }
 
     /// <summary>
-    /// Validates JSON-RPC 2.0 request format
+    /// Validates JSON-RPC 2.0 request format.
     /// </summary>
-    protected bool IsValidJsonRpcRequest(JsonRpcRequest request, out string? error)
+    /// <param name="request">The JSON-RPC request to validate.</param>
+    /// <param name="error">Output parameter containing error message if validation fails.</param>
+    /// <returns>True if the request is valid; otherwise, false.</returns>
+    public static bool IsValidJsonRpcRequest(JsonRpcRequest request, out string? error)
     {
         error = null;
 
@@ -70,8 +78,25 @@ public abstract class McpServerBase
     }
 
     /// <summary>
-    /// Creates a JSON-RPC 2.0 success response
+    /// Gets server information for initialize response.
     /// </summary>
+    /// <returns>Server information including name, version, and protocol version.</returns>
+    public virtual ServerInfo GetServerInfo()
+    {
+        return new ServerInfo
+        {
+            Name = settings.Server.Name,
+            Version = settings.Server.Version,
+            ProtocolVersion = settings.Server.ProtocolVersion,
+        };
+    }
+
+    /// <summary>
+    /// Creates a JSON-RPC 2.0 success response.
+    /// </summary>
+    /// <param name="result">The result object to include in the response.</param>
+    /// <param name="id">The request identifier.</param>
+    /// <returns>A JSON-RPC success response.</returns>
     protected JsonRpcResponse CreateSuccessResponse(object? result, object id)
     {
         return new JsonRpcResponse
@@ -83,8 +108,13 @@ public abstract class McpServerBase
     }
 
     /// <summary>
-    /// Creates a JSON-RPC 2.0 error response
+    /// Creates a JSON-RPC 2.0 error response.
     /// </summary>
+    /// <param name="code">The error code.</param>
+    /// <param name="message">The error message.</param>
+    /// <param name="data">Additional error data.</param>
+    /// <param name="id">The request identifier.</param>
+    /// <returns>A JSON-RPC error response.</returns>
     protected JsonRpcResponse CreateErrorResponse(int code, string message, object? data, object id)
     {
         return new JsonRpcResponse
@@ -96,93 +126,7 @@ public abstract class McpServerBase
                 Message = message,
                 Data = data
             },
-            Id = id
+            Id = id,
         };
     }
-}
-
-/// <summary>
-/// JSON-RPC 2.0 request structure
-/// </summary>
-public class JsonRpcRequest
-{
-    public string JsonRpc { get; set; } = "2.0";
-    public string Method { get; set; } = string.Empty;
-    public object? Params { get; set; }
-    public object? Id { get; set; }
-}
-
-/// <summary>
-/// JSON-RPC 2.0 response structure
-/// </summary>
-public class JsonRpcResponse
-{
-    public string JsonRpc { get; set; } = "2.0";
-    public object? Result { get; set; }
-    public JsonRpcError? Error { get; set; }
-    public object? Id { get; set; }
-}
-
-/// <summary>
-/// JSON-RPC 2.0 error structure
-/// </summary>
-public class JsonRpcError
-{
-    public int Code { get; set; }
-    public string Message { get; set; } = string.Empty;
-    public object? Data { get; set; }
-}
-
-/// <summary>
-/// MCP server information
-/// </summary>
-public class ServerInfo
-{
-    public string Name { get; set; } = string.Empty;
-    public string Version { get; set; } = string.Empty;
-    public string ProtocolVersion { get; set; } = string.Empty;
-    public ServerCapabilities? Capabilities { get; set; }
-}
-
-/// <summary>
-/// MCP server capabilities
-/// </summary>
-public class ServerCapabilities
-{
-    public ResourceCapabilities? Resources { get; set; }
-    public ToolCapabilities? Tools { get; set; }
-    public LoggingCapabilities? Logging { get; set; }
-}
-
-public class ResourceCapabilities
-{
-    public bool Subscribe { get; set; } = false;
-    public bool ListChanged { get; set; } = false;
-}
-
-public class ToolCapabilities
-{
-    public bool ListChanged { get; set; } = false;
-}
-
-public class LoggingCapabilities
-{
-    public string[] Levels { get; set; } = { "DEBUG", "INFO", "WARN", "ERROR" };
-}
-
-/// <summary>
-/// Standard JSON-RPC 2.0 error codes
-/// </summary>
-public static class JsonRpcErrorCodes
-{
-    public const int ParseError = -32700;
-    public const int InvalidRequest = -32600;
-    public const int MethodNotFound = -32601;
-    public const int InvalidParams = -32602;
-    public const int InternalError = -32603;
-
-    // Custom MCP error codes (from contracts)
-    public const int Unauthorized = -32001;
-    public const int Forbidden = -32002;
-    public const int RateLimitExceeded = -32003;
 }

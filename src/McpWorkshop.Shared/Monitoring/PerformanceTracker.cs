@@ -1,140 +1,107 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
+
 using Microsoft.Extensions.Logging;
 
 namespace McpWorkshop.Shared.Monitoring;
 
 /// <summary>
-/// Tracks performance metrics for MCP server operations
+/// Tracks performance metrics for MCP server operations.
 /// </summary>
 public class PerformanceTracker
 {
-    private readonly ConcurrentDictionary<string, PerformanceMetrics> _metrics = new();
-    private readonly ILogger<PerformanceTracker> _logger;
+    private readonly ConcurrentDictionary<string, PerformanceMetrics> metrics = new();
 
+    private readonly ILogger<PerformanceTracker> logger;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PerformanceTracker"/> class.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
     public PerformanceTracker(ILogger<PerformanceTracker> logger)
     {
-        _logger = logger;
+        this.logger = logger;
     }
 
     /// <summary>
-    /// Start tracking a request
+    /// Start tracking a request.
     /// </summary>
+    /// <param name="method">The method name being tracked.</param>
+    /// <param name="id">Optional request identifier.</param>
+    /// <returns>A disposable tracker instance.</returns>
     public IDisposable TrackRequest(string method, string? id = null)
     {
         return new RequestTracker(this, method, id);
     }
 
     /// <summary>
-    /// Record a request completion
+    /// Get metrics for a specific method.
     /// </summary>
+    /// <param name="method">The method name.</param>
+    /// <returns>The performance metrics for the specified method, or null if not found.</returns>
+    public PerformanceMetrics? GetMetrics(string method)
+    {
+        metrics.TryGetValue(method, out var aux);
+        return aux;
+    }
+
+    /// <summary>
+    /// Get all tracked metrics.
+    /// </summary>
+    /// <returns>A dictionary of all tracked metrics by method name.</returns>
+    public Dictionary<string, PerformanceMetrics> GetAllMetrics()
+    {
+        return metrics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+    }
+
+    /// <summary>
+    /// Record a request completion.
+    /// </summary>
+    /// <param name="method">The method name.</param>
+    /// <param name="elapsedMs">The elapsed time in milliseconds.</param>
+    /// <param name="success">Indicates whether the request was successful.</param>
     internal void RecordRequest(string method, long elapsedMs, bool success)
     {
-        var metrics = _metrics.GetOrAdd(method, _ => new PerformanceMetrics());
-        metrics.RecordRequest(elapsedMs, success);
+        var aux = metrics.GetOrAdd(method, _ => new PerformanceMetrics());
+        aux.RecordRequest(elapsedMs, success);
 
         if (elapsedMs > 1000)
         {
-            _logger.LogWarning("[PERFORMANCE] Slow request: {Method} took {ElapsedMs}ms", method, elapsedMs);
+            logger.LogWarning("[PERFORMANCE] Slow request: {Method} took {ElapsedMs}ms", method, elapsedMs);
         }
     }
 
     /// <summary>
-    /// Get metrics for a specific method
+    /// Request tracker disposable.
     /// </summary>
-    public PerformanceMetrics? GetMetrics(string method)
+    private sealed class RequestTracker : IDisposable
     {
-        _metrics.TryGetValue(method, out var metrics);
-        return metrics;
-    }
+        private readonly PerformanceTracker tracker;
 
-    /// <summary>
-    /// Get all tracked metrics
-    /// </summary>
-    public Dictionary<string, PerformanceMetrics> GetAllMetrics()
-    {
-        return _metrics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-    }
+        private readonly string method;
 
-    /// <summary>
-    /// Request tracker disposable
-    /// </summary>
-    private class RequestTracker : IDisposable
-    {
-        private readonly PerformanceTracker _tracker;
-        private readonly string _method;
-        private readonly string? _id;
-        private readonly Stopwatch _stopwatch;
-        private bool _success = true;
+        private readonly string? id;
+
+        private readonly Stopwatch stopwatch;
 
         public RequestTracker(PerformanceTracker tracker, string method, string? id)
         {
-            _tracker = tracker;
-            _method = method;
-            _id = id;
-            _stopwatch = Stopwatch.StartNew();
+            this.tracker = tracker;
+            this.method = method;
+            this.id = id;
+            stopwatch = Stopwatch.StartNew();
         }
 
-        public void MarkFailure()
-        {
-            _success = false;
-        }
-
+        /// <summary>
+        /// Stops the stopwatch and records the request metrics upon disposal.
+        /// </summary>
         public void Dispose()
         {
-            _stopwatch.Stop();
-            _tracker.RecordRequest(_method, _stopwatch.ElapsedMilliseconds, _success);
-            _tracker._logger.LogDebug(
+            stopwatch.Stop();
+            tracker.RecordRequest(method, stopwatch.ElapsedMilliseconds, true);
+            tracker.logger.LogDebug(
                 "[METRICS] {Method} (id={Id}) completed in {ElapsedMs}ms (success={Success})",
-                _method, _id ?? "none", _stopwatch.ElapsedMilliseconds, _success);
+                method, id ?? "none", stopwatch.ElapsedMilliseconds, true);
         }
-    }
-}
-
-/// <summary>
-/// Performance metrics for a specific operation
-/// </summary>
-public class PerformanceMetrics
-{
-    private long _totalRequests;
-    private long _successfulRequests;
-    private long _failedRequests;
-    private long _totalDurationMs;
-    private long _minDurationMs = long.MaxValue;
-    private long _maxDurationMs;
-    private readonly object _lock = new();
-
-    public long TotalRequests => _totalRequests;
-    public long SuccessfulRequests => _successfulRequests;
-    public long FailedRequests => _failedRequests;
-    public double AverageDurationMs => _totalRequests > 0 ? (double)_totalDurationMs / _totalRequests : 0;
-    public long MinDurationMs => _minDurationMs == long.MaxValue ? 0 : _minDurationMs;
-    public long MaxDurationMs => _maxDurationMs;
-    public double SuccessRate => _totalRequests > 0 ? (double)_successfulRequests / _totalRequests * 100 : 0;
-
-    internal void RecordRequest(long durationMs, bool success)
-    {
-        lock (_lock)
-        {
-            _totalRequests++;
-            _totalDurationMs += durationMs;
-
-            if (success)
-                _successfulRequests++;
-            else
-                _failedRequests++;
-
-            if (durationMs < _minDurationMs)
-                _minDurationMs = durationMs;
-
-            if (durationMs > _maxDurationMs)
-                _maxDurationMs = durationMs;
-        }
-    }
-
-    public override string ToString()
-    {
-        return $"Requests: {TotalRequests} | Success: {SuccessfulRequests} ({SuccessRate:F1}%) | " +
-               $"Avg: {AverageDurationMs:F1}ms | Min: {MinDurationMs}ms | Max: {MaxDurationMs}ms";
     }
 }
