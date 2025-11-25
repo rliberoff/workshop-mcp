@@ -355,6 +355,12 @@ dotnet run
 ```text
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://localhost:5001
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\code\2025-data-saturday-workshop-mcp-alumno\src\McpWorkshop.Servers\Exercise1Server
 ```
 
 #### 4.2 Verificar Health Check (Opcional)
