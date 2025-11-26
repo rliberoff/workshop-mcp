@@ -30,8 +30,16 @@ Content-Type: application/json
 
 ###
 
-# Prueba 5: Caching
+# Prueba 5: Top 10 productos más vendidos
 POST http://localhost:5004/query
 Content-Type: application/json
 
 { "query": "¿Cuáles son los 10 productos más vendidos?" }
+
+###
+
+# Prueba 6: Cache
+POST http://localhost:5004/query
+Content-Type: application/json
+
+{ "query": "¿Dame el estado de la orden 1002?" }

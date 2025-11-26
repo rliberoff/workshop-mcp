@@ -276,7 +276,7 @@ public static class SpanishQueryParser
         }
 
         // Intent: Estado de pedido
-        if (query.Contains("estado") && query.Contains("pedido"))
+        if (query.Contains("estado") && (query.Contains("pedido") || query.Contains("orden") || query.Contains("compra")))
         {
             var orderId = ExtractOrderId(query);
 
