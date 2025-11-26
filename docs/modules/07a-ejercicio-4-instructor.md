@@ -1,4 +1,4 @@
-# Bloque 7: Ejercicio 4 - Analista Virtual - Notas para el Instructor
+# Bloque 7: Ejercicio 4 - Orquestador - Notas para el Instructor
 
 **Duración objetivo**: 25 minutos (ejercicio en grupo)  
 **Estilo**: Supervisión y troubleshooting, con soporte individual por equipos
@@ -37,7 +37,7 @@
 
 ## 🎤 Script de Apertura (2 minutos)
 
-> "Perfecto, ahora viene el ejercicio más complejo del taller: el Analista Virtual Multi-Fuente. Van a trabajar en equipos de 3-5 personas durante 25 minutos.
+> "Perfecto, ahora viene el ejercicio más complejo del taller: el Orquestador Multi-Fuente. Van a trabajar en equipos de 3-5 personas durante 25 minutos.
 >
 > El objetivo es crear un orquestador que coordina 3 servidores MCP diferentes (SQL, Cosmos DB, REST API) para responder preguntas de negocio en español. Es el escenario más cercano a la realidad que encontrarán en producción.
 >

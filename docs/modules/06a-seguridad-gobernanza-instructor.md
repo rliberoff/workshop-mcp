@@ -36,12 +36,12 @@ Al terminar este bloque, los asistentes deben:
 
 **Antes de comenzar el bloque**:
 
--   [ ] Prepara slides con diagramas (arquitectura de seguridad, flujo de autenticación)
--   [ ] Ten ejemplos de código proyectables (anti-patrones vs mejores prácticas)
--   [ ] Abre Azure Portal en una pestaña (para mostrar Key Vault, Azure AD si hay tiempo)
--   [ ] Ten el diagrama Mermaid de arquitectura visible
--   [ ] Prepara ejemplos de queries de Log Analytics
--   [ ] Ten el checklist de seguridad para producción impreso/visible
+- [ ] Prepara slides con diagramas (arquitectura de seguridad, flujo de autenticación)
+- [ ] Ten ejemplos de código proyectables (anti-patrones vs mejores prácticas)
+- [ ] Abre Azure Portal en una pestaña (para mostrar Key Vault, Azure AD si hay tiempo)
+- [ ] Ten el diagrama Mermaid de arquitectura visible
+- [ ] Prepara ejemplos de queries de Log Analytics
+- [ ] Ten el checklist de seguridad para producción impreso/visible
 
 ---
 
@@ -232,27 +232,27 @@ app.MapGet("/api/users/{userId}/export", async (string userId) =>
 
 1. **Azure API Management** (apunta al diagrama):
 
-    > "Primera línea de defensa. Rate limiting global, políticas de seguridad, transformación de requests. Si llegan 10,000 solicitudes/segundo, APIM filtra antes de llegar a tu servidor."
+   > "Primera línea de defensa. Rate limiting global, políticas de seguridad, transformación de requests. Si llegan 10,000 solicitudes/segundo, APIM filtra antes de llegar a tu servidor."
 
 2. **Application Gateway + WAF**:
 
-    > "Web Application Firewall. Bloquea ataques comunes: SQL injection, XSS, DDoS. WAF tiene reglas actualizadas automáticamente por Microsoft."
+   > "Web Application Firewall. Bloquea ataques comunes: SQL injection, XSS, DDoS. WAF tiene reglas actualizadas automáticamente por Microsoft."
 
 3. **Azure Container Apps**:
 
-    > "Donde corre tu servidor MCP. Escala automáticamente de 0 a 30 instancias según demanda. Pagas solo por lo que usas."
+   > "Donde corre tu servidor MCP. Escala automáticamente de 0 a 30 instancias según demanda. Pagas solo por lo que usas."
 
 4. **Azure Key Vault**:
 
-    > "Ya lo vimos. Secretos, certificados, claves de cifrado. Todo centralizado."
+   > "Ya lo vimos. Secretos, certificados, claves de cifrado. Todo centralizado."
 
 5. **Azure AD**:
 
-    > "Autenticación centralizada. Integración con MFA, políticas de acceso condicional."
+   > "Autenticación centralizada. Integración con MFA, políticas de acceso condicional."
 
 6. **Application Insights**:
 
-    > "Monitoreo en tiempo real. Logs, métricas, trazas distribuidas. Veremos esto en el siguiente minuto."
+   > "Monitoreo en tiempo real. Logs, métricas, trazas distribuidas. Veremos esto en el siguiente minuto."
 
 **Enfatiza**:
 
@@ -325,26 +325,26 @@ traces
 
 ✅ Autenticación:
 
--   Azure AD / Entra ID
--   Tokens con expiración ≤ 30 min
--   Secretos en Key Vault
+- Azure AD / Entra ID
+- Tokens con expiración ≤ 30 min
+- Secretos en Key Vault
 
 ✅ Autorización:
 
--   Scopes de mínimo privilegio
--   Validación en cada endpoint
+- Scopes de mínimo privilegio
+- Validación en cada endpoint
 
 ✅ Auditoría:
 
--   Logs estructurados a Application Insights
--   Retención ≥ 90 días
--   Alertas configuradas
+- Logs estructurados a Application Insights
+- Retención ≥ 90 días
+- Alertas configuradas
 
 ✅ Infraestructura:
 
--   HTTPS obligatorio
--   WAF habilitado
--   Network isolation con VNET
+- HTTPS obligatorio
+- WAF habilitado
+- Network isolation con VNET
 
 **Pregunta final**:
 
@@ -398,11 +398,11 @@ traces
 
 > "Depende del tráfico, pero estimación para startup/SME:
 >
-> -   Container Apps: ~50€/mes (escalado bajo)
-> -   Key Vault: ~5€/mes (operaciones básicas)
-> -   Application Insights: ~20€/mes (100GB logs)
-> -   API Management: Desde 0€ (tier Consumption)
-> -   Total: ~75-150€/mes para tráfico moderado
+> - Container Apps: ~50€/mes (escalado bajo)
+> - Key Vault: ~5€/mes (operaciones básicas)
+> - Application Insights: ~20€/mes (100GB logs)
+> - API Management: Desde 0€ (tier Consumption)
+> - Total: ~75-150€/mes para tráfico moderado
 >
 > Escala conforme crece tu uso. Pueden usar Azure Calculator para estimaciones precisas."
 
@@ -416,8 +416,8 @@ traces
 
 > "Diferentes capas:
 >
-> -   **WAF**: Seguridad (bloquea ataques SQL injection, XSS, DDoS)
-> -   **APIM**: Gestión de APIs (rate limiting, transformaciones, analytics)
+> - **WAF**: Seguridad (bloquea ataques SQL injection, XSS, DDoS)
+> - **APIM**: Gestión de APIs (rate limiting, transformaciones, analytics)
 >
 > Analogía: WAF es el guardia de seguridad que verifica que no entren armas. APIM es la recepción que dirige visitantes a la sala correcta. Ambos son necesarios."
 
@@ -429,19 +429,19 @@ Al terminar el bloque, observa:
 
 ✅ **Comprensión conceptual**:
 
--   Asistentes identifican anti-patrones de seguridad
--   Entienden la diferencia entre autenticación y autorización
--   Reconocen componentes de arquitectura segura
+- Asistentes identifican anti-patrones de seguridad
+- Entienden la diferencia entre autenticación y autorización
+- Reconocen componentes de arquitectura segura
 
 ✅ **Engagement**:
 
--   Preguntas sobre implementación práctica
--   Interés en compliance (GDPR/LOPD)
+- Preguntas sobre implementación práctica
+- Interés en compliance (GDPR/LOPD)
 
 ❌ **Señales de alarma**:
 
--   Confusión entre Azure AD y Azure Key Vault (repite diferencias)
--   Preguntas sobre código del Ejercicio 3 (viene en el siguiente bloque)
+- Confusión entre Azure AD y Azure Key Vault (repite diferencias)
+- Preguntas sobre código del Ejercicio 3 (viene en el siguiente bloque)
 
 ---
 
@@ -460,14 +460,14 @@ Al terminar el bloque, observa:
 
 **Script de cierre** (30 segundos):
 
-> "Perfecto. Ya saben cómo asegurar servidores MCP en producción. Ahora viene el desafío más complejo del taller: el Ejercicio 4. Van a crear un 'Analista Virtual' que orquesta 3 servidores MCP diferentes (SQL, Cosmos, REST API) para responder preguntas en español sobre datos de negocio. Es un ejercicio de grupo, 25 minutos, y es el que más se parece a un escenario real de empresa. Tomen un descanso de 3 minutos, formen equipos de 3-5 personas."
+> "Perfecto. Ya saben cómo asegurar servidores MCP en producción. Ahora viene el desafío más complejo del taller: el Ejercicio 4. Van a crear un 'Orquestador' que coordina 3 servidores MCP diferentes (SQL, Cosmos, REST API) para responder preguntas en español sobre datos de negocio. Es un ejercicio de grupo, 25 minutos, y es el que más se parece a un escenario real de empresa. Tomen un descanso de 3 minutos, formen equipos de 3-5 personas."
 
 **Checklist de transición**:
 
--   [ ] Los asistentes hacen un descanso (3 min)
--   [ ] Forman equipos de 3-5 personas
--   [ ] Abre el documento del Ejercicio 4 en pantalla
--   [ ] Prepara el contrato `exercise-4-virtual-analyst.json` para proyectar
+- [ ] Los asistentes hacen un descanso (3 min)
+- [ ] Forman equipos de 3-5 personas
+- [ ] Abre el documento del Ejercicio 4 en pantalla
+- [ ] Prepara el contrato `exercise-4-virtual-analyst.json` para proyectar
 
 ---
 

@@ -33,7 +33,7 @@ Este taller intensivo de 3 horas te enseñará a crear servidores MCP (Model Con
 | **[5. Ejercicio 3: Seguridad](#bloque-5-ejercicio-3-20-min)**              | 88-108 min  | 20 min   | Ejercicio       | JWT, scopes, rate limiting                      |
 | **🔄 Descanso**                                                            | 108-113 min | 5 min    | -               | Café, networking                                |
 | **[6. Seguridad y Gobernanza](#bloque-6-seguridad-15-min)**                | 113-128 min | 15 min   | Sesión          | Azure AD, Key Vault, GDPR, arquitectura         |
-| **[7. Ejercicio 4: Analista Virtual](#bloque-7-ejercicio-4-25-min)**       | 128-153 min | 25 min   | Ejercicio Grupo | Orquestación multi-fuente                       |
+| **[7. Ejercicio 4: Orquestador](#bloque-7-ejercicio-4-25-min)**            | 128-153 min | 25 min   | Ejercicio Grupo | Orquestación multi-fuente                       |
 | **🔄 Descanso**                                                            | 153-156 min | 3 min    | -               | Formar equipos                                  |
 | **[8. Orquestación Multi-Fuente](#bloque-8-orquestacion-15-min)**          | 156-171 min | 15 min   | Sesión          | Patrones: paralelo, secuencial, caching         |
 | **[9. Ejercicio 5: Agente con MAF](#bloque-9-ejercicio-5-30-min)**         | 171-201 min | 30 min   | Ejercicio       | Agente IA con Microsoft Agent Framework         |
@@ -233,7 +233,7 @@ Formar equipos de 3-5 personas para Ejercicio 4.
 
 ---
 
-### Bloque 7: Ejercicio 4 - Analista Virtual (25 min)
+### Bloque 7: Ejercicio 4 - Orquestador (25 min)
 
 **Objetivo**: Orquestar 3 servidores MCP para responder preguntas de negocio en español.
 

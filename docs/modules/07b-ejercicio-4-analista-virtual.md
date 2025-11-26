@@ -1,4 +1,4 @@
-# Bloque 7: Ejercicio 4 - Analista Virtual Multi-Fuente (25 minutos)
+# Bloque 7: Ejercicio 4 - Orquestador Multi-Fuente (25 minutos)
 
 **Tipo**: Ejercicio en grupo (3-5 personas)  
 **Duración**: 25 minutos  
@@ -659,7 +659,7 @@ app.MapPost("/query", async (QueryRequest request, OrchestratorService orchestra
     return Results.Ok(new { answer = result });
 });
 
-Console.WriteLine("✅ VirtualAnalyst Orchestrator running on http://localhost:5004/query");
+Console.WriteLine("✅ Orquestador MCP ejecutándose en http://localhost:5004/query");
 Console.WriteLine("📋 Intenciones soportadas:");
 Console.WriteLine("  - new_customers: '¿Cuántos clientes nuevos hay en España?'");
 Console.WriteLine("  - abandoned_carts: '¿Usuarios con carrito abandonado últimas 24 horas?'");

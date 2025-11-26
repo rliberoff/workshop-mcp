@@ -174,7 +174,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 
 📚 [Presentación](./modules/06b-seguridad-gobernanza.md) | ⚠️ [Anti-patterns](./modules/06-seguridad-gobernanza-antipatterns.md)
 
-#### Bloque 8: Ejercicio 4 - Analista Virtual (25 min)
+#### Bloque 8: Ejercicio 4 - Orquestador (25 min)
 
 - **Objetivo**: Orquestar SQL MCP + Cosmos MCP + REST MCP
 - **Duración**: 25 minutos en grupos de 3-5 personas
@@ -220,7 +220,7 @@ Ver [Guía de Inicio Rápido](./quickstart.md) para instrucciones detalladas.
 | **Exercise 1: Static Resources** | 15 min   | Guiado        | ⭐ Básico        | `resources/list`, `resources/read`  |
 | **Exercise 2: Parametric Tools** | 20 min   | Independiente | ⭐⭐ Intermedio  | `tools/list`, `tools/call`, schemas |
 | **Exercise 3: Security**         | 20 min   | Semi-guiado   | ⭐⭐⭐ Avanzado  | JWT, scopes, rate limiting, logging |
-| **Exercise 4: Virtual Analyst**  | 25 min   | Grupos 3-5    | ⭐⭐⭐⭐ Experto | Orchestration, caching, NLP         |
+| **Ejercicio 4: Orquestador**     | 25 min   | Grupos 3-5    | ⭐⭐⭐⭐ Experto | Orquestación, caché, NLP            |
 
 ### Criterios de Éxito
 
@@ -308,7 +308,7 @@ cd src/McpWorkshop.Servers/Exercise3SecureServer
 dotnet run
 .\scripts\verify-exercise3.ps1
 
-# Exercise 4: Virtual Analyst (requiere 4 servidores)
+# Ejercicio 4: Orquestador (requiere 4 servidores)
 .\scripts\start-exercise4-servers.ps1
 .\scripts\verify-exercise4.ps1
 ```
@@ -455,10 +455,6 @@ Este proyecto está licenciado bajo MIT License - ver [LICENSE](../LICENSE) para
 
 ---
 
-<div align="center">
-
 **¿Listo para comenzar?** 🚀
 
 [📖 Leer Quickstart](./quickstart.md) | [👨‍🏫 Guía del Instructor](./INSTRUCTOR_HANDBOOK.md) | [💬 Discord Community](https://discord.gg/mcp)
-
-</div>

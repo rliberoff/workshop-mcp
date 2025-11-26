@@ -10,7 +10,7 @@ Guía consolidada para resolver problemas comunes durante el workshop. Organizad
 
 **Síntomas**:
 
-```
+```powershell
 'dotnet' is not recognized as an internal or external command
 ```
 
@@ -51,7 +51,7 @@ $env:PATH += ";C:\Program Files\dotnet\"
 
 **Síntomas**:
 
-```
+```powershell
 System.IO.IOException: Failed to bind to address http://localhost:5000: address already in use.
 ```
 
@@ -82,15 +82,15 @@ taskkill /PID <PID> /F
 
 ```json
 {
-    "profiles": {
-        "http": {
-            "commandName": "Project",
-            "applicationUrl": "http://localhost:5010",
-            "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            }
-        }
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5010",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
+  }
 }
 ```
 
@@ -100,7 +100,7 @@ taskkill /PID <PID> /F
 
 **Síntomas**:
 
-```
+```powershell
 error NU1102: Unable to find package 'ModelContextProtocol'
 ```
 
@@ -147,7 +147,7 @@ dotnet restore --source ./offline-packages
 
 **Síntomas**:
 
-```
+```powershell
 System.IO.FileNotFoundException: Could not find file 'customers.json'
 ```
 
@@ -281,8 +281,8 @@ $viewerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
 **Síntomas**:
 
--   Requests no se rechazan aunque exceden límite
--   No hay headers `X-RateLimit-*` en response
+- Requests no se rechazan aunque exceden límite
+- No hay headers `X-RateLimit-*` en response
 
 **Diagnóstico**:
 
@@ -450,20 +450,20 @@ dotnet tool update --global dotnet-ef
 ```json
 // appsettings.Development.json
 {
-    "ConnectionStrings": {
-        "SalesDb": "Server=(localdb)\\mssqllocaldb;Database=McpWorkshop;Trusted_Connection=True;MultipleActiveResultSets=true"
-    }
+  "ConnectionStrings": {
+    "SalesDb": "Server=(localdb)\\mssqllocaldb;Database=McpWorkshop;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
 }
 ```
 
 ---
 
-### 10. Virtual Analyst no responde (Ejercicio 4)
+### 10. Orquestador no responde (Ejercicio 4)
 
 **Síntomas**:
 
--   Timeout después de 30 segundos
--   Response vacío o null
+- Timeout después de 30 segundos
+- Response vacío o null
 
 **Diagnóstico**:
 
@@ -496,11 +496,11 @@ Start-Process powershell -ArgumentList "dotnet run"
 ```json
 // appsettings.json del VirtualAnalyst
 {
-    "McpServers": {
-        "SqlServer": "http://localhost:5002",
-        "CosmosServer": "http://localhost:5003",
-        "RestApiServer": "http://localhost:5004"
-    }
+  "McpServers": {
+    "SqlServer": "http://localhost:5002",
+    "CosmosServer": "http://localhost:5003",
+    "RestApiServer": "http://localhost:5004"
+  }
 }
 ```
 
@@ -701,8 +701,8 @@ Copy-Item -Recurse \\INSTRUCTOR-PC\MCP-Workshop C:\Temp\
 
 **Opción C - Hotspot Móvil**:
 
--   Usar datos móviles como backup
--   Solo para NuGet restore (pequeño bandwidth)
+- Usar datos móviles como backup
+- Solo para NuGet restore (pequeño bandwidth)
 
 ---
 
@@ -751,12 +751,12 @@ Si después de 5 minutos no resuelves el problema:
 
 1. **Levantar mano** para asistencia del instructor
 2. **Documentar error**:
-    - Screenshot del error
-    - Comando que falló
-    - Logs relevantes
+   - Screenshot del error
+   - Comando que falló
+   - Logs relevantes
 3. **Plan B temporal**:
-    - Pair programming con compañero
-    - Seguir con siguiente ejercicio si posible
+   - Pair programming con compañero
+   - Seguir con siguiente ejercicio si posible
 4. **Post-workshop**: Abrir issue en GitHub con detalles completos
 
 ---
