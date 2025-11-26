@@ -651,29 +651,34 @@ dotnet run
 
 🔧 Obteniendo herramientas de los servidores MCP...
 
-   SQL Server: 5 herramientas
-      - list_customers_by_country: Lista clientes por país
-      - list_customers_by_city: Lista clientes por ciudad
-      - get_order_details: Obtiene detalles de un pedido
-      - get_recent_orders: Obtiene pedidos recientes
-      - get_customer_stats: Estadísticas de clientes
+   SQL Server: 3 herramientas
+      - query_customers_by_country: Busca y lista clientes registrados en un país específico…
+      - get_sales_summary: Calcula estadísticas agregadas de ventas…
+      - get_order_details: Obtiene información detallada de un pedido específico…
+   Cosmos DB: 2 herramientas
+      - get_abandoned_carts: Obtiene carritos abandonados en las últimas N horas…
+      - analyze_user_behavior: Analizar el comportamiento de un usuario específico…
+   REST API: 3 herramientas
+      - check_inventory: Verifica el inventario disponible de un producto específico…
+      - get_shipping_status: Obtiene el estado de envío y tracking de un pedido específico…
+      - get_top_products: Obtiene el ranking de productos más vendidos con estadísticas de ventas e ingresos…
 
-   Cosmos DB: 3 herramientas
-      - get_abandoned_carts: Obtiene carritos abandonados
-      - get_user_sessions: Obtiene sesiones de usuario
-      - get_cart_analytics: Analíticas de carritos
+🔄 Registrando herramientas MCP con el agente...
 
-   REST API: 4 herramientas
-      - get_products: Lista productos
-      - get_low_stock_products: Productos con stock bajo
-      - get_product_details: Detalles de un producto
-      - get_top_selling_products: Productos más vendidos
+   ✓ Registrando tool 'query_customers_by_country' de SQL Server
+   ✓ Registrando tool 'get_sales_summary' de SQL Server
+   ✓ Registrando tool 'get_order_details' de SQL Server
+   ✓ Registrando tool 'get_abandoned_carts' de Cosmos DB
+   ✓ Registrando tool 'analyze_user_behavior' de Cosmos DB
+   ✓ Registrando tool 'check_inventory' de REST API
+   ✓ Registrando tool 'get_shipping_status' de REST API
+   ✓ Registrando tool 'get_top_products' de REST API
 
-✅ Total de herramientas MCP disponibles: 12
+✅ Total de herramientas disponibles: 8
 
 🧠 Creando agente con Azure OpenAI...
 
-✅ Agente 'Asistente de Ventas' creado exitosamente con 12 herramientas
+✅ Agente 'Asistente de Ventas' creado exitosamente con 8 herramientas
 
 ======================================================================
   Asistente de Ventas está listo!
