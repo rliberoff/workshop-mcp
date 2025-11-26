@@ -288,7 +288,7 @@ mcp-workshop/
 
 ---
 
-### Ejercicio 4: Analista Virtual (25 min - Grupal)
+### Ejercicio 4: Orquestador (25 min)
 
 **Objetivo**: Construir un orquestador MCP que coordina múltiples servidores para responder preguntas de negocio en español.
 
@@ -333,7 +333,7 @@ Usuario (español) → Orquestador → [SQL Server | Cosmos DB | REST API]
 
 **[📄 Guía completa →](docs/modules/07b-ejercicio-4-orquestador.md)**
 
-### Ejercicio 5: Agente con Microsoft Agent Framework (30 min)
+### Ejercicio 5: Agente de Inteligencia Artificial con Microsoft Agent Framework (30 min)
 
 **Objetivo**: Crear un agente conversacional inteligente que integra los MCP servers creados en ejercicios anteriores.
 
@@ -381,13 +381,13 @@ Usuario (español) → Orquestador → [SQL Server | Cosmos DB | REST API]
 
 | Ejercicio                 | Puerto | Servidor         |
 | ------------------------- | ------ | ---------------- |
-| Ejercicio 1               | 5000   | Exercise1Server  |
-| Ejercicio 2               | 5001   | Exercise2Server  |
-| Ejercicio 3               | 5002   | Exercise3Server  |
+| Ejercicio 1               | 5001   | Exercise1Server  |
+| Ejercicio 2               | 5002   | Exercise2Server  |
+| Ejercicio 3               | 5003   | Exercise3Server  |
 | Ejercicio 4 - SQL         | 5010   | SqlMcpServer     |
 | Ejercicio 4 - Cosmos      | 5011   | CosmosMcpServer  |
 | Ejercicio 4 - REST        | 5012   | RestApiMcpServer |
-| Ejercicio 4 - Orquestador | 5003   | Exercise4Server  |
+| Ejercicio 4 - Orquestador | 5004   | Exercise4Server  |
 | Ejercicio 5 - Agente      | N/A    | Exercise5Agent   |
 
 ## 📄 Licencia
