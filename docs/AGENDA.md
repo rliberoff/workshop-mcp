@@ -393,7 +393,7 @@ ROI = ((Beneficio Anual - Costo Inversión) / Costo Inversión) × 100%
 
 **Recursos**:
 
-- Especificación MCP: https://modelcontextprotocol.io/specification/2025-06-18
+- Especificación MCP: <https://modelcontextprotocol.io/specification/2025-06-18>
 - Repo del taller: [GitHub URL]
 
 **[📄 Documentación completa →](./modules/11-cierre.md)**
@@ -497,7 +497,7 @@ ROI = ((Beneficio Anual - Costo Inversión) / Costo Inversión) × 100%
 #### "Compilation error CS0246"
 
 **Causa**: Falta referencia a `ModelContextProtocol`.  
-**Solución**: `dotnet add package ModelContextProtocol --version 0.4.0-preview.3`
+**Solución**: `dotnet add package ModelContextProtocol --version 0.9.0-preview.1`
 
 ---
 
