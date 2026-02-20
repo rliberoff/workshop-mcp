@@ -14,7 +14,7 @@ All practical exercises use text and/or JSON interfaces: requests in via stdin/H
 
 Each MCP server or tool must be testable in isolation. Wherever feasible, introduce tests or verification scripts before full implementation. Workshop participants should be able to run examples locally and see deterministic outputs given fixed inputs, ensuring exercises are reproducible across machines and environments.
 
-Each exersice must be fully validated.
+Each exercise must be fully validated.
 
 ### IV. Integration Over Isolation
 
