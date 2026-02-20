@@ -1,4 +1,4 @@
-# Implementation Plan: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Implementation Plan: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Branch**: `002-update-mcp-sdk` | **Date**: 2026-02-18 | **Spec**: [spec.md](spec.md)
 **Input**: Feature specification from `/specs/002-update-mcp-sdk/spec.md`
@@ -7,14 +7,14 @@
 
 ## Summary
 
-Update the `ModelContextProtocol` NuGet package from v0.4.0-preview.3 to v0.8.0-preview.1 across all four projects that reference it. Upgrade `McpWorkshop.Shared` target framework from `net8.0` to `net10.0`. Proactively update all `Microsoft.Extensions.*` packages to their latest versions. Ensure the solution compiles with zero errors/warnings and all tests pass.
+Update the `ModelContextProtocol` NuGet package from v0.4.0-preview.3 to v0.9.0-preview.1 across all four projects that reference it. Upgrade `McpWorkshop.Shared` target framework from `net8.0` to `net10.0`. Proactively update all `Microsoft.Extensions.*` packages to their latest versions. Ensure the solution compiles with zero errors/warnings and all tests pass.
 
 **Critical finding from research**: The `ModelContextProtocol` SDK is referenced in 4 `.csproj` files but its API surface is **not consumed in any C# source file**. The codebase implements MCP Tools, Resources, and Prompts manually via custom JSON-RPC types in `McpWorkshop.Shared.Mcp`. The migration is primarily a package version bump + framework alignment, with minimal risk of breaking API changes in source code. Documentation code samples for Exercise 5 may need review for updated SDK namespaces.
 
 ## Technical Context
 
 **Language/Version**: C# / .NET 10.0 (servers, tests), .NET 8.0 → 10.0 (Shared library)
-**Primary Dependencies**: `ModelContextProtocol` 0.4.0-preview.3 → 0.8.0-preview.1, `Microsoft.Extensions.Logging.Abstractions` 10.0.0, `Microsoft.Extensions.Options` 10.0.0, `Microsoft.AspNetCore.Http.Abstractions` 2.3.0, `StyleCop.Analyzers` 1.2.0-beta.556
+**Primary Dependencies**: `ModelContextProtocol` 0.4.0-preview.3 → 0.9.0-preview.1, `Microsoft.Extensions.Logging.Abstractions` 10.0.0, `Microsoft.Extensions.Options` 10.0.0, `Microsoft.AspNetCore.Http.Abstractions` 2.3.0, `StyleCop.Analyzers` 1.2.0-beta.556
 **Storage**: JSON files (local data), Azure SQL, Azure Cosmos DB (via servers)
 **Testing**: xUnit 2.9.3 + Moq 4.20.72 via `dotnet test`
 **Target Platform**: Windows/Linux (ASP.NET Core web servers)
