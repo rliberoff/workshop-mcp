@@ -1,4 +1,4 @@
-# Tasks: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Tasks: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Input**: Design documents from `/specs/002-update-mcp-sdk/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
@@ -40,21 +40,21 @@
 
 ## Phase 3: User Story 1 — Package Version Update Across All Projects (Priority: P1) 🎯 MVP
 
-**Goal**: Update `ModelContextProtocol` from v0.4.0-preview.3 to v0.8.0-preview.1 in all four projects, and update `Microsoft.Extensions.*` packages to v10.0.3 in McpWorkshop.Shared
+**Goal**: Update `ModelContextProtocol` from v0.4.0-preview.3 to v0.9.0-preview.1 in all four projects, and update `Microsoft.Extensions.*` packages to v10.0.3 in McpWorkshop.Shared
 
 **Independent Test**: Run `dotnet restore McpWorkshop.sln` — all packages resolve without version conflicts
 
 ### Implementation for User Story 1
 
-- [X] T006 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.8.0-preview.1` in src/McpWorkshop.Shared/McpWorkshop.Shared.csproj
+- [X] T006 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.9.0-preview.1` in src/McpWorkshop.Shared/McpWorkshop.Shared.csproj
 - [X] T007 [P] [US1] Update `Microsoft.Extensions.Logging.Abstractions` version from `10.0.0` to `10.0.3` in src/McpWorkshop.Shared/McpWorkshop.Shared.csproj
 - [X] T008 [P] [US1] Update `Microsoft.Extensions.Options` version from `10.0.0` to `10.0.3` in src/McpWorkshop.Shared/McpWorkshop.Shared.csproj
-- [X] T009 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.8.0-preview.1` in src/McpWorkshop.Servers/SqlMcpServer/SqlMcpServer.csproj
-- [X] T010 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.8.0-preview.1` in src/McpWorkshop.Servers/RestApiMcpServer/RestApiMcpServer.csproj
-- [X] T011 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.8.0-preview.1` in src/McpWorkshop.Servers/CosmosMcpServer/CosmosMcpServer.csproj
+- [X] T009 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.9.0-preview.1` in src/McpWorkshop.Servers/SqlMcpServer/SqlMcpServer.csproj
+- [X] T010 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.9.0-preview.1` in src/McpWorkshop.Servers/RestApiMcpServer/RestApiMcpServer.csproj
+- [X] T011 [P] [US1] Update `ModelContextProtocol` version from `0.4.0-preview.3` to `0.9.0-preview.1` in src/McpWorkshop.Servers/CosmosMcpServer/CosmosMcpServer.csproj
 - [X] T012 [US1] Run `dotnet restore McpWorkshop.sln` and verify all packages resolve without version conflicts
 
-**Checkpoint**: All four projects reference `ModelContextProtocol` v0.8.0-preview.1. `Microsoft.Extensions.*` updated to 10.0.3. NuGet restore succeeds.
+**Checkpoint**: All four projects reference `ModelContextProtocol` v0.9.0-preview.1. `Microsoft.Extensions.*` updated to 10.0.3. NuGet restore succeeds.
 
 ---
 
@@ -102,11 +102,11 @@
 
 ### Implementation for User Story 4
 
-- [X] T023 [US4] Review code samples in docs/modules/09b-ejercicio-5-agente-maf.md for SDK v0.8.0-preview.1 API accuracy (check `ListToolsAsync`, `CallToolAsync`, `RequestOptions` signatures)
-- [X] T024 [US4] Update any outdated SDK code samples in docs/modules/09b-ejercicio-5-agente-maf.md to match v0.8.0-preview.1 API
+- [X] T023 [US4] Review code samples in docs/modules/09b-ejercicio-5-agente-maf.md for SDK v0.9.0-preview.1 API accuracy (check `ListToolsAsync`, `CallToolAsync`, `RequestOptions` signatures)
+- [X] T024 [US4] Update any outdated SDK code samples in docs/modules/09b-ejercicio-5-agente-maf.md to match v0.9.0-preview.1 API
 - [X] T025 [US4] Run scripts/run-all-tests.ps1 to verify all exercise verification scripts pass (covers exercises 1–4 via verify-exercise*.ps1; Exercise 5 is doc-only and validated by T023/T024)
 
-**Checkpoint**: Exercise 5 documentation is accurate for v0.8.0-preview.1. All verification scripts pass. SC-004, SC-005 verified.
+**Checkpoint**: Exercise 5 documentation is accurate for v0.9.0-preview.1. All verification scripts pass. SC-004, SC-005 verified.
 
 ---
 

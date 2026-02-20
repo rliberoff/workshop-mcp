@@ -1,4 +1,4 @@
-# Quickstart: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Quickstart: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Date**: 2026-02-18  
 **Feature**: [spec.md](spec.md) | **Plan**: [plan.md](plan.md)
@@ -27,7 +27,7 @@ to:
 
 ### 2. Update ModelContextProtocol in All Projects
 
-Update the version in these 4 files from `0.4.0-preview.3` to `0.8.0-preview.1`:
+Update the version in these 4 files from `0.4.0-preview.3` to `0.9.0-preview.1`:
 
 - `src/McpWorkshop.Shared/McpWorkshop.Shared.csproj`
 - `src/McpWorkshop.Servers/SqlMcpServer/SqlMcpServer.csproj`
@@ -53,7 +53,7 @@ All three commands must complete with zero errors.
 
 ### 5. Review Exercise 5 Documentation
 
-Check `docs/modules/09b-ejercicio-5-agente-maf.md` for SDK code samples that reference `ModelContextProtocol.*` types. Verify code samples are accurate for v0.8.0-preview.1 API.
+Check `docs/modules/09b-ejercicio-5-agente-maf.md` for SDK code samples that reference `ModelContextProtocol.*` types. Verify code samples are accurate for v0.9.0-preview.1 API.
 
 ## Verification
 
@@ -65,7 +65,7 @@ scripts/run-all-tests.ps1
 
 ## Expected Outcome
 
-- All 4 projects reference `ModelContextProtocol` v0.8.0-preview.1
+- All 4 projects reference `ModelContextProtocol` v0.9.0-preview.1
 - `McpWorkshop.Shared` targets `net10.0`
 - Solution builds with zero errors and zero new warnings
 - All tests pass
