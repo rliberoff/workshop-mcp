@@ -1,11 +1,11 @@
-# Research: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Research: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Date**: 2026-02-18  
 **Feature**: [spec.md](spec.md)
 
 ## 1. SDK Availability & Target Framework Support
 
-- **Decision**: `ModelContextProtocol` v0.8.0-preview.1 is available on nuget.org (published 2026-02-05)
+- **Decision**: `ModelContextProtocol` v0.9.0-preview.1 is available on nuget.org
 - **Rationale**: Confirmed directly on nuget.org; supports `net8.0`, `net9.0`, `net10.0`, and `netstandard2.0`
 - **Alternatives considered**: None — version was specified by the user
 
@@ -17,7 +17,7 @@
 - `ModelContextProtocol.Core` (minimal dependencies, pulled transitively)
 - `ModelContextProtocol.AspNetCore` (HTTP server support — not currently used)
 
-## 2. Breaking Changes Between v0.4.0-preview.3 and v0.8.0-preview.1
+## 2. Breaking Changes Between v0.4.0-preview.3 and v0.9.0-preview.1
 
 - **Decision**: Breaking changes exist in the SDK API but have **zero impact** on compiled source code (see Task 3)
 - **Rationale**: The codebase does not import or use any `ModelContextProtocol.*` namespaces in C# source files. All MCP protocol handling is custom-built in `McpWorkshop.Shared.Mcp`.
@@ -32,17 +32,18 @@
 | v0.5.0 | `RequestOptions` bag replaces individual params | None in source; affects Exercise 5 doc samples |
 | v0.5.0 | `Enumerate*Async` methods removed | None — not used |
 | v0.8.0 | Protocol reference types sealed | None — not inherited |
+| v0.9.0 | Additional API surface changes | None — SDK APIs not used |
 
 ### Exercise 5 Documentation Impact
 
 The file `docs/modules/09b-ejercicio-5-agente-maf.md` contains code samples that reference SDK types:
 
-- `McpClient.CreateAsync()`, `ListToolsAsync()`, `CallToolAsync()` — still valid in v0.8.0
+- `McpClient.CreateAsync()`, `ListToolsAsync()`, `CallToolAsync()` — still valid in v0.9.0
 - `HttpClientTransport`, `StdioClientTransport` — still valid
 - `CallToolResult`, `McpClientTool` — still valid
 - `ListToolsAsync()` may now accept `RequestOptions?` parameter — minor signature change
 
-**Decision**: Review documentation code samples during implementation to ensure accuracy with v0.8.0 API, but the samples appear largely compatible.
+**Decision**: Review documentation code samples during implementation to ensure accuracy with v0.9.0 API, but the samples appear largely compatible.
 
 ## 3. SDK API Usage in Source Code
 
@@ -69,7 +70,7 @@ The file `docs/modules/09b-ejercicio-5-agente-maf.md` contains code samples that
 ## 5. Transitive Dependencies from New SDK
 
 - **Decision**: No additional package references need to be added; transitive dependencies are handled automatically
-- **Rationale**: `ModelContextProtocol` v0.8.0-preview.1 pulls `ModelContextProtocol.Core`, `Microsoft.Extensions.Caching.Abstractions`, and `Microsoft.Extensions.Hosting.Abstractions` transitively
+- **Rationale**: `ModelContextProtocol` v0.9.0-preview.1 pulls `ModelContextProtocol.Core`, `Microsoft.Extensions.Caching.Abstractions`, and `Microsoft.Extensions.Hosting.Abstractions` transitively
 - **Alternatives considered**: Explicitly pinning transitive deps (rejected — unnecessary complexity)
 
 ## Summary: Migration Plan
@@ -77,7 +78,7 @@ The file `docs/modules/09b-ejercicio-5-agente-maf.md` contains code samples that
 | Step | Action | Risk |
 |------|--------|------|
 | 1 | Update `McpWorkshop.Shared` TFM from `net8.0` to `net10.0` | Low |
-| 2 | Update `ModelContextProtocol` to `0.8.0-preview.1` in 4 `.csproj` files | Low |
+| 2 | Update `ModelContextProtocol` to `0.9.0-preview.1` in 4 `.csproj` files | Low |
 | 3 | Update `Microsoft.Extensions.Logging.Abstractions` to `10.0.3` | Low |
 | 4 | Update `Microsoft.Extensions.Options` to `10.0.3` | Low |
 | 5 | Build solution, fix any errors/warnings | Low (no SDK API usage in source) |
