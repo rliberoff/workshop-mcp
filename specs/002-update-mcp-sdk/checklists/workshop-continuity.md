@@ -1,4 +1,4 @@
-# Workshop Continuity Checklist: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Workshop Continuity Checklist: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Purpose**: Validate that the specification adequately covers participant experience, exercise integrity, and instructor readiness throughout the SDK migration  
 **Created**: 2026-02-18  
@@ -50,21 +50,21 @@
 ## Scenario Coverage — Participant Workflows
 
 - [ ] CHK024 - Are requirements defined for the participant onboarding flow — does `verify-setup.ps1` need updating to check for the new SDK version? [Coverage, Gap]
-- [ ] CHK025 - Are requirements defined for participants who may have cached NuGet packages from a previous version — will `dotnet restore` correctly resolve v0.8.0-preview.1 over cached v0.4.0-preview.3? [Coverage, Edge Case]
+- [ ] CHK025 - Are requirements defined for participants who may have cached NuGet packages from a previous version — will `dotnet restore` correctly resolve v0.9.0-preview.1 over cached v0.4.0-preview.3? [Coverage, Edge Case]
 - [ ] CHK026 - Are requirements specified for the `create-sample-data.ps1` script — does it depend on any packages or TFMs being updated? [Coverage, Gap]
 - [ ] CHK027 - Are requirements defined for partial completion scenarios — if a participant is mid-exercise when the SDK version matters, are there intermediate checkpoints? [Coverage, Alternate Flow]
 
 ## Edge Case Coverage — Runtime Behavior
 
 - [ ] CHK028 - Are requirements defined for what happens if the new SDK's transitive dependency on `Microsoft.Extensions.Hosting.Abstractions` conflicts with the manually configured hosting in server `Program.cs` files? [Edge Case, Gap]
-- [ ] CHK029 - Are requirements specified for assembly-level type collisions between `McpWorkshop.Shared.Mcp` custom types and new types introduced in `ModelContextProtocol` v0.8.0-preview.1? [Edge Case, Gap]
+- [ ] CHK029 - Are requirements specified for assembly-level type collisions between `McpWorkshop.Shared.Mcp` custom types and new types introduced in `ModelContextProtocol` v0.9.0-preview.1? [Edge Case, Gap]
 - [ ] CHK030 - Are requirements defined for the new `ModelContextProtocol.Core` transitive package — could it introduce new assembly bindings that affect the custom MCP implementation? [Edge Case, Gap]
 
 ## Acceptance Criteria Quality
 
 - [ ] CHK031 - Can User Story 4 acceptance scenario 2 ("responses match the expected behavior") be objectively measured — are expected response payloads defined or referenced? [Measurability, Spec §US4]
 - [ ] CHK032 - Can SC-005 ("No regression in workshop exercise functionality") be verified without running the entire workshop — is there an automated or scripted verification path? [Measurability, Spec §SC-005]
-- [ ] CHK033 - Are acceptance criteria defined for the documentation review (Exercise 5 code samples) — what constitutes "accurate" for SDK v0.8.0-preview.1 API? [Measurability, Gap]
+- [ ] CHK033 - Are acceptance criteria defined for the documentation review (Exercise 5 code samples) — what constitutes "accurate" for SDK v0.9.0-preview.1 API? [Measurability, Gap]
 
 ## Dependencies & Assumptions
 
