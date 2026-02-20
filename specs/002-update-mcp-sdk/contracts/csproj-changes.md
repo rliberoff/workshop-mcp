@@ -28,7 +28,7 @@ This contract defines the exact changes to be made to `.csproj` files. Since thi
 <!-- AFTER -->
 <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" />
 <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.3" />
-<PackageReference Include="ModelContextProtocol" Version="0.8.0-preview.1" />
+<PackageReference Include="ModelContextProtocol" Version="0.9.0-preview.1" />
 ```
 
 ### 2. `src/McpWorkshop.Servers/SqlMcpServer/SqlMcpServer.csproj`
@@ -38,7 +38,7 @@ This contract defines the exact changes to be made to `.csproj` files. Since thi
 <PackageReference Include="ModelContextProtocol" Version="0.4.0-preview.3" />
 
 <!-- AFTER -->
-<PackageReference Include="ModelContextProtocol" Version="0.8.0-preview.1" />
+<PackageReference Include="ModelContextProtocol" Version="0.9.0-preview.1" />
 ```
 
 ### 3. `src/McpWorkshop.Servers/RestApiMcpServer/RestApiMcpServer.csproj`
@@ -48,7 +48,7 @@ This contract defines the exact changes to be made to `.csproj` files. Since thi
 <PackageReference Include="ModelContextProtocol" Version="0.4.0-preview.3" />
 
 <!-- AFTER -->
-<PackageReference Include="ModelContextProtocol" Version="0.8.0-preview.1" />
+<PackageReference Include="ModelContextProtocol" Version="0.9.0-preview.1" />
 ```
 
 ### 4. `src/McpWorkshop.Servers/CosmosMcpServer/CosmosMcpServer.csproj`
@@ -58,7 +58,7 @@ This contract defines the exact changes to be made to `.csproj` files. Since thi
 <PackageReference Include="ModelContextProtocol" Version="0.4.0-preview.3" />
 
 <!-- AFTER -->
-<PackageReference Include="ModelContextProtocol" Version="0.8.0-preview.1" />
+<PackageReference Include="ModelContextProtocol" Version="0.9.0-preview.1" />
 ```
 
 ### 5. `tests/McpWorkshop.Tests/McpWorkshop.Tests.csproj`

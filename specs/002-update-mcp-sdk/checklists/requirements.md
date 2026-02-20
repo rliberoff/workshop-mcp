@@ -1,4 +1,4 @@
-# Specification Quality Checklist: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Specification Quality Checklist: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning  
 **Created**: 2026-02-18  

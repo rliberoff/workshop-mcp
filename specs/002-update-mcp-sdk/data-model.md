@@ -1,4 +1,4 @@
-# Data Model: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Data Model: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Date**: 2026-02-18  
 **Feature**: [spec.md](spec.md)
@@ -33,7 +33,7 @@ Represents the .NET target framework moniker for a project.
 | Element | Before | After |
 |---------|--------|-------|
 | `TargetFramework` | `net8.0` | `net10.0` |
-| `ModelContextProtocol` | `0.4.0-preview.3` | `0.8.0-preview.1` |
+| `ModelContextProtocol` | `0.4.0-preview.3` | `0.9.0-preview.1` |
 | `Microsoft.Extensions.Logging.Abstractions` | `10.0.0` | `10.0.3` |
 | `Microsoft.Extensions.Options` | `10.0.0` | `10.0.3` |
 | `Microsoft.AspNetCore.Http.Abstractions` | `2.3.0` | `2.3.0` (unchanged) |
@@ -44,21 +44,21 @@ Represents the .NET target framework moniker for a project.
 | Element | Before | After |
 |---------|--------|-------|
 | `TargetFramework` | `net10.0` | `net10.0` (unchanged) |
-| `ModelContextProtocol` | `0.4.0-preview.3` | `0.8.0-preview.1` |
+| `ModelContextProtocol` | `0.4.0-preview.3` | `0.9.0-preview.1` |
 
 ### RestApiMcpServer.csproj
 
 | Element | Before | After |
 |---------|--------|-------|
 | `TargetFramework` | `net10.0` | `net10.0` (unchanged) |
-| `ModelContextProtocol` | `0.4.0-preview.3` | `0.8.0-preview.1` |
+| `ModelContextProtocol` | `0.4.0-preview.3` | `0.9.0-preview.1` |
 
 ### CosmosMcpServer.csproj
 
 | Element | Before | After |
 |---------|--------|-------|
 | `TargetFramework` | `net10.0` | `net10.0` (unchanged) |
-| `ModelContextProtocol` | `0.4.0-preview.3` | `0.8.0-preview.1` |
+| `ModelContextProtocol` | `0.4.0-preview.3` | `0.9.0-preview.1` |
 
 ### McpWorkshop.Tests.csproj
 
@@ -82,7 +82,7 @@ CosmosMcpServer    → references → McpWorkshop.Shared
 
 ## Validation Rules
 
-- All `ModelContextProtocol` references MUST be exactly `0.8.0-preview.1`
+- All `ModelContextProtocol` references MUST be exactly `0.9.0-preview.1`
 - `McpWorkshop.Shared` TFM MUST be `net10.0`
 - `Microsoft.Extensions.Logging.Abstractions` MUST be `10.0.3` (in `McpWorkshop.Shared`)
 - `Microsoft.Extensions.Options` MUST be `10.0.3` (in `McpWorkshop.Shared`)
