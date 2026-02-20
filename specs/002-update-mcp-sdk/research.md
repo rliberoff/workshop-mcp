@@ -37,12 +37,12 @@
 
 The file `docs/modules/09b-ejercicio-5-agente-maf.md` contains code samples that reference SDK types:
 
-- `McpClient.CreateAsync()`, `ListToolsAsync()`, `CallToolAsync()` — still valid in v0.8.0
+- `McpClient.CreateAsync()`, `ListToolsAsync()`, `CallToolAsync()` — still valid in v0.9.0-preview.1
 - `HttpClientTransport`, `StdioClientTransport` — still valid
 - `CallToolResult`, `McpClientTool` — still valid
 - `ListToolsAsync()` may now accept `RequestOptions?` parameter — minor signature change
 
-**Decision**: Review documentation code samples during implementation to ensure accuracy with v0.8.0 API, but the samples appear largely compatible.
+**Decision**: Review documentation code samples during implementation to ensure accuracy with v0.9.0-preview.1 API, but the samples appear largely compatible.
 
 ## 3. SDK API Usage in Source Code
 
