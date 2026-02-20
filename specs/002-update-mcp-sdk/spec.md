@@ -1,15 +1,15 @@
-# Feature Specification: Update ModelContextProtocol SDK to 0.8.0-preview.1
+# Feature Specification: Update ModelContextProtocol SDK to 0.9.0-preview.1
 
 **Feature Branch**: `002-update-mcp-sdk`  
 **Created**: 2026-02-18  
 **Status**: Draft  
-**Input**: User description: "Update ModelContextProtocol library and its dependencies from v0.4.0-preview.3 to v0.8.0-preview.1, ensuring all code compiles and any errors or warnings are corrected."
+**Input**: User description: "Update ModelContextProtocol library and its dependencies from v0.4.0-preview.3 to v0.9.0-preview.1, ensuring all code compiles and any errors or warnings are corrected."
 
 ## Clarifications
 
 ### Session 2026-02-18
 
-- Q: If `ModelContextProtocol` v0.8.0-preview.1 drops `net8.0` support, should `McpWorkshop.Shared` be upgraded, multi-targeted, or kept as-is? → A: Upgrade `McpWorkshop.Shared` to `net10.0` to match all other projects.
+- Q: If `ModelContextProtocol` v0.9.0-preview.1 drops `net8.0` support, should `McpWorkshop.Shared` be upgraded, multi-targeted, or kept as-is? → A: Upgrade `McpWorkshop.Shared` to `net10.0` to match all other projects.
 - Q: Should other packages (e.g., `Microsoft.Extensions.*`) be proactively updated alongside the SDK, or only if binding conflicts arise? → A: Proactively update all `Microsoft.Extensions.*` packages to their latest versions.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -29,7 +29,7 @@
 
 ### User Story 1 - Package Version Update Across All Projects (Priority: P1)
 
-As a workshop instructor, I need the `ModelContextProtocol` package updated from v0.4.0-preview.3 to v0.8.0-preview.1 in all projects that reference it, and all `Microsoft.Extensions.*` packages proactively updated to their latest compatible versions, so that the workshop exercises use the latest SDK capabilities and a consistent dependency set.
+As a workshop instructor, I need the `ModelContextProtocol` package updated from v0.4.0-preview.3 to v0.9.0-preview.1 in all projects that reference it, and all `Microsoft.Extensions.*` packages proactively updated to their latest compatible versions, so that the workshop exercises use the latest SDK capabilities and a consistent dependency set.
 
 **Why this priority**: This is the core deliverable — without updating the package references, no other work can proceed. All four projects (McpWorkshop.Shared, SqlMcpServer, RestApiMcpServer, CosmosMcpServer) must reference the new version. The `Microsoft.Extensions.*` updates are included here to avoid binding conflicts and ensure consistency (per clarification decision).
 
@@ -37,7 +37,7 @@ As a workshop instructor, I need the `ModelContextProtocol` package updated from
 
 **Acceptance Scenarios**:
 
-1. **Given** the solution with `ModelContextProtocol` v0.4.0-preview.3 referenced in four projects, **When** the package version is updated, **Then** all four `.csproj` files reference `ModelContextProtocol` v0.8.0-preview.1
+1. **Given** the solution with `ModelContextProtocol` v0.4.0-preview.3 referenced in four projects, **When** the package version is updated, **Then** all four `.csproj` files reference `ModelContextProtocol` v0.9.0-preview.1
 2. **Given** the updated package references, **When** NuGet restore is executed, **Then** all packages resolve successfully without version conflicts
 
 ---
@@ -46,7 +46,7 @@ As a workshop instructor, I need the `ModelContextProtocol` package updated from
 
 As a workshop instructor, I need the entire solution to compile without errors after the SDK update, so that workshop participants can build and run all exercises without issues.
 
-**Why this priority**: A non-compiling solution renders the workshop unusable. Breaking API changes between v0.4.0-preview.3 and v0.8.0-preview.1 must be identified and resolved.
+**Why this priority**: A non-compiling solution renders the workshop unusable. Breaking API changes between v0.4.0-preview.3 and v0.9.0-preview.1 must be identified and resolved.
 
 **Independent Test**: Can be fully tested by building the entire solution and verifying zero compilation errors across all projects.
 
@@ -100,11 +100,11 @@ As a workshop participant, I need all MCP server exercises to remain functional 
 
 ### Functional Requirements
 
-- **FR-001**: All projects referencing `ModelContextProtocol` MUST be updated to version 0.8.0-preview.1
+- **FR-001**: All projects referencing `ModelContextProtocol` MUST be updated to version 0.9.0-preview.1
 - **FR-002**: The solution MUST compile successfully with zero errors after the update
 - **FR-003**: The solution MUST compile with zero new compiler warnings introduced by the migration, measured against the baseline warning count captured in T001 (pre-migration build). A warning is considered "new" if it does not appear in the baseline build output.
 - **FR-004**: All existing unit tests MUST pass after the update (tests may be updated to reflect legitimate API changes)
-- **FR-005**: Any breaking API changes between v0.4.0-preview.3 and v0.8.0-preview.1 — including removed, renamed, or restructured types and methods — MUST be identified and resolved in the codebase
+- **FR-005**: Any breaking API changes between v0.4.0-preview.3 and v0.9.0-preview.1 — including removed, renamed, or restructured types and methods — MUST be identified and resolved in the codebase
 - **FR-006**: Any new or changed transitive dependencies MUST be compatible with the existing project target frameworks
 - **FR-007**: The workshop exercise behavior MUST be preserved — all MCP tools, resources, and prompts MUST remain functionally equivalent after the update, as verified by exercise verification scripts producing identical results
 - **FR-008**: Any deprecated APIs flagged by the new SDK version via compiler warnings MUST be replaced with their recommended alternatives (distinct from FR-005 which covers removals/renames that cause compilation errors)
@@ -120,7 +120,7 @@ As a workshop participant, I need all MCP server exercises to remain functional 
 
 ### Measurable Outcomes
 
-- **SC-001**: All four projects reference `ModelContextProtocol` v0.8.0-preview.1 (verifiable via `.csproj` inspection)
+- **SC-001**: All four projects reference `ModelContextProtocol` v0.9.0-preview.1 (verifiable via `.csproj` inspection)
 - **SC-002**: Solution builds with zero errors and zero new warnings compared to the T001 baseline (verifiable by diffing `dotnet build` output before and after migration)
 - **SC-003**: 100% of existing tests pass after the update (verifiable via `dotnet test` output)
 - **SC-004**: All three MCP servers start successfully and respond to requests (verifiable via exercise verification scripts)
@@ -128,8 +128,8 @@ As a workshop participant, I need all MCP server exercises to remain functional 
 
 ## Assumptions
 
-- The `ModelContextProtocol` v0.8.0-preview.1 package is available on the NuGet feed (nuget.org or configured sources).
+- The `ModelContextProtocol` v0.9.0-preview.1 package is available on the NuGet feed (nuget.org or configured sources).
 - `McpWorkshop.Shared` will be upgraded from `net8.0` to `net10.0` to align with all other projects, regardless of whether the new SDK requires it.
-- Any API changes between v0.4.0-preview.3 and v0.8.0-preview.1 are documented in release notes or discoverable via compiler errors.
+- Any API changes between v0.4.0-preview.3 and v0.9.0-preview.1 are documented in release notes or discoverable via compiler errors.
 - The workshop's functional behavior (what each tool does, what data it returns) does not need to change — only the underlying SDK API calls may need adaptation.
 - All `Microsoft.Extensions.*` packages in the solution will be proactively updated to their latest versions (currently 10.0.3) alongside the SDK update to ensure consistency and avoid binding conflicts. If the target version is unavailable or causes restore failures, the highest compatible stable version will be used instead.
