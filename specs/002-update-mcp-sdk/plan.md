@@ -14,7 +14,7 @@ Update the `ModelContextProtocol` NuGet package from v0.4.0-preview.3 to v0.9.0-
 ## Technical Context
 
 **Language/Version**: C# / .NET 10.0 (servers, tests), .NET 8.0 → 10.0 (Shared library)
-**Primary Dependencies**: `ModelContextProtocol` 0.4.0-preview.3 → 0.9.0-preview.1, `Microsoft.Extensions.Logging.Abstractions` 10.0.0, `Microsoft.Extensions.Options` 10.0.0, `Microsoft.AspNetCore.Http.Abstractions` 2.3.0, `StyleCop.Analyzers` 1.2.0-beta.556
+**Primary Dependencies**: `ModelContextProtocol` 0.4.0-preview.3 → 0.9.0-preview.1, `Microsoft.Extensions.Logging.Abstractions` 10.0.3, `Microsoft.Extensions.Options` 10.0.3, `Microsoft.AspNetCore.Http.Abstractions` 2.3.0, `StyleCop.Analyzers` 1.2.0-beta.556
 **Storage**: JSON files (local data), Azure SQL, Azure Cosmos DB (via servers)
 **Testing**: xUnit 2.9.3 + Moq 4.20.72 via `dotnet test`
 **Target Platform**: Windows/Linux (ASP.NET Core web servers)
