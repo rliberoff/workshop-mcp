@@ -57,6 +57,11 @@ param(
     [switch]$NoBuild
 )
 
+# Map common -Verbose switch to $DetailedOutput for backwards compatibility
+if ($PSBoundParameters.ContainsKey('Verbose')) {
+    $DetailedOutput = $true
+}
+
 $ErrorActionPreference = "Stop"
 
 # Get script directory and solution root
