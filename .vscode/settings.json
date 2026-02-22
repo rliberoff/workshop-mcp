@@ -11,9 +11,12 @@
         ".specify/scripts/bash/": true,
         ".specify/scripts/powershell/": true
     },
+    "chat.useAgentSkills": true,
+    "chat.mcp.autostart": "newAndOutdated",
     "files.associations": {
         "*.chatmode.md": "markdown",
         "*.instructions.md": "markdown",
-        "*.prompt.md": "markdown"
+        "*.prompt.md": "markdown",
+        "SKILL.md": "markdown"
     }
 }

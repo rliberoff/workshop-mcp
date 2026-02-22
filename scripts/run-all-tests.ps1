@@ -15,7 +15,7 @@
 .PARAMETER Filter
     Test filter expression (e.g., "FullyQualifiedName~Exercise1"). Default: run all tests
 
-.PARAMETER Verbose
+.PARAMETER DetailedOutput
     Show detailed test output. Default: false
 
 .PARAMETER NoBuild
@@ -30,7 +30,7 @@
     # Runs all tests in Release mode with coverage
 
 .EXAMPLE
-    .\run-all-tests.ps1 -Filter "FullyQualifiedName~Exercise1" -Verbose
+    .\run-all-tests.ps1 -Filter "FullyQualifiedName~Exercise1" -DetailedOutput
     # Runs only Exercise 1 tests with detailed output
 
 .EXAMPLE
@@ -51,11 +51,16 @@ param(
     [string]$Filter = "",
 
     [Parameter()]
-    [switch]$Verbose,
+    [switch]$DetailedOutput,
 
     [Parameter()]
     [switch]$NoBuild
 )
+
+# Map common -Verbose switch to $DetailedOutput for backwards compatibility
+if ($PSBoundParameters.ContainsKey('Verbose')) {
+    $DetailedOutput = $true
+}
 
 $ErrorActionPreference = "Stop"
 
@@ -82,7 +87,7 @@ Write-Host "  Test Project:  $TestProject"
 Write-Host "  Configuration: $Configuration"
 Write-Host "  Coverage:      $Coverage"
 Write-Host "  Filter:        $(if ($Filter) { $Filter } else { 'None (run all)' })"
-Write-Host "  Verbose:       $Verbose"
+Write-Host "  Detailed:      $DetailedOutput"
 Write-Host "  No Build:      $NoBuild"
 Write-Host ""
 
@@ -124,7 +129,7 @@ if ($Filter) {
     $TestArgs += "--filter", $Filter
 }
 
-if ($Verbose) {
+if ($DetailedOutput) {
     $TestArgs += "--verbosity", "detailed"
 }
 else {

@@ -190,9 +190,9 @@ Crea `appsettings.json`:
 
 **Nota Importante**:
 
--   Reemplaza `<your-resource>` con el nombre de tu recurso Azure OpenAI
--   Reemplaza `<your-api-key>` con tu API key
--   O configura variables de entorno como alternativa
+- Reemplaza `<your-resource>` con el nombre de tu recurso Azure OpenAI
+- Reemplaza `<your-api-key>` con tu API key
+- O configura variables de entorno como alternativa
 
 ---
 
@@ -201,7 +201,6 @@ Crea `appsettings.json`:
 Crea `McpClientHelper.cs` para gestionar conexiones a los servidores MCP:
 
 ```csharp
-using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol;
 
@@ -217,9 +216,8 @@ public static class McpClientHelper
     /// </summary>
     /// <param name="serverName">Nombre descriptivo del servidor</param>
     /// <param name="serverUrl">URL base del servidor MCP (ej: http://localhost:5010)</param>
-    /// <param name="loggerFactory">Factory para crear loggers (opcional)</param>
     /// <returns>Cliente MCP configurado</returns>
-    public static async Task<McpClient> CreateHttpClientAsync(string serverName, string serverUrl, ILoggerFactory? loggerFactory = null)
+    public static async Task<McpClient> CreateHttpClientAsync(string serverName, string serverUrl)
     {
         Console.WriteLine($"🔌 Conectando a {serverName} en {serverUrl}...");
 
@@ -236,8 +234,8 @@ public static class McpClientHelper
             Endpoint = new Uri(serverUrl.TrimEnd('/') + "/mcp")
         };
 
-        var transport = new HttpClientTransport(options, httpClient, loggerFactory);
-        var client = await McpClient.CreateAsync(transport, loggerFactory: loggerFactory);
+        var transport = new HttpClientTransport(options, httpClient);
+        var client = await McpClient.CreateAsync(transport);
 
         Console.WriteLine($"✅ Conectado a {serverName}");
         return client;
@@ -249,13 +247,11 @@ public static class McpClientHelper
     /// <param name="serverName">Nombre del servidor</param>
     /// <param name="command">Comando para ejecutar (ej: "dotnet")</param>
     /// <param name="args">Argumentos del comando (ej: ["run", "--project", "path/to/server"])</param>
-    /// <param name="loggerFactory">Factory para crear loggers (opcional)</param>
     /// <returns>Cliente MCP configurado</returns>
     public static async Task<McpClient> CreateStdioClientAsync(
         string serverName,
         string command,
-        string[] args,
-        ILoggerFactory? loggerFactory = null)
+        string[] args)
     {
         Console.WriteLine($"🔌 Iniciando servidor local {serverName}...");
 
@@ -266,7 +262,7 @@ public static class McpClientHelper
             Arguments = [.. args]
         });
 
-        var client = await McpClient.CreateAsync(transport, loggerFactory: loggerFactory);
+        var client = await McpClient.CreateAsync(transport);
 
         Console.WriteLine($"✅ Servidor {serverName} iniciado");
         return client;
@@ -277,10 +273,10 @@ public static class McpClientHelper
 
 **💡 Conceptos Clave**:
 
--   **Transport**: Mecanismo de comunicación con el servidor MCP (HTTP, stdio, WebSocket)
--   **McpClient**: Cliente oficial del SDK que se conecta al servidor MCP
--   **Stdio vs HTTP**: Stdio para procesos locales, HTTP para servidores remotos
--   **HttpClientTransport**: Usa el endpoint `/mcp` para comunicarse con el servidor
+- **Transport**: Mecanismo de comunicación con el servidor MCP (HTTP, stdio, WebSocket)
+- **McpClient**: Cliente oficial del SDK que se conecta al servidor MCP
+- **Stdio vs HTTP**: Stdio para procesos locales, HTTP para servidores remotos
+- **HttpClientTransport**: Usa el endpoint `/mcp` para comunicarse con el servidor
 
 ---
 
@@ -295,6 +291,7 @@ using System.ComponentModel;
 using System.Text.Json;
 using Microsoft.Extensions.AI;
 using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol;
 
 namespace Exercise5Agent;
 
@@ -382,7 +379,7 @@ public static class McpToolAdapter
     /// <summary>
     /// Extrae el contenido de texto de la respuesta MCP
     /// </summary>
-    private static string ExtractContent(ModelContextProtocol.Protocol.CallToolResult result)
+    private static string ExtractContent(CallToolResult result)
     {
         if (result.Content == null || result.Content.Count == 0)
         {
@@ -393,30 +390,17 @@ public static class McpToolAdapter
 
         foreach (var contentBlock in result.Content)
         {
-            // Serializar el contentBlock para acceder a sus propiedades dinámicas
-            var json = JsonSerializer.Serialize(contentBlock);
-            var doc = JsonDocument.Parse(json);
-
-            if (doc.RootElement.TryGetProperty("type", out var typeElement))
+            if (contentBlock.Type == "text" && contentBlock.Text is string text)
             {
-                var type = typeElement.GetString();
-
-                if (type == "text" && doc.RootElement.TryGetProperty("text", out var textElement))
-                {
-                    var text = textElement.GetString();
-                    if (!string.IsNullOrEmpty(text))
-                    {
-                        contents.Add(text);
-                    }
-                }
-                else if (type == "image")
-                {
-                    contents.Add("[Imagen recibida]");
-                }
-                else if (type == "resource" && doc.RootElement.TryGetProperty("uri", out var uriElement))
-                {
-                    contents.Add($"[Recurso: {uriElement.GetString()}]");
-                }
+                contents.Add(text);
+            }
+            else if (contentBlock.Type == "image")
+            {
+                contents.Add("[Imagen recibida]");
+            }
+            else if (contentBlock.Type == "resource")
+            {
+                contents.Add($"[Recurso recibido]");
             }
         }
 
@@ -433,7 +417,7 @@ public static class McpToolAdapter
 1. **McpClientTool**: Solo contiene metadatos (nombre, descripción). NO es ejecutable.
 2. **AIFunction**: Función ejecutable que el agente puede invocar.
 3. **Wrapper Pattern**: Creamos un wrapper que captura el `McpClient` y llama `CallToolAsync()`.
-4. **Extracción de Contenido**: Las respuestas MCP tienen formato `{content: [{type:"text", text:"..."}]}`.
+4. **Extracción de Contenido**: Las respuestas MCP tienen contenido con propiedades tipadas (`Type`, `Text`, etc.).
 5. **Manejo de Errores**: Capturamos excepciones y las devolvemos como texto para que el agente las procese.
 
 **⚠️ Sin este adaptador, el agente NO podrá ejecutar las herramientas MCP.**
@@ -727,12 +711,12 @@ Ejecuta el script de verificación:
 
 **Checklist de verificación manual**:
 
--   [ ] El agente se conecta a los 3 servidores MCP
--   [ ] Las herramientas MCP se listan correctamente
--   [ ] El agente responde en español
--   [ ] El agente mantiene el contexto de la conversación (multi-turno)
--   [ ] El agente selecciona la herramienta correcta según la pregunta
--   [ ] Los errores se manejan gracefully
+- [ ] El agente se conecta a los 3 servidores MCP
+- [ ] Las herramientas MCP se listan correctamente
+- [ ] El agente responde en español
+- [ ] El agente mantiene el contexto de la conversación (multi-turno)
+- [ ] El agente selecciona la herramienta correcta según la pregunta
+- [ ] Los errores se manejan gracefully
 
 ---
 
@@ -740,29 +724,29 @@ Ejecuta el script de verificación:
 
 ### 1. **Microsoft Agent Framework (MAF)**
 
--   Abstracción de alto nivel para crear agentes conversacionales
--   Soporte nativo para múltiples proveedores de LLM (OpenAI, Azure OpenAI, etc.)
--   Gestión automática de herramientas (function calling)
--   Manejo de estado con threads
+- Abstracción de alto nivel para crear agentes conversacionales
+- Soporte nativo para múltiples proveedores de LLM (OpenAI, Azure OpenAI, etc.)
+- Gestión automática de herramientas (function calling)
+- Manejo de estado con threads
 
 ### 2. **Integración MCP con Agentes**
 
--   Los servidores MCP exponen herramientas que el agente puede usar
--   `ListToolsAsync()` descubre dinámicamente las capacidades disponibles
--   Las herramientas MCP se convierten automáticamente en herramientas de AI
--   El agente decide qué herramienta usar según el contexto
+- Los servidores MCP exponen herramientas que el agente puede usar
+- `ListToolsAsync()` descubre dinámicamente las capacidades disponibles
+- Las herramientas MCP se convierten automáticamente en herramientas de AI
+- El agente decide qué herramienta usar según el contexto
 
 ### 3. **Conversación Multi-Turno**
 
--   `AgentThread` mantiene el historial de conversación
--   El agente recuerda el contexto de mensajes anteriores
--   Permite conversaciones naturales con follow-ups
+- `AgentThread` mantiene el historial de conversación
+- El agente recuerda el contexto de mensajes anteriores
+- Permite conversaciones naturales con follow-ups
 
 ### 4. **Patrones de Arquitectura**
 
--   **Separation of Concerns**: Cada servidor MCP tiene una responsabilidad específica
--   **Composability**: El agente compone herramientas de múltiples fuentes
--   **Abstraction**: El usuario no necesita saber qué servidor MCP se usa
+- **Separation of Concerns**: Cada servidor MCP tiene una responsabilidad específica
+- **Composability**: El agente compone herramientas de múltiples fuentes
+- **Abstraction**: El usuario no necesita saber qué servidor MCP se usa
 
 ---
 
@@ -834,19 +818,19 @@ if (userInput.StartsWith("/"))
 
 ### Documentación Oficial
 
--   [Microsoft Agent Framework Overview](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview)
--   [Using MCP Tools with Agents](https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools)
--   [.NET AI with MCP](https://learn.microsoft.com/en-us/dotnet/ai/get-started-mcp)
+- [Microsoft Agent Framework Overview](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview)
+- [Using MCP Tools with Agents](https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools)
+- [.NET AI with MCP](https://learn.microsoft.com/en-us/dotnet/ai/get-started-mcp)
 
 ### Repositorios
 
--   [Microsoft Agent Framework GitHub](https://github.com/microsoft/agent-framework)
--   [MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk)
+- [Microsoft Agent Framework GitHub](https://github.com/microsoft/agent-framework)
+- [MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk)
 
 ### Ejemplos
 
--   [Agent Framework Samples](https://github.com/microsoft/agent-framework/tree/main/dotnet/samples)
--   [MCP Server Examples](https://github.com/modelcontextprotocol/servers)
+- [Agent Framework Samples](https://github.com/microsoft/agent-framework/tree/main/dotnet/samples)
+- [MCP Server Examples](https://github.com/modelcontextprotocol/servers)
 
 ---
 
@@ -866,27 +850,27 @@ Después de completar este ejercicio:
 
 ### Error: "AzureOpenAI:Endpoint no configurado"
 
--   **Solución**: Configura `appsettings.json` o variables de entorno
+- **Solución**: Configura `appsettings.json` o variables de entorno
 
 ### Error: "Failed to connect to MCP server"
 
--   **Solución**: Verifica que los 3 servidores MCP estén corriendo
--   Usa `Test-NetConnection localhost -Port 5010` para verificar
+- **Solución**: Verifica que los 3 servidores MCP estén corriendo
+- Usa `Test-NetConnection localhost -Port 5010` para verificar
 
 ### Error: "DefaultAzureCredential authentication failed"
 
--   **Solución**: Ejecuta `az login` o usa `AzureCliCredential` directamente
--   Alternativamente, usa API Key authentication
+- **Solución**: Ejecuta `az login` o usa `AzureCliCredential` directamente
+- Alternativamente, usa API Key authentication
 
 ### El agente no responde en español
 
--   **Solución**: Verifica las instrucciones del agente en `appsettings.json`
--   Añade "Siempre responde en español" explícitamente
+- **Solución**: Verifica las instrucciones del agente en `appsettings.json`
+- Añade "Siempre responde en español" explícitamente
 
 ### El agente no usa las herramientas correctas
 
--   **Solución**: Mejora las descripciones de las herramientas en los servidores MCP
--   Añade más contexto en las instrucciones del agente
+- **Solución**: Mejora las descripciones de las herramientas en los servidores MCP
+- Añade más contexto en las instrucciones del agente
 
 ---
 
@@ -894,13 +878,13 @@ Después de completar este ejercicio:
 
 Antes de terminar, verifica:
 
--   [ ] El proyecto compila sin errores
--   [ ] Los 3 servidores MCP están corriendo
--   [ ] El agente se conecta correctamente a todos los servidores
--   [ ] Las conversaciones funcionan en español
--   [ ] El contexto se mantiene entre mensajes
--   [ ] Los errores se manejan correctamente
--   [ ] Has probado al menos 3 tipos de consultas diferentes
+- [ ] El proyecto compila sin errores
+- [ ] Los 3 servidores MCP están corriendo
+- [ ] El agente se conecta correctamente a todos los servidores
+- [ ] Las conversaciones funcionan en español
+- [ ] El contexto se mantiene entre mensajes
+- [ ] Los errores se manejan correctamente
+- [ ] Has probado al menos 3 tipos de consultas diferentes
 
 ---
 
