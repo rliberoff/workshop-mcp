@@ -116,12 +116,10 @@ Crea un archivo `appsettings.example.json` para compartir:
 
 1. **Paquetes NuGet**:
 
-    ```
     - Azure.AI.OpenAI: Cliente para Azure OpenAI
     - Azure.Identity: Autenticación con Azure
     - Microsoft.Agents.AI.OpenAI: Framework de agentes
     - ModelContextProtocol: SDK de MCP para C#
-    ```
 
 2. **Configuración**:
     - Endpoint de Azure OpenAI
@@ -130,8 +128,7 @@ Crea un archivo `appsettings.example.json` para compartir:
 
 **Posibles problemas**:
 
--   ❌ **Error**: "Package not found" → Asegúrate de agregar `--prerelease`
--   ❌ **Error**: "SDK version mismatch" → Usa .NET 10.0
+- ❌ **Error**: "SDK version mismatch" → Usa .NET 10.0
 
 ### Fase 3: Conectar a Servidores MCP (7 minutos)
 
@@ -174,11 +171,11 @@ foreach (var tool in sqlTools)
     Console.WriteLine($"  Description: {tool.Description}");
 }
 
-// IMPORTANTE: Usar McpToolAdapter para convertir a AITools ejecutables
-var allAITools = new List<AITool>();
-allAITools.AddRange(McpToolAdapter.ConvertToAITools(sqlTools, sqlMcpClient, "SQL Server"));
-allAITools.AddRange(McpToolAdapter.ConvertToAITools(cosmosTools, cosmosMcpClient, "Cosmos DB"));
-allAITools.AddRange(McpToolAdapter.ConvertToAITools(restApiTools, restApiMcpClient, "REST API"));
+    // IMPORTANTE: Usar McpToolAdapter para convertir a AITools ejecutables
+    var allAITools = new List<AITool>();
+    allAITools.AddRange(McpToolAdapter.ConvertToAITools(sqlTools, sqlMcpClient, "SQL Server"));
+    allAITools.AddRange(McpToolAdapter.ConvertToAITools(cosmosTools, cosmosMcpClient, "Cosmos DB"));
+    allAITools.AddRange(McpToolAdapter.ConvertToAITools(restApiTools, restApiMcpClient, "REST API"));
 ```
 
 **💡 Concepto crítico: Por qué necesitamos McpToolAdapter**
