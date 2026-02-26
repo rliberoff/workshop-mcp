@@ -149,6 +149,7 @@ coverage*.xml
 coverage*.info
 
 # Visual Studio code coverage results
+coverage/**/
 *.coverage
 *.coveragexml
 
