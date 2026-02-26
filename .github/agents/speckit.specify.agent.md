@@ -44,18 +44,25 @@ Given that feature description, do this:
       git fetch --all --prune
       ```
 
-   b. The script auto-detects the next number from the highest feature number across **all** branches and specs (not scoped to the short-name). You do not need to calculate or pass a number manually.
+   b. Find the highest feature number across all sources for the short-name:
+      - Remote branches: `git ls-remote --heads origin | grep -E 'refs/heads/[0-9]+-<short-name>$'`
+      - Local branches: `git branch | grep -E '^[* ]*[0-9]+-<short-name>$'`
+      - Specs directories: Check for directories matching `specs/[0-9]+-<short-name>`
 
-   c. Run the script `.specify/scripts/powershell/create-new-feature.ps1 -Json "$ARGUMENTS"` with only the short-name and feature description:
-      - Omit `-Number` to let the script auto-detect the next available number
-      - Pass `-ShortName "your-short-name"` along with the feature description
-      - Bash example: `.specify/scripts/powershell/create-new-feature.ps1 -Json "$ARGUMENTS" -ShortName "user-auth" "Add user authentication"`
-      - PowerShell example: `.specify/scripts/powershell/create-new-feature.ps1 -Json "$ARGUMENTS" -ShortName "user-auth" "Add user authentication"`
+   c. Determine the next available number:
+      - Extract all numbers from all three sources
+      - Find the highest number N
+      - Use N+1 for the new branch number
+
+   d. Run the script `.specify/scripts/powershell/create-new-feature.ps1 -Json "$ARGUMENTS"` with the calculated number and short-name:
+      - Pass `--number N+1` and `--short-name "your-short-name"` along with the feature description
+      - Bash example: `.specify/scripts/powershell/create-new-feature.ps1 -Json "$ARGUMENTS" --json --number 5 --short-name "user-auth" "Add user authentication"`
+      - PowerShell example: `.specify/scripts/powershell/create-new-feature.ps1 -Json "$ARGUMENTS" -Json -Number 5 -ShortName "user-auth" "Add user authentication"`
 
    **IMPORTANT**:
-   - The script scans **all** remote and local branches (pattern `^\d+-`) and **all** `specs/` subdirectories (pattern `^\d+`) to find the global highest number, then uses N+1 — regardless of short-name
-   - Do not pass `-Number` unless you have a specific reason to override the auto-detected value
-   - If no existing branches or specs directories are found, the script starts with number 1
+   - Check all three sources (remote branches, local branches, specs directories) to find the highest number
+   - Only match branches/directories with the exact short-name pattern
+   - If no existing branches/directories found with this short-name, start with number 1
    - You must only ever run this script once per feature
    - The JSON is provided in the terminal as output - always refer to it to get the actual content you're looking for
    - The JSON output will contain BRANCH_NAME and SPEC_FILE paths
@@ -225,7 +232,7 @@ When creating this spec from a user prompt:
 - Performance targets: Standard web/mobile app expectations unless specified
 - Error handling: User-friendly messages with appropriate fallbacks
 - Authentication method: Standard session-based or OAuth2 for web apps
-- Integration patterns: RESTful APIs unless specified otherwise
+- Integration patterns: Use project-appropriate patterns (REST/GraphQL for web services, function calls for libraries, CLI args for tools, etc.)
 
 ### Success Criteria Guidelines
 
