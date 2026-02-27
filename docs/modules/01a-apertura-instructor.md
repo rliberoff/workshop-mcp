@@ -129,7 +129,7 @@ CON MCP:
 - [ ] Visual Studio Code abierto con `McpWorkshop.sln` cargado
 - [ ] Terminal PowerShell visible (fuente grande: 16-18pt)
 - [ ] Script `verify-setup.ps1` listo para ejecutar
-- [ ] Timer visible (recomendado: https://onlinealarmkur.com/timer/es/ o app móvil)
+- [ ] Timer visible (recomendado: <https://onlinealarmkur.com/timer/es/> o app móvil)
 - [ ] Agua y micrófono funcionando
 
 ### Materiales para Distribuir
@@ -242,5 +242,5 @@ La documentación es autocontenida y pueden seguir sin proyector.
 ---
 
 **Preparado por**: Instructor del taller MCP  
-**Última revisión**: Noviembre 2025  
+**Última revisión**: Febrero 2026  
 **Próxima actualización**: Después de cada taller

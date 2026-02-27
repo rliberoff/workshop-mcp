@@ -26,9 +26,9 @@
 
 > "Model Context Protocol. Tres palabras. Vamos a descomponerlas:
 >
-> -   **Model**: Los modelos de IA (LLMs) como ChatGPT, Claude, Copilot
-> -   **Context**: El contexto que necesitan para ser útiles - TUS datos, TUS herramientas
-> -   **Protocol**: Un estándar abierto que define CÓMO se conectan
+> - **Model**: Los modelos de IA (LLMs) como ChatGPT, Claude, Copilot
+> - **Context**: El contexto que necesitan para ser útiles - TUS datos, TUS herramientas
+> - **Protocol**: Un estándar abierto que define CÓMO se conectan
 >
 > En una frase: MCP es la forma estandarizada en que la IA accede a lo que necesita para ayudarte."
 
@@ -175,8 +175,8 @@ Resalta los campos `jsonrpc`, `method`, `params`, `result`.
 
 Proyecta el diagrama "Tradicional vs MCP" y enfatiza:
 
--   **Izquierda (Tradicional)**: Trabajo duplicado × N clientes
--   **Derecha (MCP)**: Un servidor, N clientes gratis
+- **Izquierda (Tradicional)**: Trabajo duplicado × N clientes
+- **Derecha (MCP)**: Un servidor, N clientes gratis
 
 ---
 
@@ -186,13 +186,13 @@ Proyecta el diagrama "Tradicional vs MCP" y enfatiza:
 
 **Para audiencia técnica**:
 
--   DevOps y monitoreo (logs, métricas, alertas)
--   Análisis de datos ejecutivo
+- DevOps y monitoreo (logs, métricas, alertas)
+- Análisis de datos ejecutivo
 
 **Para audiencia de negocio**:
 
--   Asistente de atención al cliente
--   Cumplimiento y auditoría
+- Asistente de atención al cliente
+- Cumplimiento y auditoría
 
 **Narrativa ejemplo (Soporte al Cliente)**:
 
@@ -214,7 +214,7 @@ Proyecta el diagrama "Tradicional vs MCP" y enfatiza:
 
 ## 📖 Especificación MCP (1 minuto)
 
-> "Todo lo que hemos visto está documentado en la especificación oficial: https://modelcontextprotocol.io/specification/2025-06-18
+> "Todo lo que hemos visto está documentado en la especificación oficial: <https://modelcontextprotocol.io/specification/2025-06-18>
 >
 > Versión actual: 2024-11-05. Es un documento abierto, pueden leerlo. Define cada método, cada código de error, cada formato. No hay magia, solo estándar claro."
 
@@ -226,15 +226,15 @@ Proyecta el diagrama "Tradicional vs MCP" y enfatiza:
 
 **Cortar**:
 
--   ❌ Detalles de transportes (HTTP vs stdio vs WebSocket)
--   ❌ Lista exhaustiva de clientes MCP
--   ❌ Comparación con REST (ya queda clara la diferencia)
+- ❌ Detalles de transportes (HTTP vs stdio vs WebSocket)
+- ❌ Lista exhaustiva de clientes MCP
+- ❌ Comparación con REST (ya queda clara la diferencia)
 
 **Mantener**:
 
--   ✅ Arquitectura cliente-servidor
--   ✅ Flujo de 3 fases (initialize, discover, execute)
--   ✅ Ventaja "un servidor, múltiples clientes"
+- ✅ Arquitectura cliente-servidor
+- ✅ Flujo de 3 fases (initialize, discover, execute)
+- ✅ Ventaja "un servidor, múltiples clientes"
 
 ### Si Preguntas Técnicas Profundas
 
@@ -250,8 +250,8 @@ Proyecta el diagrama "Tradicional vs MCP" y enfatiza:
 
 > "El protocolo MCP es 100% open source y gratis. Las librerías oficiales (.NET, Python, TypeScript) también son gratis (licencias Apache 2.0/MIT). Los costos vienen de:
 >
-> -   Tu infraestructura (si despliegas en Azure, AWS, etc.)
-> -   Los LLMs que uses (GPT-4, Claude tienen costos por token)
+> - Tu infraestructura (si despliegas en Azure, AWS, etc.)
+> - Los LLMs que uses (GPT-4, Claude tienen costos por token)
 >
 > Pero el taller usa todo local y datos de muestra, costo cero."
 
@@ -295,25 +295,25 @@ Al finalizar, deberías observar:
 
 ✅ **Comprensión conceptual**:
 
--   Asistentes pueden explicar MCP en una frase
--   Entienden "un servidor, múltiples clientes"
+- Asistentes pueden explicar MCP en una frase
+- Entienden "un servidor, múltiples clientes"
 
 ✅ **Engagement**:
 
--   Al menos 3-5 preguntas o comentarios
--   Algunos asistentes tomando notas
+- Al menos 3-5 preguntas o comentarios
+- Algunos asistentes tomando notas
 
 ✅ **Preparación técnica**:
 
--   Visual Studio Code abierto en la mayoría
--   Expectación por ver código real
+- Visual Studio Code abierto en la mayoría
+- Expectación por ver código real
 
 ❌ **Señales de alarma**:
 
--   Confusión entre cliente y servidor (repetir analogía)
--   Preguntas sobre implementación (viene en Bloque 3)
+- Confusión entre cliente y servidor (repetir analogía)
+- Preguntas sobre implementación (viene en Bloque 3)
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
-**Última revisión**: Noviembre 2025
+**Última revisión**: Febrero 2026

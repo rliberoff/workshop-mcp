@@ -39,9 +39,9 @@ if (username == "admin") return GenerateToken(username);
 
 **Consecuencias**:
 
--   Secretos expuestos en repositorios Git
--   Tokens que nunca expiran
--   Acceso sin credenciales
+- Secretos expuestos en repositorios Git
+- Tokens que nunca expiran
+- Acceso sin credenciales
 
 ---
 
@@ -69,10 +69,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 **Ventajas**:
 
--   ✅ Multi-factor authentication (MFA) integrado
--   ✅ Gestión centralizada de usuarios
--   ✅ Integración con políticas de seguridad empresariales
--   ✅ Auditoría automática de inicios de sesión
+- ✅ Multi-factor authentication (MFA) integrado
+- ✅ Gestión centralizada de usuarios
+- ✅ Integración con políticas de seguridad empresariales
+- ✅ Auditoría automática de inicios de sesión
 
 ---
 
@@ -340,7 +340,7 @@ public class UserConsent
 }
 ```
 
-2. **Derecho al olvido**: Implementar endpoint para eliminar datos del usuario.
+1. **Derecho al olvido**: Implementar endpoint para eliminar datos del usuario.
 
 ```csharp
 app.MapDelete("/api/users/{userId}/data", async (string userId, IUserDataService dataService) =>
@@ -351,7 +351,7 @@ app.MapDelete("/api/users/{userId}/data", async (string userId, IUserDataService
 });
 ```
 
-3. **Portabilidad de datos**: Exportar datos del usuario en formato legible.
+1. **Portabilidad de datos**: Exportar datos del usuario en formato legible.
 
 ```csharp
 app.MapGet("/api/users/{userId}/export", async (string userId) =>
@@ -483,9 +483,9 @@ traces
 
 **Acción de alerta**:
 
--   Enviar email al equipo de seguridad
--   Crear ticket en Azure DevOps
--   Bloquear temporalmente la IP del atacante
+- Enviar email al equipo de seguridad
+- Crear ticket en Azure DevOps
+- Bloquear temporalmente la IP del atacante
 
 ---
 
@@ -504,46 +504,46 @@ traces
 
 ### Autenticación
 
--   [ ] Usar Azure AD / Entra ID para autenticación
--   [ ] Tokens JWT con expiración ≤ 30 minutos
--   [ ] Implementar refresh tokens para renovación
--   [ ] MFA habilitado para usuarios administrativos
--   [ ] Secretos en Azure Key Vault (no en código/config)
+- [ ] Usar Azure AD / Entra ID para autenticación
+- [ ] Tokens JWT con expiración ≤ 30 minutos
+- [ ] Implementar refresh tokens para renovación
+- [ ] MFA habilitado para usuarios administrativos
+- [ ] Secretos en Azure Key Vault (no en código/config)
 
 ### Autorización
 
--   [ ] Scopes definidos según principio de mínimo privilegio
--   [ ] Autorización basada en recursos implementada
--   [ ] Validación de permisos en cada endpoint MCP
--   [ ] Logs de accesos denegados
+- [ ] Scopes definidos según principio de mínimo privilegio
+- [ ] Autorización basada en recursos implementada
+- [ ] Validación de permisos en cada endpoint MCP
+- [ ] Logs de accesos denegados
 
 ### Comunicación
 
--   [ ] HTTPS obligatorio (TLS 1.2+)
--   [ ] Certificados válidos y renovados automáticamente
--   [ ] CORS configurado con dominios específicos (no `*`)
--   [ ] Rate limiting por usuario e IP
+- [ ] HTTPS obligatorio (TLS 1.2+)
+- [ ] Certificados válidos y renovados automáticamente
+- [ ] CORS configurado con dominios específicos (no `*`)
+- [ ] Rate limiting por usuario e IP
 
 ### Auditoría
 
--   [ ] Logs estructurados enviados a Application Insights
--   [ ] Eventos de seguridad registrados (login, access denied, rate limit)
--   [ ] Retención de logs ≥ 90 días
--   [ ] Alertas configuradas para patrones anómalos
+- [ ] Logs estructurados enviados a Application Insights
+- [ ] Eventos de seguridad registrados (login, access denied, rate limit)
+- [ ] Retención de logs ≥ 90 días
+- [ ] Alertas configuradas para patrones anómalos
 
 ### Infraestructura
 
--   [ ] WAF habilitado en Application Gateway
--   [ ] Network isolation con VNET
--   [ ] Container Apps con replicas mínimas 2
--   [ ] Backups automáticos de secretos y configuraciones
+- [ ] WAF habilitado en Application Gateway
+- [ ] Network isolation con VNET
+- [ ] Container Apps con replicas mínimas 2
+- [ ] Backups automáticos de secretos y configuraciones
 
 ### Compliance
 
--   [ ] Consentimiento de usuario registrado
--   [ ] Endpoint de eliminación de datos (GDPR)
--   [ ] Endpoint de exportación de datos
--   [ ] Documentación de procesamiento de datos personales
+- [ ] Consentimiento de usuario registrado
+- [ ] Endpoint de eliminación de datos (GDPR)
+- [ ] Endpoint de exportación de datos
+- [ ] Documentación de procesamiento de datos personales
 
 ---
 
@@ -568,40 +568,40 @@ En el Ejercicio 4 aplicarás estos conceptos en un escenario de orquestación mu
 
 #### Security
 
--   [ ] JWT tokens almacenados en Azure Key Vault (no hardcoded)
--   [ ] Certificados SSL/TLS con renovación automática
--   [ ] Secrets rotados cada 90 días máximo
--   [ ] Validación de tokens con issuer y audience correctos
--   [ ] Rate limiting configurado por scope (read < write < admin)
--   [ ] Logs sin datos sensibles (password/token/secret redactados)
--   [ ] Azure AD / Entra ID configurado para autenticación
--   [ ] Managed Identity habilitado para servicios Azure
+- [ ] JWT tokens almacenados en Azure Key Vault (no hardcoded)
+- [ ] Certificados SSL/TLS con renovación automática
+- [ ] Secrets rotados cada 90 días máximo
+- [ ] Validación de tokens con issuer y audience correctos
+- [ ] Rate limiting configurado por scope (read < write < admin)
+- [ ] Logs sin datos sensibles (password/token/secret redactados)
+- [ ] Azure AD / Entra ID configurado para autenticación
+- [ ] Managed Identity habilitado para servicios Azure
 
 #### Compliance
 
--   [ ] Logs con retención mínima según regulación (GDPR: 6 meses)
--   [ ] Encriptación en tránsito (TLS 1.3) y en reposo (AES-256)
--   [ ] Auditoría de accesos a datos sensibles
--   [ ] Data residency configurada según jurisdicción
--   [ ] Política de backup y recuperación documentada
--   [ ] Incident response plan definido
+- [ ] Logs con retención mínima según regulación (GDPR: 6 meses)
+- [ ] Encriptación en tránsito (TLS 1.3) y en reposo (AES-256)
+- [ ] Auditoría de accesos a datos sensibles
+- [ ] Data residency configurada según jurisdicción
+- [ ] Política de backup y recuperación documentada
+- [ ] Incident response plan definido
 
 #### Monitoring
 
--   [ ] Application Insights configurado
--   [ ] Alertas para errores 401/403/429
--   [ ] Alertas para latencia >2s (p95)
--   [ ] Alertas para disponibilidad <99.9%
--   [ ] Dashboard con métricas clave (requests/s, errors, latency)
--   [ ] Health checks en /health endpoint
+- [ ] Application Insights configurado
+- [ ] Alertas para errores 401/403/429
+- [ ] Alertas para latencia >2s (p95)
+- [ ] Alertas para disponibilidad <99.9%
+- [ ] Dashboard con métricas clave (requests/s, errors, latency)
+- [ ] Health checks en /health endpoint
 
 #### Performance
 
--   [ ] Caching habilitado (5 min TTL para queries frecuentes)
--   [ ] Connection pooling configurado
--   [ ] Timeout de HTTP <5s
--   [ ] Throttling para prevenir abuse
--   [ ] CDN para recursos estáticos
+- [ ] Caching habilitado (5 min TTL para queries frecuentes)
+- [ ] Connection pooling configurado
+- [ ] Timeout de HTTP <5s
+- [ ] Throttling para prevenir abuse
+- [ ] CDN para recursos estáticos
 
 ### Production vs Development Configuration
 
@@ -688,31 +688,31 @@ En el Ejercicio 4 aplicarás estos conceptos en un escenario de orquestación mu
 
 **De Development a Staging**:
 
--   [x] Migrar SQLite → Azure SQL
--   [x] Secrets → Azure Key Vault
--   [x] Habilitar Application Insights
--   [x] Configurar health checks con dependencies
--   [x] Implementar rate limiting por scope
--   [x] Configurar CORS con whitelist
--   [x] Habilitar HTTPS con certificate real
--   [ ] Configurar backup diario
--   [ ] Implementar circuit breaker para llamadas externas
+- [x] Migrar SQLite → Azure SQL
+- [x] Secrets → Azure Key Vault
+- [x] Habilitar Application Insights
+- [x] Configurar health checks con dependencies
+- [x] Implementar rate limiting por scope
+- [x] Configurar CORS con whitelist
+- [x] Habilitar HTTPS con certificate real
+- [ ] Configurar backup diario
+- [ ] Implementar circuit breaker para llamadas externas
 
 **De Staging a Production**:
 
--   [x] Geo-replication para Azure SQL
--   [x] Managed Identity para Key Vault (eliminar connection strings)
--   [x] Distributed tracing con correlación IDs
--   [x] Multi-level alerting (email + SMS + PagerDuty)
--   [x] Custom metrics para business KPIs
--   [x] Timeout agresivo + retry con exponential backoff
--   [x] Private Endpoints (eliminar public access)
--   [x] DDoS Network + IP Protection
--   [x] DigiCert EV certificate con auto-rotation
--   [x] Hourly backup geo-redundant
--   [x] Multi-region active-active disaster recovery
--   [ ] Penetration testing por terceros
--   [ ] Compliance audit (SOC2, ISO 27001)
+- [x] Geo-replication para Azure SQL
+- [x] Managed Identity para Key Vault (eliminar connection strings)
+- [x] Distributed tracing con correlación IDs
+- [x] Multi-level alerting (email + SMS + PagerDuty)
+- [x] Custom metrics para business KPIs
+- [x] Timeout agresivo + retry con exponential backoff
+- [x] Private Endpoints (eliminar public access)
+- [x] DDoS Network + IP Protection
+- [x] DigiCert EV certificate con auto-rotation
+- [x] Hourly backup geo-redundant
+- [x] Multi-region active-active disaster recovery
+- [ ] Penetration testing por terceros
+- [ ] Compliance audit (SOC2, ISO 27001)
 
 **Ejemplo configuración producción**:
 
@@ -746,13 +746,13 @@ En el Ejercicio 4 aplicarás estos conceptos en un escenario de orquestación mu
 
 ## 📖 Recursos Adicionales
 
--   **Azure AD Documentation**: https://learn.microsoft.com/en-us/azure/active-directory/
--   **Azure Key Vault Best Practices**: https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices
--   **OWASP API Security Top 10**: https://owasp.org/www-project-api-security/
--   **GDPR Compliance Guide**: https://gdpr.eu/
+- **Azure AD Documentation**: <https://learn.microsoft.com/en-us/azure/active-directory/>
+- **Azure Key Vault Best Practices**: <https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices>
+- **OWASP API Security Top 10**: <https://owasp.org/www-project-api-security/>
+- **GDPR Compliance Guide**: <https://gdpr.eu/>
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

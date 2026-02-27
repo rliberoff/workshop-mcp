@@ -92,9 +92,9 @@ Al completar este bloque, habrás:
 
 #### Preguntas Abiertas
 
-7. **¿Qué fue lo MEJOR del taller?**
-8. **¿Qué MEJORARÍAS para la próxima edición?**
-9. **¿Qué tema adicional te hubiera gustado cubrir?**
+1. **¿Qué fue lo MEJOR del taller?**
+2. **¿Qué MEJORARÍAS para la próxima edición?**
+3. **¿Qué tema adicional te hubiera gustado cubrir?**
 
 ---
 
@@ -146,21 +146,21 @@ flowchart TB
 
 ### Documentación Oficial
 
-- **Especificación MCP**: https://modelcontextprotocol.io/specification/2025-06-18
-- **SDK .NET**: https://github.com/modelcontextprotocol/dotnet-sdk
-- **Ejemplos oficiales**: https://github.com/modelcontextprotocol/servers
+- **Especificación MCP**: <https://modelcontextprotocol.io/specification/2025-06-18>
+- **SDK .NET**: <https://github.com/modelcontextprotocol/dotnet-sdk>
+- **Ejemplos oficiales**: <https://github.com/modelcontextprotocol/servers>
 
 ### Comunidad
 
-- **Discord oficial MCP**: https://discord.gg/modelcontextprotocol
-- **GitHub Discussions**: https://github.com/modelcontextprotocol/specification/discussions
+- **Discord oficial MCP**: <https://discord.gg/modelcontextprotocol>
+- **GitHub Discussions**: <https://github.com/modelcontextprotocol/specification/discussions>
 - **Stack Overflow**: Tag `model-context-protocol`
 
 ### Tutoriales Avanzados
 
-- **Azure Container Apps deployment**: https://learn.microsoft.com/azure/container-apps/
-- **JWT best practices**: https://auth0.com/docs/secure/tokens/json-web-tokens
-- **Distributed tracing con App Insights**: https://learn.microsoft.com/azure/azure-monitor/app/distributed-tracing
+- **Azure Container Apps deployment**: <https://learn.microsoft.com/azure/container-apps/>
+- **JWT best practices**: <https://auth0.com/docs/secure/tokens/json-web-tokens>
+- **Distributed tracing con App Insights**: <https://learn.microsoft.com/azure/azure-monitor/app/distributed-tracing>
 
 ### Repositorio del Taller
 
@@ -239,7 +239,7 @@ flowchart TB
 
 ### Email de Seguimiento (Enviar en 24h)
 
-**Asunto**: Recursos del Taller MCP - Data Saturday Madrid 2025
+**Asunto**: Recursos del Taller MCP - MCP Workshop Madrid
 
 **Cuerpo**:
 
@@ -286,7 +286,7 @@ Instructor Taller MCP
 ║                                                ║
 ║  "Model Context Protocol (MCP) en C#"          ║
 ║                                                ║
-║  Data Saturday Madrid - Noviembre 2025         ║
+║  MCP Workshop Madrid                           ║
 ║  Duración: 3 horas                             ║
 ║                                                ║
 ║  Contenido:                                    ║
@@ -366,7 +366,7 @@ Write-Host "Certificado generado para $Nombre" -ForegroundColor Green
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026
 
 ---
 
@@ -376,7 +376,7 @@ Write-Host "Certificado generado para $Nombre" -ForegroundColor Green
 >
 > - **Anthropic** por crear la especificación MCP
 > - **Microsoft** por el SDK .NET y Azure
-> - **Data Saturday Madrid** por la oportunidad de compartir
+> - **MCP Workshop Madrid** por la oportunidad de compartir
 > - **Y a VOSOTROS** por vuestro tiempo, energía, y pasión por aprender
 >
 > ¡Nos vemos en la próxima!"

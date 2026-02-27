@@ -39,7 +39,7 @@ flowchart TB
 
 ### Archivos a Crear
 
-```
+```text
 src/McpWorkshop.Servers/
 └── DemoServer/
     ├── Program.cs              # ASP.NET Core minimal API
@@ -340,10 +340,10 @@ static List<T> LoadData<T>(string path)
 
 > **💬 Instructor - Resumen**:
 >
-> -   "Un endpoint `/mcp` recibe todas las solicitudes JSON-RPC"
-> -   "Usamos pattern matching para rutear a los handlers"
-> -   "Initialize negocia capabilities, list muestra recursos, read devuelve contenido"
-> -   "Los datos vienen de JSON estático - en producción serían consultas a BD"
+> - "Un endpoint `/mcp` recibe todas las solicitudes JSON-RPC"
+> - "Usamos pattern matching para rutear a los handlers"
+> - "Initialize negocia capabilities, list muestra recursos, read devuelve contenido"
+> - "Los datos vienen de JSON estático - en producción serían consultas a BD"
 
 **✅ Checkpoint**: El código compila sin errores.
 
@@ -370,7 +370,7 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Development
 info: Microsoft.Hosting.Lifetime[0]
-      Content root path: C:\code\2025-data-saturday-workshop-mcp-alumno\src\McpWorkshop.Servers\Exercise1Server
+      Content root path: C:\code\workshop-mcp\src\McpWorkshop.Servers\Exercise1Server
 ```
 
 #### 4.2 Verificar Health Check (Opcional)
@@ -519,10 +519,10 @@ sequenceDiagram
 
 Cada mensaje tiene:
 
--   ✅ `jsonrpc: "2.0"` - Identificador de protocolo
--   ✅ `method` - Qué operación ejecutar
--   ✅ `params` - Parámetros de entrada
--   ✅ `id` - Para correlacionar request/response
+- ✅ `jsonrpc: "2.0"` - Identificador de protocolo
+- ✅ `method` - Qué operación ejecutar
+- ✅ `params` - Parámetros de entrada
+- ✅ `id` - Para correlacionar request/response
 
 ### 2. **Patrón Request/Response**
 
@@ -539,8 +539,8 @@ Cliente envía:          Servidor responde:
 
 El cliente y servidor acuerdan qué funcionalidades soportan:
 
--   Cliente dice: "Puedo recibir notificaciones"
--   Servidor dice: "Tengo recursos y herramientas"
+- Cliente dice: "Puedo recibir notificaciones"
+- Servidor dice: "Tengo recursos y herramientas"
 
 ### 4. **Recursos como URIs**
 
@@ -560,12 +560,12 @@ Esquema de URI personalizado para identificar recursos de forma única.
 
 Has completado el ejercicio exitosamente si:
 
--   [x] El servidor compila sin errores
--   [x] El servidor se ejecuta en `http://localhost:5001`
--   [x] `initialize` devuelve serverInfo correcto
--   [x] `resources/list` muestra 2 recursos (customers y products)
--   [x] `resources/read` devuelve datos de customers
--   [x] `resources/read` devuelve datos de products
+- [X] El servidor compila sin errores
+- [X] El servidor se ejecuta en `http://localhost:5001`
+- [X] `initialize` devuelve serverInfo correcto
+- [X] `resources/list` muestra 2 recursos (customers y products)
+- [X] `resources/read` devuelve datos de customers
+- [X] `resources/read` devuelve datos de products
 
 **¡Si todos los checkboxes están marcados, lo lograste!** 🎉
 
@@ -622,27 +622,27 @@ dotnet add reference ../../McpWorkshop.Shared/McpWorkshop.Shared.csproj
 
 ### 1. Inicialización del Servidor MCP
 
--   Configuración de servicios con DI (Dependency Injection)
--   Registro de logger y settings
--   ASP.NET Core Minimal API
+- Configuración de servicios con DI (Dependency Injection)
+- Registro de logger y settings
+- ASP.NET Core Minimal API
 
 ### 2. Manejo de Solicitudes JSON-RPC
 
--   Pattern matching con `switch` expressions
--   Deserialización de parámetros dinámicos
--   Generación de respuestas estructuradas
+- Pattern matching con `switch` expressions
+- Deserialización de parámetros dinámicos
+- Generación de respuestas estructuradas
 
 ### 3. Recursos Estáticos
 
--   URIs como identificadores (`mcp://resource-name`)
--   Listado dinámico de recursos disponibles
--   Lectura de contenido desde fuentes locales (JSON)
+- URIs como identificadores (`mcp://resource-name`)
+- Listado dinámico de recursos disponibles
+- Lectura de contenido desde fuentes locales (JSON)
 
 ### 4. Manejo de Errores
 
--   Códigos de error estándar JSON-RPC (-32601, -32603)
--   Try-catch para excepciones
--   Logging estructurado
+- Códigos de error estándar JSON-RPC (-32601, -32603)
+- Try-catch para excepciones
+- Logging estructurado
 
 ---
 
@@ -703,19 +703,19 @@ Result = new
 
 Aprenderás a:
 
--   Implementar herramientas invocables (`tools/call`)
--   Validar parámetros de entrada con JSON Schema
--   Ejecutar búsquedas y filtros dinámicos
--   Combinar múltiples fuentes de datos
+- Implementar herramientas invocables (`tools/call`)
+- Validar parámetros de entrada con JSON Schema
+- Ejecutar búsquedas y filtros dinámicos
+- Combinar múltiples fuentes de datos
 
 ---
 
 ## 📖 Recursos Adicionales
 
--   **Documentación MCP**: <https://modelcontextprotocol.io/specification/2025-06-18>
+- **Documentación MCP**: <https://modelcontextprotocol.io/specification/2025-06-18>
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 2.0.0 (Fusión de bloques 3 y 4)  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

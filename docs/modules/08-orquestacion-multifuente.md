@@ -416,9 +416,9 @@ var result = await policy.ExecuteAsync(async () =>
 
 **Estados del Circuit Breaker**:
 
--   **Closed** (Normal): Las llamadas pasan al servicio downstream
--   **Open** (Fallo): Las llamadas fallan rápidamente sin intentar conectar
--   **Half-Open** (Recuperación): Permite algunas llamadas de prueba para verificar si el servicio se recuperó
+- **Closed** (Normal): Las llamadas pasan al servicio downstream
+- **Open** (Fallo): Las llamadas fallan rápidamente sin intentar conectar
+- **Half-Open** (Recuperación): Permite algunas llamadas de prueba para verificar si el servicio se recuperó
 
 ```mermaid
 stateDiagram-v2
@@ -490,10 +490,10 @@ public class ResilientMcpClient
 
 **Cuándo usar**:
 
--   ✅ Servicios externos con SLA < 99.9% (pueden estar caídos frecuentemente)
--   ✅ Llamadas a APIs de terceros (ej: LinkedIn, Salesforce)
--   ✅ Bases de datos con latencia variable (ej: Cosmos DB en regiones remotas)
--   ❌ Servicios internos críticos que DEBEN responder (usar fallback en su lugar)
+- ✅ Servicios externos con SLA < 99.9% (pueden estar caídos frecuentemente)
+- ✅ Llamadas a APIs de terceros (ej: LinkedIn, Salesforce)
+- ✅ Bases de datos con latencia variable (ej: Cosmos DB en regiones remotas)
+- ❌ Servicios internos críticos que DEBEN responder (usar fallback en su lugar)
 
 ---
 
@@ -562,11 +562,11 @@ Retry 5: 32s ± 6.4s  → 25.6s - 38.4s
 
 **Cuándo usar**:
 
--   ✅ Errores transitorios (network glitches, database connection pool exhausted)
--   ✅ HTTP 429 (Too Many Requests) - respetar Retry-After header
--   ✅ HTTP 503 (Service Unavailable) temporal
--   ❌ HTTP 400 (Bad Request) - error de lógica, no se arregla con retry
--   ❌ HTTP 401/403 (Auth errors) - requieren nueva autenticación, no retry ciego
+- ✅ Errores transitorios (network glitches, database connection pool exhausted)
+- ✅ HTTP 429 (Too Many Requests) - respetar Retry-After header
+- ✅ HTTP 503 (Service Unavailable) temporal
+- ❌ HTTP 400 (Bad Request) - error de lógica, no se arregla con retry
+- ❌ HTTP 401/403 (Auth errors) - requieren nueva autenticación, no retry ciego
 
 ---
 
@@ -684,10 +684,10 @@ public async Task<T> CallToolWithTimeoutAsync<T>(
 
 **Timeouts recomendados por tipo de operación**:
 
--   Lectura simple (ej: get_customer_details): 5 segundos
--   Query complejo (ej: analytics con joins): 30 segundos
--   Operación de escritura (ej: create_order): 10 segundos
--   Operación batch (ej: export_data): 2 minutos
+- Lectura simple (ej: get_customer_details): 5 segundos
+- Query complejo (ej: analytics con joins): 30 segundos
+- Operación de escritura (ej: create_order): 10 segundos
+- Operación batch (ej: export_data): 2 minutos
 
 #### Bulkhead Pattern
 
@@ -1002,12 +1002,12 @@ public class RefreshAheadCache
 
 ## 📖 Recursos Adicionales
 
--   **Patrón Circuit Breaker**: https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker
--   **Polly (Resilience Library)**: https://github.com/App-vNext/Polly
--   **Distributed Tracing**: Application Insights para visualizar flujos
+- **Patrón Circuit Breaker**: <https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker>
+- **Polly (Resilience Library)**: <https://github.com/App-vNext/Polly>
+- **Distributed Tracing**: Application Insights para visualizar flujos
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

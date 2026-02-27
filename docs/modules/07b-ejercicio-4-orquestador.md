@@ -1052,4 +1052,4 @@ Cada uno debe responder con un objeto JSON con `status: "healthy"`.
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

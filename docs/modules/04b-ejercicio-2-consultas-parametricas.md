@@ -26,10 +26,10 @@ Al completar este ejercicio, habrás:
 
 Antes de comenzar, verifica que:
 
--   [x] Completaste el Ejercicio 1 exitosamente
--   [x] Tienes `Exercise1Server` funcionando en puerto 5001
--   [x] Conoces la estructura de JSON-RPC 2.0
--   [x] Entiendes los conceptos de recursos vs herramientas
+- [x] Completaste el Ejercicio 1 exitosamente
+- [x] Tienes `Exercise1Server` funcionando en puerto 5001
+- [x] Conoces la estructura de JSON-RPC 2.0
+- [x] Entiendes los conceptos de recursos vs herramientas
 
 ---
 
@@ -629,7 +629,7 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Development
 info: Microsoft.Hosting.Lifetime[0]
-      Content root path: C:\code\2025-data-saturday-workshop-mcp-alumno\src\McpWorkshop.Servers\Exercise2Server
+      Content root path: C:\code\workshop-mcp\src\McpWorkshop.Servers\Exercise2Server
 ```
 
 #### 4.2 Verificar Health Check
@@ -725,12 +725,12 @@ Invoke-RestMethod -Uri "http://localhost:5002/mcp" -Method POST -Body $body -Con
 
 Has completado el ejercicio exitosamente si:
 
--   [ ] El servidor compila sin errores
--   [ ] `tools/list` devuelve 3 herramientas
--   [ ] `search_customers` filtra correctamente por nombre y/o país
--   [ ] `get_order_details` devuelve información combinada de order + customer + product
--   [ ] `calculate_metrics` calcula sales, average y top_products
--   [ ] Los parámetros se validan según JSON Schema (prueba con parámetros inválidos)
+- [ ] El servidor compila sin errores
+- [ ] `tools/list` devuelve 3 herramientas
+- [ ] `search_customers` filtra correctamente por nombre y/o país
+- [ ] `get_order_details` devuelve información combinada de order + customer + product
+- [ ] `calculate_metrics` calcula sales, average y top_products
+- [ ] Los parámetros se validan según JSON Schema (prueba con parámetros inválidos)
 
 ---
 
@@ -787,9 +787,9 @@ Get-ChildItem src/McpWorkshop.Servers/Exercise2Server/Models/
 
 Crea `FilterOrdersTool.cs` que filtre pedidos por:
 
--   Rango de fechas (`startDate`, `endDate`)
--   Status (`pending`, `completed`, `cancelled`)
--   Monto mínimo (`minAmount`)
+- Rango de fechas (`startDate`, `endDate`)
+- Status (`pending`, `completed`, `cancelled`)
+- Monto mínimo (`minAmount`)
 
 ### Extensión 2: Validación de Parámetros
 
@@ -825,27 +825,27 @@ var paginatedResults = query
 
 ### 1. JSON Schema para Definición de Herramientas
 
--   `inputSchema`: Define la estructura de parámetros
--   `properties`: Nombre y tipo de cada parámetro
--   `required`: Array de parámetros obligatorios
--   `enum`: Valores permitidos para un parámetro
+- `inputSchema`: Define la estructura de parámetros
+- `properties`: Nombre y tipo de cada parámetro
+- `required`: Array de parámetros obligatorios
+- `enum`: Valores permitidos para un parámetro
 
 ### 2. Deserialización de Parámetros
 
--   `JsonElement`: Tipo dinámico para parámetros desconocidos
--   `GetString()`, `GetInt32()`: Conversión de tipos
--   `TryGetValue()`: Verificación segura de existencia de parámetros
+- `JsonElement`: Tipo dinámico para parámetros desconocidos
+- `GetString()`, `GetInt32()`: Conversión de tipos
+- `TryGetValue()`: Verificación segura de existencia de parámetros
 
 ### 3. Herramientas vs Recursos
 
--   **Recursos**: Datos pasivos, expuestos vía URIs
--   **Herramientas**: Operaciones activas, invocadas con parámetros
--   **Validación**: JSON Schema asegura que los parámetros son correctos
+- **Recursos**: Datos pasivos, expuestos vía URIs
+- **Herramientas**: Operaciones activas, invocadas con parámetros
+- **Validación**: JSON Schema asegura que los parámetros son correctos
 
 ### 4. Logging Estructurado
 
--   Cada invocación de herramienta se registra con `LogRequest` / `LogResponse`
--   Útil para auditoría y debugging
+- Cada invocación de herramienta se registra con `LogRequest` / `LogResponse`
+- Útil para auditoría y debugging
 
 ---
 
@@ -855,20 +855,20 @@ var paginatedResults = query
 
 En el siguiente ejercicio aprenderás a:
 
--   Implementar autenticación con JWT
--   Configurar autorización basada en scopes
--   Aplicar rate limiting por usuario
--   Registrar eventos de seguridad con logging estructurado
+- Implementar autenticación con JWT
+- Configurar autorización basada en scopes
+- Aplicar rate limiting por usuario
+- Registrar eventos de seguridad con logging estructurado
 
 ---
 
 ## 📖 Recursos Adicionales
 
--   **Documentación MCP - Tools**: https://modelcontextprotocol.io/specification/2025-06-18
--   **JSON Schema**: https://json-schema.org/understanding-json-schema/
+- **Documentación MCP - Tools**: <https://modelcontextprotocol.io/specification/2025-06-18>
+- **JSON Schema**: <https://json-schema.org/understanding-json-schema/>
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

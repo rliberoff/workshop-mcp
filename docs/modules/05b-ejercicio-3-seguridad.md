@@ -23,10 +23,10 @@ Al completar este ejercicio, habrás:
 
 Antes de comenzar, verifica que:
 
--   [x] Completaste los Ejercicios 1 y 2 exitosamente
--   [x] Tienes `Exercise2Server` funcionando
--   [x] Conoces los conceptos de JWT (JSON Web Tokens)
--   [x] Entiendes el modelo de autorización basada en roles/scopes
+- [x] Completaste los Ejercicios 1 y 2 exitosamente
+- [x] Tienes `Exercise2Server` funcionando
+- [x] Conoces los conceptos de JWT (JSON Web Tokens)
+- [x] Entiendes el modelo de autorización basada en roles/scopes
 
 ---
 
@@ -41,8 +41,8 @@ Antes de comenzar, verifica que:
 
 **Ejemplo**:
 
--   **Autenticación**: El usuario presenta un token JWT válido → "Eres Ana García"
--   **Autorización**: El token contiene scope `read` → "Puedes leer, pero no modificar"
+- **Autenticación**: El usuario presenta un token JWT válido → "Eres Ana García"
+- **Autorización**: El token contiene scope `read` → "Puedes leer, pero no modificar"
 
 ### 2. Scopes (Alcances)
 
@@ -951,14 +951,14 @@ Write-Host "✅ tools/list es público: $($response.result.tools.Count) herramie
 
 Has completado el ejercicio exitosamente si:
 
--   [ ] El servidor compila sin errores
--   [ ] Puedes generar tokens JWT con diferentes scopes
--   [ ] `resources/read` requiere scope `read`
--   [ ] `tools/call` requiere scope `write`
--   [ ] Los usuarios sin token no pueden acceder a recursos protegidos
--   [ ] Los usuarios con scope insuficiente reciben error de permisos
--   [ ] El rate limiting funciona (10 req/min para `base`, 50 req/min para `premium`)
--   [ ] Los logs estructurados registran eventos de seguridad
+- [ ] El servidor compila sin errores
+- [ ] Puedes generar tokens JWT con diferentes scopes
+- [ ] `resources/read` requiere scope `read`
+- [ ] `tools/call` requiere scope `write`
+- [ ] Los usuarios sin token no pueden acceder a recursos protegidos
+- [ ] Los usuarios con scope insuficiente reciben error de permisos
+- [ ] El rate limiting funciona (10 req/min para `base`, 50 req/min para `premium`)
+- [ ] Los logs estructurados registran eventos de seguridad
 
 ---
 
@@ -1045,27 +1045,27 @@ Implementa jerarquía de scopes donde `admin` incluye automáticamente `write` y
 
 ### 1. JWT (JSON Web Tokens)
 
--   Estructura: Header.Payload.Signature
--   Claims estándar: `sub`, `exp`, `iat`
--   Claims personalizados: `scopes`, `tier`
+- Estructura: Header.Payload.Signature
+- Claims estándar: `sub`, `exp`, `iat`
+- Claims personalizados: `scopes`, `tier`
 
 ### 2. Autorización Basada en Scopes
 
--   Separación de permisos (read, write, admin)
--   Validación por método MCP
--   Mensajes de error informativos
+- Separación de permisos (read, write, admin)
+- Validación por método MCP
+- Mensajes de error informativos
 
 ### 3. Rate Limiting
 
--   Ventanas de tiempo (1 minuto)
--   Límites por tier de usuario
--   Reseteo automático de ventanas
+- Ventanas de tiempo (1 minuto)
+- Límites por tier de usuario
+- Reseteo automático de ventanas
 
 ### 4. Middlewares en ASP.NET Core
 
--   Pipeline de procesamiento de solicitudes
--   Orden de ejecución (autenticación → rate limiting → endpoint)
--   Inyección de dependencias en middlewares
+- Pipeline de procesamiento de solicitudes
+- Orden de ejecución (autenticación → rate limiting → endpoint)
+- Inyección de dependencias en middlewares
 
 ---
 
@@ -1075,21 +1075,21 @@ Implementa jerarquía de scopes donde `admin` incluye automáticamente `write` y
 
 En el siguiente bloque el instructor profundizará en:
 
--   Mejores prácticas de seguridad para producción
--   Gestión de secretos y certificados
--   Auditoría y compliance
--   Estrategias de despliegue seguro
+- Mejores prácticas de seguridad para producción
+- Gestión de secretos y certificados
+- Auditoría y compliance
+- Estrategias de despliegue seguro
 
 ---
 
 ## 📖 Recursos Adicionales
 
--   **JWT.io**: https://jwt.io/ (decodificador de tokens)
--   **OWASP Top 10**: https://owasp.org/www-project-top-ten/
--   **Rate Limiting Patterns**: https://learn.microsoft.com/en-us/azure/architecture/patterns/rate-limiting-pattern
+- **JWT.io**: <https://jwt.io/> (decodificador de tokens)
+- **OWASP Top 10**: <https://owasp.org/www-project-top-ten/>
+- **Rate Limiting Patterns**: <https://learn.microsoft.com/en-us/azure/architecture/patterns/rate-limiting-pattern>
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

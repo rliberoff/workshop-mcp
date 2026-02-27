@@ -202,7 +202,7 @@ app.MapDelete("/api/users/{userId}/data", async (string userId) =>
 });
 ```
 
-2. **Portabilidad de datos**: El usuario puede exportar sus datos.
+1. **Portabilidad de datos**: El usuario puede exportar sus datos.
 
 ```csharp
 app.MapGet("/api/users/{userId}/export", async (string userId) =>
@@ -212,7 +212,7 @@ app.MapGet("/api/users/{userId}/export", async (string userId) =>
 });
 ```
 
-3. **Consentimiento**: Registrar que el usuario dio permiso para procesar sus datos.
+1. **Consentimiento**: Registrar que el usuario dio permiso para procesar sus datos.
 
 **Mensaje clave**:
 
@@ -473,4 +473,4 @@ Al terminar el bloque, observa:
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

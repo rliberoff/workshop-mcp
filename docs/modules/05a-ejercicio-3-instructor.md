@@ -36,15 +36,15 @@ Al terminar este bloque, los asistentes deben:
 
 **Antes de comenzar el ejercicio**:
 
--   [ ] Detén `Exercise2Server` (puerto 5002 libre)
--   [ ] Ten el paquete NuGet `System.IdentityModel.Tokens.Jwt` listo para instalar
--   [ ] Prepara 3 terminales:
-    -   Terminal 1: Creación de proyecto
-    -   Terminal 2: Ejecución del servidor (puerto 5003)
-    -   Terminal 3: Tests con PowerShell
--   [ ] Ten los archivos de servicios de seguridad en respaldo
--   [ ] Abre el contrato: `specs/001-mcp-workshop-course/contracts/exercise-3-secure-server.json`
--   [ ] Valida puerto **5003** libre:
+- [ ] Detén `Exercise2Server` (puerto 5002 libre)
+- [ ] Ten el paquete NuGet `System.IdentityModel.Tokens.Jwt` listo para instalar
+- [ ] Prepara 3 terminales:
+  - Terminal 1: Creación de proyecto
+  - Terminal 2: Ejecución del servidor (puerto 5003)
+  - Terminal 3: Tests con PowerShell
+- [ ] Ten los archivos de servicios de seguridad en respaldo
+- [ ] Abre el contrato: `specs/001-mcp-workshop-course/contracts/exercise-3-secure-server.json`
+- [ ] Valida puerto **5003** libre:
 
 ```powershell
 netstat -ano | Select-String "5003"
@@ -412,14 +412,14 @@ dotnet list package
 # Debe mostrar System.IdentityModel.Tokens.Jwt 8.15.0
 ```
 
-2. **Reinstalar si falta**:
+1. **Reinstalar si falta**:
 
 ```powershell
 dotnet add package System.IdentityModel.Tokens.Jwt --version 8.15.0
 dotnet restore
 ```
 
-3. **Si persiste**: Comparte el proyecto completo por chat.
+1. **Si persiste**: Comparte el proyecto completo por chat.
 
 ---
 
@@ -479,9 +479,9 @@ Al terminar el ejercicio, pregunta:
 
 > "¿Cuántos pudieron generar un token y hacer al menos 1 solicitud autenticada?"
 
--   **>80% levanta la mano**: ✅ **Ejercicio exitoso**, continúa al Bloque 7.
--   **60-80% levanta la mano**: ⚠️ **Revisar problemas comunes**, da 2 minutos extra.
--   **<60% levanta la mano**: 🚨 **Contingencia crítica**, ofrece código completo funcionando.
+- **>80% levanta la mano**: ✅ **Ejercicio exitoso**, continúa al Bloque 7.
+- **60-80% levanta la mano**: ⚠️ **Revisar problemas comunes**, da 2 minutos extra.
+- **<60% levanta la mano**: 🚨 **Contingencia crítica**, ofrece código completo funcionando.
 
 ---
 
@@ -523,13 +523,13 @@ Al terminar el ejercicio, pregunta:
 
 **Checklist de transición**:
 
--   [ ] Los asistentes detienen el servidor (Ctrl+C)
--   [ ] Confirma que todos tienen el código funcionando
--   [ ] Abre el documento del Bloque 7 en VS Code
--   [ ] Prepara slides de seguridad (si las tienes)
+- [ ] Los asistentes detienen el servidor (Ctrl+C)
+- [ ] Confirma que todos tienen el código funcionando
+- [ ] Abre el documento del Bloque 7 en VS Code
+- [ ] Prepara slides de seguridad (si las tienes)
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

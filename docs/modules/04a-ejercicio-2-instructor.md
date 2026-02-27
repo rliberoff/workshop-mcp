@@ -413,7 +413,7 @@ cd src/McpWorkshop.Servers/Exercise2Server
 dotnet run
 ```
 
-> "Deben ver 'Now listening on: http://localhost:5002'."
+> "Deben ver 'Now listening on: <http://localhost:5002>'."
 
 #### Prueba 1: Tools/List (Terminal 3)
 
@@ -648,4 +648,4 @@ Al terminar el ejercicio, pregunta:
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

@@ -23,9 +23,9 @@
 ### Checklist Pre-Ejercicio
 
 - [ ] Verificar que los 3 servidores MCP están corriendo y funcionando:
-  - SqlMcpServer en http://localhost:5010
-  - CosmosMcpServer en http://localhost:5011
-  - RestApiMcpServer en http://localhost:5012
+  - SqlMcpServer en <http://localhost:5010>
+  - CosmosMcpServer en <http://localhost:5011>
+  - RestApiMcpServer en <http://localhost:5012>
 - [ ] Proyector o pantalla compartida con el documento del ejercicio visible
 - [ ] Solución completa del Exercise4Server preparada como backup
 - [ ] Timer visible (25 minutos)
@@ -274,4 +274,4 @@ Al final del ejercicio, verifica:
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

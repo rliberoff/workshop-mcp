@@ -63,21 +63,21 @@ flowchart LR
 
 #### 1. **Cliente MCP** (Host)
 
--   **Qué es**: La aplicación de IA que necesita datos
--   **Ejemplos**: Claude Desktop, Cursor IDE, agentes personalizados
--   **Responsabilidad**: Enviar solicitudes y procesar respuestas
+- **Qué es**: La aplicación de IA que necesita datos
+- **Ejemplos**: Claude Desktop, Cursor IDE, agentes personalizados
+- **Responsabilidad**: Enviar solicitudes y procesar respuestas
 
 #### 2. **Servidor MCP** (Provider)
 
--   **Qué es**: Tu código que expone datos y herramientas
--   **Ejemplos**: Servidor .NET con acceso a SQL Server, API REST
--   **Responsabilidad**: Responder solicitudes, ejecutar herramientas
+- **Qué es**: Tu código que expone datos y herramientas
+- **Ejemplos**: Servidor .NET con acceso a SQL Server, API REST
+- **Responsabilidad**: Responder solicitudes, ejecutar herramientas
 
 #### 3. **Transporte**
 
--   **Protocolo**: JSON-RPC 2.0
--   **Canales**: HTTP, stdio (pipes), WebSocket
--   **Formato**: JSON estructurado
+- **Protocolo**: JSON-RPC 2.0
+- **Canales**: HTTP, stdio (pipes), WebSocket
+- **Formato**: JSON estructurado
 
 ---
 
@@ -207,11 +207,11 @@ flowchart TB
 
 **Ventajas MCP**:
 
--   ✅ Escribes el código una vez
--   ✅ Funciona con cualquier cliente compatible
--   ✅ Actualización centralizada
--   ✅ Seguridad y autenticación independiente
--   ✅ Escalabilidad empresarial
+- ✅ Escribes el código una vez
+- ✅ Funciona con cualquier cliente compatible
+- ✅ Actualización centralizada
+- ✅ Seguridad y autenticación independiente
+- ✅ Escalabilidad empresarial
 
 ---
 
@@ -221,9 +221,9 @@ flowchart TB
 
 **Problema**: Los agentes de soporte necesitan acceso a:
 
--   Base de datos de clientes (SQL)
--   Historial de pedidos (Cosmos DB)
--   Documentación interna (SharePoint)
+- Base de datos de clientes (SQL)
+- Historial de pedidos (Cosmos DB)
+- Documentación interna (SharePoint)
 
 **Solución MCP**:
 
@@ -246,52 +246,52 @@ flowchart LR
 
 **Herramientas expuestas**:
 
--   `get_customer_info(customer_id)`
--   `list_orders(customer_id, status)`
--   `search_documentation(query)`
+- `get_customer_info(customer_id)`
+- `list_orders(customer_id, status)`
+- `search_documentation(query)`
 
 ### 2. Análisis de Datos para Ejecutivos
 
 **Problema**: CEO necesita dashboard con datos de múltiples sistemas:
 
--   Ventas (SQL Server)
--   Marketing (Google Analytics API)
--   Finanzas (SAP API)
+- Ventas (SQL Server)
+- Marketing (Google Analytics API)
+- Finanzas (SAP API)
 
 **Solución MCP**:
 
--   Un servidor MCP que agrega todas las fuentes
--   Dashboard con LLM que consulta en lenguaje natural
--   "¿Cuánto vendimos este trimestre vs el anterior?"
+- Un servidor MCP que agrega todas las fuentes
+- Dashboard con LLM que consulta en lenguaje natural
+- "¿Cuánto vendimos este trimestre vs el anterior?"
 
 ### 3. DevOps y Monitoreo
 
 **Problema**: Equipo de operaciones necesita consultar:
 
--   Logs de Azure Log Analytics
--   Métricas de Application Insights
--   Estado de infraestructura
+- Logs de Azure Log Analytics
+- Métricas de Application Insights
+- Estado de infraestructura
 
 **Solución MCP**:
 
--   Servidor MCP con acceso a APIs de Azure
--   Chatbot en Teams/Slack que responde:
-    -   "¿Hay errores críticos en producción?"
-    -   "¿Cuál es el uso de CPU del servicio X?"
+- Servidor MCP con acceso a APIs de Azure
+- Chatbot en Teams/Slack que responde:
+  - "¿Hay errores críticos en producción?"
+  - "¿Cuál es el uso de CPU del servicio X?"
 
 ### 4. Cumplimiento y Auditoría
 
 **Problema**: Auditor necesita verificar:
 
--   Logs de acceso (Azure AD)
--   Cambios en configuraciones (Git history)
--   Políticas aplicadas (Azure Policy)
+- Logs de acceso (Azure AD)
+- Cambios en configuraciones (Git history)
+- Políticas aplicadas (Azure Policy)
 
 **Solución MCP**:
 
--   Recursos de solo lectura con logs estructurados
--   Herramientas para búsqueda temporal
--   `audit_trail(user, from_date, to_date)`
+- Recursos de solo lectura con logs estructurados
+- Herramientas para búsqueda temporal
+- `audit_trail(user, from_date, to_date)`
 
 ---
 
@@ -301,17 +301,17 @@ flowchart LR
 
 MCP permite implementar autenticación a nivel de servidor:
 
--   **JWT tokens**: Verificación de identidad del cliente
--   **API Keys**: Para aplicaciones de confianza
--   **OAuth 2.0**: Delegación de permisos
+- **JWT tokens**: Verificación de identidad del cliente
+- **API Keys**: Para aplicaciones de confianza
+- **OAuth 2.0**: Delegación de permisos
 
 ### Autorización
 
 Control granular sobre qué puede hacer cada cliente:
 
--   **Scopes**: `read:customers`, `write:orders`
--   **Rate Limiting**: Límites por cliente/token
--   **Auditoría**: Logs de todas las operaciones
+- **Scopes**: `read:customers`, `write:orders`
+- **Rate Limiting**: Límites por cliente/token
+- **Auditoría**: Logs de todas las operaciones
 
 _Nota: Veremos implementación detallada en Ejercicio 3 y Bloque 7._
 
@@ -347,9 +347,9 @@ _Nota: Veremos implementación detallada en Ejercicio 3 y Bloque 7._
 
 **Interpretación**:
 
--   `resources.subscribe`: El servidor puede notificar cambios en recursos
--   `tools.listChanged`: Las herramientas NO cambian dinámicamente
--   `logging`: El servidor acepta logs del cliente
+- `resources.subscribe`: El servidor puede notificar cambios en recursos
+- `tools.listChanged`: Las herramientas NO cambian dinámicamente
+- `logging`: El servidor acepta logs del cliente
 
 ---
 
@@ -359,10 +359,10 @@ _Nota: Veremos implementación detallada en Ejercicio 3 y Bloque 7._
 
 **¿Por qué JSON-RPC?**
 
--   ✅ Protocolo ligero y estándar (2010)
--   ✅ Request/Response estructurado
--   ✅ Soporte para notificaciones y batch requests
--   ✅ Manejo de errores estandarizado
+- ✅ Protocolo ligero y estándar (2010)
+- ✅ Request/Response estructurado
+- ✅ Soporte para notificaciones y batch requests
+- ✅ Manejo de errores estandarizado
 
 **Estructura Básica**:
 
@@ -389,14 +389,14 @@ Authorization: Bearer <token>
 
 #### 2. **stdio (Standard Input/Output)**
 
--   Ideal para herramientas de línea de comandos
--   Usado por Claude Desktop, Cursor
--   El servidor se ejecuta como proceso hijo
+- Ideal para herramientas de línea de comandos
+- Usado por Claude Desktop, Cursor
+- El servidor se ejecuta como proceso hijo
 
 #### 3. **WebSocket** (Experimental)
 
--   Comunicación bidireccional
--   Notificaciones en tiempo real
+- Comunicación bidireccional
+- Notificaciones en tiempo real
 
 ---
 
@@ -416,10 +416,10 @@ Authorization: Bearer <token>
 
 ### Servidores MCP Oficiales (Ejemplos)
 
--   **Filesystem Server**: Acceso seguro a archivos locales
--   **GitHub Server**: Consulta repos, issues, PRs
--   **Database Server**: Conexión a PostgreSQL, MySQL
--   **Web Search Server**: Integración con Brave Search
+- **Filesystem Server**: Acceso seguro a archivos locales
+- **GitHub Server**: Consulta repos, issues, PRs
+- **Database Server**: Conexión a PostgreSQL, MySQL
+- **Web Search Server**: Integración con Brave Search
 
 ### Implementaciones por Lenguaje
 
@@ -439,16 +439,16 @@ Authorization: Bearer <token>
 
 La especificación oficial define un protocolo abierto que permite la integración perfecta entre aplicaciones LLM y fuentes de datos externas y herramientas.
 
-**URL oficial**: https://modelcontextprotocol.io/specification/2025-06-18
+**URL oficial**: <https://modelcontextprotocol.io/specification/2025-06-18>
 
 ### Componentes del Protocolo
 
 #### Protocolo Base
 
--   **Formato de mensajes**: JSON-RPC 2.0
--   **Conexiones**: Stateful (con estado)
--   **Negociación**: Capabilities entre servidor y cliente
--   **Ciclo de vida**: Inicialización → Descubrimiento → Ejecución → Cierre
+- **Formato de mensajes**: JSON-RPC 2.0
+- **Conexiones**: Stateful (con estado)
+- **Negociación**: Capabilities entre servidor y cliente
+- **Ciclo de vida**: Inicialización → Descubrimiento → Ejecución → Cierre
 
 #### Características del Servidor
 
@@ -468,11 +468,11 @@ Los clientes pueden ofrecer las siguientes características a los servidores:
 
 #### Utilidades Adicionales
 
--   **Configuration**: Gestión de configuración
--   **Progress tracking**: Seguimiento de progreso de operaciones
--   **Cancellation**: Cancelación de operaciones en curso
--   **Error reporting**: Reporte estructurado de errores
--   **Logging**: Sistema de logging integrado
+- **Configuration**: Gestión de configuración
+- **Progress tracking**: Seguimiento de progreso de operaciones
+- **Cancellation**: Cancelación de operaciones en curso
+- **Error reporting**: Reporte estructurado de errores
+- **Logging**: Sistema de logging integrado
 
 ### Principios de Seguridad
 
@@ -505,9 +505,9 @@ La especificación 2025-06-18 establece principios clave de seguridad:
 
 Aunque MCP es un estándar abierto, puedes agregar:
 
--   Métodos personalizados (deben empezar con `x-` o `vendor-`)
--   Capabilities adicionales
--   Metadata propietario
+- Métodos personalizados (deben empezar con `x-` o `vendor-`)
+- Capabilities adicionales
+- Metadata propietario
 
 _Importante: Mantén compatibilidad con clientes estándares._
 
@@ -574,10 +574,10 @@ app.MapPost("/mcp", async (JsonRpcRequest req) => {
 
 **Resultado**:
 
--   ✅ Menos código
--   ✅ Menos bugs
--   ✅ Más mantenible
--   ✅ Funciona con CUALQUIER cliente MCP
+- ✅ Menos código
+- ✅ Menos bugs
+- ✅ Más mantenible
+- ✅ Funciona con CUALQUIER cliente MCP
 
 ---
 
@@ -587,19 +587,19 @@ app.MapPost("/mcp", async (JsonRpcRequest req) => {
 
 ❌ **API pública para consumo humano directo**
 
--   Mejor: REST tradicional con OpenAPI/Swagger
+- Mejor: REST tradicional con OpenAPI/Swagger
 
 ❌ **Comunicación entre microservicios internos**
 
--   Mejor: gRPC o mensajería asíncrona
+- Mejor: gRPC o mensajería asíncrona
 
 ❌ **Streaming de datos en tiempo real**
 
--   Mejor: WebSocket puro o Server-Sent Events
+- Mejor: WebSocket puro o Server-Sent Events
 
 ❌ **Sistema legacy sin soporte JSON-RPC**
 
--   Mejor: Adaptador/proxy, no fuerces MCP
+- Mejor: Adaptador/proxy, no fuerces MCP
 
 ### Cuándo SÍ Usar MCP
 
@@ -617,8 +617,8 @@ app.MapPost("/mcp", async (JsonRpcRequest req) => {
 
 **No.** MCP es complementario:
 
--   Usa REST para APIs públicas y humanos
--   Usa MCP para conectar IA a tus datos
+- Usa REST para APIs públicas y humanos
+- Usa MCP para conectar IA a tus datos
 
 ### 2. ¿MCP funciona sin internet?
 
@@ -636,9 +636,9 @@ Creas un adaptador simple que traduce tu API a MCP.
 
 **No**, puedes ejecutar servidores MCP en cualquier infraestructura:
 
--   Local (localhost)
--   On-premise (tu datacenter)
--   Cualquier cloud (AWS, GCP, Azure, etc.)
+- Local (localhost)
+- On-premise (tu datacenter)
+- Cualquier cloud (AWS, GCP, Azure, etc.)
 
 ---
 
@@ -656,13 +656,13 @@ Creas un adaptador simple que traduce tu API a MCP.
 
 En el **Bloque 3** (20 min de live coding), veremos:
 
--   Cómo crear un servidor MCP desde cero en C#
--   Implementar métodos `initialize`, `resources/list`, `resources/read`
--   Probar el servidor con un cliente de prueba
--   Ver el flujo JSON-RPC 2.0 en acción
+- Cómo crear un servidor MCP desde cero en C#
+- Implementar métodos `initialize`, `resources/list`, `resources/read`
+- Probar el servidor con un cliente de prueba
+- Ver el flujo JSON-RPC 2.0 en acción
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

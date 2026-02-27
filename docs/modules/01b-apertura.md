@@ -252,7 +252,7 @@ mcp-workshop/
 
 ---
 
-## 🚀 ¡Comencemos!
+## 🚀 ¡Comencemos
 
 **Siguiente bloque**: Fundamentos de MCP (25 minutos)
 
@@ -269,13 +269,13 @@ En el próximo bloque exploraremos:
 
 ## 📚 Recursos Adicionales
 
-- **Especificación MCP oficial**: https://modelcontextprotocol.io/specification/2025-06-18
-- **GitHub ModelContextProtocol**: https://github.com/modelcontextprotocol
-- **Documentación .NET 10.0**: https://learn.microsoft.com/dotnet
-- **Azure Documentation**: https://learn.microsoft.com/azure
+- **Especificación MCP oficial**: <https://modelcontextprotocol.io/specification/2025-06-18>
+- **GitHub ModelContextProtocol**: <https://github.com/modelcontextprotocol>
+- **Documentación .NET 10.0**: <https://learn.microsoft.com/dotnet>
+- **Azure Documentation**: <https://learn.microsoft.com/azure>
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026

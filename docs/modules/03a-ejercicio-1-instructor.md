@@ -487,7 +487,7 @@ Al finalizar, deberías observar:
 ✅ **Servidor funcional**:
 
 - Compiló sin errores
-- Responde en http://localhost:5001
+- Responde en <http://localhost:5001>
 - Logs estructurados visibles
 
 ✅ **3 tests exitosos**:
@@ -538,4 +538,4 @@ Al finalizar, deberías observar:
 ---
 
 **Preparado por**: Instructor del taller MCP  
-**Última revisión**: Noviembre 2025
+**Última revisión**: Febrero 2026

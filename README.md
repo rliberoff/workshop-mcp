@@ -81,7 +81,7 @@ dotnet build McpWorkshop.sln
 
 ## 🏗️ Estructura del Proyecto
 
-```
+```text
 mcp-workshop/
 │
 ├── docs/                          # Documentación del taller (30 archivos)
@@ -303,7 +303,7 @@ mcp-workshop/
 
 **Arquitectura**:
 
-```
+```text
 Usuario (español) → Orquestador → [SQL Server | Cosmos DB | REST API]
                          ↓
                     Cache (5 min TTL)
@@ -396,7 +396,7 @@ Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles
 
 ## 🌟 Créditos
 
-Desarrollado como parte del Data Saturday Madrid Workshop 2025.
+Desarrollado como parte del MCP Workshop Madrid.
 
 Este taller fue construido utilizando [GitHub Spec-Kit](https://github.com/github/spec-kit) - un framework de GitHub para desarrollo guiado por especificaciones.
 

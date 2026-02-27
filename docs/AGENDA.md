@@ -1,6 +1,6 @@
-# Agenda del Taller: Model Context Protocol (MCP) en C#
+# Agenda del Taller: Model Context Protocol (MCP) en C #
 
-**Evento**: Data Saturday Madrid 2025  
+**Evento**: MCP Workshop Madrid
 **Duración**: 180 minutos (3 horas)  
 **Nivel**: Intermedio  
 **Requisitos previos**: C# básico, .NET 10.0 instalado, Visual Studio Code
@@ -347,16 +347,9 @@ Agente:  [Mantiene contexto, usa list_customers_by_country]
 
 **Calculadora ROI**:
 
-```
+```text
 ROI = ((Beneficio Anual - Costo Inversión) / Costo Inversión) × 100%
 ```
-
-**Roadmap MCP**:
-
-- ✅ Q1 2025: Especificación estable, SDKs oficiales
-- 🚧 Q2 2025: WebSocket transport, MCP Registry, OAuth 2.0
-- 🔮 Q3 2025: MCP Gateway, Marketplace
-- 💡 2026: MCP 2.0 (multimodal), Edge computing, Federated learning
 
 **Estrategias de monetización**:
 
@@ -549,7 +542,7 @@ ROI = ((Beneficio Anual - Costo Inversión) / Costo Inversión) × 100%
 
 - Nombre del participante
 - Título del taller: "Model Context Protocol (MCP) en C#"
-- Evento: Data Saturday Madrid 2025
+- Evento: MCP Workshop Madrid
 - Duración: 3 horas
 - Contenido cubierto: Fundamentos, desarrollo, seguridad, orquestación, Azure
 - Firma del instructor y fecha
@@ -564,48 +557,15 @@ Este taller es posible gracias a:
 
 - **Anthropic** por crear la especificación MCP
 - **Microsoft** por el SDK .NET y Azure
-- **Data Saturday Madrid** por el espacio y oportunidad
+- **MCP Workshop Madrid** por el espacio y oportunidad
 - **Comunidad MCP** por feedback y mejoras continuas
-
----
-
-## 📝 Notas de Versión
-
-**v1.0.0** (Noviembre 2025)
-
-- Versión inicial completa
-- 11 bloques, 5 ejercicios, 3 horas
-- Orientado a .NET 10.0 y Azure
-- Incluye ejercicio avanzado con Microsoft Agent Framework
-
-**Roadmap futuro**:
-
-- v1.1.0: Añadir soporte para WebSocket transport
-- v1.2.0: Ampliar módulo de testing con xUnit y cobertura de código
-- v2.0.0: Versión extendida de 6 horas con deployment completo a Azure
 
 ---
 
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025  
+**Última actualización**: Febrero 2026
 **Licencia**: CC BY-SA 4.0  
-**Repositorio**: [GitHub URL del taller]
-
----
-
-## 📞 Contacto
-
-**¿Preguntas sobre el taller?**
-
-- Email: [instructor@email.com]
-- LinkedIn: [linkedin.com/in/instructor]
-- Discord MCP: @instructor
-
-**¿Quieres replicar este taller en tu empresa/evento?**
-
-- Todo el material es open source (licencia CC BY-SA 4.0)
-- Contacta para soporte o personalización
 
 ---
 

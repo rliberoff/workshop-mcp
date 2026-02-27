@@ -13,7 +13,7 @@ Al completar este bloque, comprenderás:
 
 1. ✅ 5+ casos de uso B2B reales para MCP
 2. ✅ Cómo calcular ROI de implementaciones MCP
-3. ✅ Roadmap de tecnologías MCP (futuro 2025-2026)
+3. ✅ Roadmap de tecnologías MCP (futuro)
 4. ✅ Estrategias de monetización de servidores MCP
 
 ---
@@ -59,10 +59,10 @@ flowchart LR
 
 **ROI**:
 
--   **Ahorro de tiempo**: 30 min/día × 50 vendedores × 220 días = **3,300 horas/año**
--   **Costo por hora**: 50€/h → **165,000€/año ahorrados**
--   **Inversión MCP**: ~20,000€ (desarrollo inicial + hosting)
--   **ROI**: **725% en año 1**
+- **Ahorro de tiempo**: 30 min/día × 50 vendedores × 220 días = **3,300 horas/año**
+- **Costo por hora**: 50€/h → **165,000€/año ahorrados**
+- **Inversión MCP**: ~20,000€ (desarrollo inicial + hosting)
+- **ROI**: **725% en año 1**
 
 **Implementación**:
 
@@ -109,7 +109,7 @@ flowchart TB
     DB[Base de Datos<br/>Registros de acceso]
     KV[Key Vault<br/>Políticas]
 
-    AU -->|"Audita docs Q1 2025<br/>según GDPR Art. 32"| AI
+    AU -->|"Audita docs Q1<br/>según GDPR Art. 32"| AI
     AI --> MCP
 
     MCP -->|Leer docs| SP
@@ -129,11 +129,11 @@ flowchart TB
 
 **ROI**:
 
--   **Tiempo auditoría manual**: 2 meses × 3 auditores × 40h/semana = **960 horas**
--   **Tiempo con MCP**: 5 días × 1 auditor × 40h/semana = **40 horas**
--   **Reducción**: **96% del tiempo**
--   **Ahorro**: 920h × 75€/h = **69,000€ por auditoría**
--   **4 auditorías/año**: **276,000€/año ahorrados**
+- **Tiempo auditoría manual**: 2 meses × 3 auditores × 40h/semana = **960 horas**
+- **Tiempo con MCP**: 5 días × 1 auditor × 40h/semana = **40 horas**
+- **Reducción**: **96% del tiempo**
+- **Ahorro**: 920h × 75€/h = **69,000€ por auditoría**
+- **4 auditorías/año**: **276,000€/año ahorrados**
 
 ---
 
@@ -183,9 +183,9 @@ public class InventorySyncTool
 
 **ROI**:
 
--   **Ventas perdidas evitadas**: 2% de ventas × 5M€/año = **100,000€**
--   **Sobreventa evitada** (penalizaciones): **20,000€/año**
--   **Total valor**: **120,000€/año**
+- **Ventas perdidas evitadas**: 2% de ventas × 5M€/año = **100,000€**
+- **Sobreventa evitada** (penalizaciones): **20,000€/año**
+- **Total valor**: **120,000€/año**
 
 ---
 
@@ -227,9 +227,9 @@ flowchart LR
 
 **Valor**:
 
--   **Decisiones informadas**: Aumento conversión 15% → **+300,000€/año**
--   **Reducción churn**: 5% → **+150,000€/año**
--   **Total impacto**: **450,000€/año**
+- **Decisiones informadas**: Aumento conversión 15% → **+300,000€/año**
+- **Reducción churn**: 5% → **+150,000€/año**
+- **Total impacto**: **450,000€/año**
 
 ---
 
@@ -273,9 +273,9 @@ public class IncidentResponseTool
 
 **ROI**:
 
--   **MTTR (Mean Time To Repair)**: De 60 min → **15 min**
--   **Downtime evitado**: 45 min × 12 incidentes/año = **9 horas**
--   **Costo downtime**: 10,000€/hora → **90,000€/año ahorrados**
+- **MTTR (Mean Time To Repair)**: De 60 min → **15 min**
+- **Downtime evitado**: 45 min × 12 incidentes/año = **9 horas**
+- **Costo downtime**: 10,000€/hora → **90,000€/año ahorrados**
 
 ---
 
@@ -486,10 +486,10 @@ ROI AÑO 2+: 110,640€ / 8,000€ = 1,383%
 
 **Riesgos mitigados**:
 
--   ✅ **Multas SOX**: Hasta $5M USD por reporting fraudulento (Sarbanes-Oxley Act)
--   ✅ **Multas GDPR**: Hasta 4% de revenue global (Art. 83)
--   ✅ **Pérdida de certificación SOC 2**: Clientes enterprise requieren SOC 2 Type II
--   ✅ **Reputación**: Evitar escándalos contables públicos
+- ✅ **Multas SOX**: Hasta $5M USD por reporting fraudulento (Sarbanes-Oxley Act)
+- ✅ **Multas GDPR**: Hasta 4% de revenue global (Art. 83)
+- ✅ **Pérdida de certificación SOC 2**: Clientes enterprise requieren SOC 2 Type II
+- ✅ **Reputación**: Evitar escándalos contables públicos
 
 ---
 
@@ -860,15 +860,15 @@ ROI: 1139 %
 | **GraphQL API**                  | 3 semanas<br/>(15K€)    | ~200€<br/>(App Service + Redis)                   | 8K€<br/>(schema evolution)     | **25.4K€**   |
 | **MCP Server (single source)**   | 1.5 semanas<br/>(7.5K€) | ~250€<br/>(Container Apps)                        | 5K€<br/>(protocol updates)     | **15.5K€**   |
 | **MCP Server (multi-source)**    | 3 semanas<br/>(15K€)    | ~400€<br/>(Container Apps + Redis + App Insights) | 10K€<br/>(orchestration logic) | **29.8K€**   |
-| **ESB (Enterprise Service Bus)** | 8 semanas<br/>(40K€)    | ~2,000€<br/>(MuleSoft/Azure Integration)          | 20K€<br/>(governance overhead) | **84K€**     |
+| **ESB (Enterprise Service Bus)** | 8 semanas<br/>(40K€)    | ~2,000€<br/>(MuleSoft/Azure Integration)          | 20K€<br/>(governance overhead) | **84K€*## 🗺️ Roadmap MCP
 
-**Nota**: Costos asumen equipo de 2 developers × 2,500€/semana. Infraestructura Azure región West Europe. Maintenance incluye updates, bug fixes, security patches.
+-     |*Nota**: Costos asumen equipo de 2 developers × 2,500€/semana. Infraestructura Azure región West Europe. Maintenance incluye updates, bug fixes, security patches.
 
 ---
 
 ### Key Takeaways: Cuándo Elegir MCP
 
-#### ✅ Usar MCP cuando:
+#### ✅ Usar MCP cuando
 
 1. **Múltiples fuentes de datos** (3+) que necesitan orquestación
 2. **AI/LLM consumption**: Claude, GPT, Copilot consumiendo tus datos
@@ -877,7 +877,7 @@ ROI: 1139 %
 5. **Observability importante**: Tracing cross-service, latency debugging
 6. **Estándar abierto preferido**: No vendor lock-in, multi-LLM support
 
-#### ❌ NO usar MCP cuando:
+#### ❌ NO usar MCP cuando
 
 1. **Single source simple**: CRUD sobre 1 base de datos → REST API más simple
 2. **Real-time crítico** (<100ms latency) → Direct DB access o gRPC
@@ -885,40 +885,6 @@ ROI: 1139 %
 4. **Mobile/web app tradicional**: REST API + BFF pattern más maduro
 5. **Team sin experiencia .NET/Python**: Usar stack conocido (Node.js REST API)
 6. **Ultra-low budget** (<5K€ proyecto): Direct DB access suficiente para MVP
-
----
-
-## 🗺️ Roadmap MCP (2025-2026)
-
-### Q1 2025 ✅ Actual
-
--   ✅ Especificación MCP 2024-11-05 estable
--   ✅ SDKs oficiales: TypeScript, Python, C#
--   ✅ Clientes: Claude Desktop, Cursor, Zed
--   ✅ Transporte: HTTP, stdio
-
-### Q2 2025 🚧 En Desarrollo
-
--   🚧 **WebSocket transport**: Para streaming y notificaciones push
--   🚧 **MCP Registry**: Directorio público de servidores MCP
--   🚧 **Authentication standard**: OAuth 2.0 + OIDC integrado
--   🚧 **VS Code extension oficial**: Desarrollar/probar servidores MCP en VS Code
-
-### Q3 2025 🔮 Planificado
-
--   🔮 **MCP Gateway**: API Gateway especializado para servidores MCP
--   🔮 **Monitoring dashboards**: Métricas y observabilidad estándar
--   🔮 **Marketplace**: Compra/venta de servidores MCP empresariales
--   🔮 **Enterprise features**: Multi-tenancy, RBAC avanzado
-
-### Q4 2025-2026 💡 Visión
-
--   💡 **MCP 2.0**: Soporte para modelos multimodales (imagen, audio, video)
--   💡 **Edge computing**: Servidores MCP en dispositivos IoT
--   💡 **Federated learning**: Servidores MCP que entrenan modelos locales
--   💡 **Blockchain integration**: Contratos inteligentes como herramientas MCP
-
-**Fuente**: https://github.com/modelcontextprotocol/specification/discussions
 
 ---
 
@@ -930,9 +896,9 @@ ROI: 1139 %
 
 **Ejemplo**: "MCP CRM Enrichment"
 
--   **Tier Free**: 100 consultas/mes gratis
--   **Tier Pro**: 29€/mes, 5,000 consultas/mes
--   **Tier Enterprise**: 299€/mes, consultas ilimitadas + SLA 99.9%
+- **Tier Free**: 100 consultas/mes gratis
+- **Tier Pro**: 29€/mes, 5,000 consultas/mes
+- **Tier Enterprise**: 299€/mes, consultas ilimitadas + SLA 99.9%
 
 **Ventaja**: Ingresos recurrentes predecibles.
 
@@ -944,8 +910,8 @@ ROI: 1139 %
 
 **Ejemplo**: "MCP Compliance Auditor"
 
--   **Licencia On-Premise**: 50,000€ una vez + 10,000€/año soporte
--   **Licencia Cloud**: 15,000€/año todo incluido
+- **Licencia On-Premise**: 50,000€ una vez + 10,000€/año soporte
+- **Licencia Cloud**: 15,000€/año todo incluido
 
 **Ventaja**: Ingresos altos por cliente, ideal para empresas grandes.
 
@@ -957,10 +923,10 @@ ROI: 1139 %
 
 **Ejemplo**: "MCP Custom Integration"
 
--   **Discovery**: 5,000€ (análisis requerimientos)
--   **Desarrollo**: 400€/día × 20 días = 8,000€
--   **Despliegue y formación**: 3,000€
--   **Total proyecto**: 16,000€
+- **Discovery**: 5,000€ (análisis requerimientos)
+- **Desarrollo**: 400€/día × 20 días = 8,000€
+- **Despliegue y formación**: 3,000€
+- **Total proyecto**: 16,000€
 
 **Ventaja**: Sin producto previo, se adapta a cada cliente.
 
@@ -972,9 +938,9 @@ ROI: 1139 %
 
 **Ejemplo**: "MCP AI-Powered Analytics"
 
--   **Precio**: 49€/mes
--   **Comisión marketplace**: 30% → **34.30€ neto por cliente**
--   **1,000 clientes**: **34,300€/mes ingresos**
+- **Precio**: 49€/mes
+- **Comisión marketplace**: 30% → **34.30€ neto por cliente**
+- **1,000 clientes**: **34,300€/mes ingresos**
 
 **Ventaja**: Distribución global sin esfuerzo marketing.
 
@@ -1000,15 +966,6 @@ ROI: 1139 %
 
 ---
 
-## 📖 Recursos para Business Cases
-
--   **Calculadora ROI MCP**: [Incluida en repo del taller]
--   **Case studies**: https://modelcontextprotocol.io/case-studies
--   **Pricing research**: Analiza competidores (Zapier, MuleSoft, etc.)
--   **Azure Pricing Calculator**: https://azure.microsoft.com/pricing/calculator/
-
----
-
 **Preparado por**: Instructor del taller MCP  
 **Versión**: 1.0.0  
-**Última actualización**: Noviembre 2025
+**Última actualización**: Febrero 2026
