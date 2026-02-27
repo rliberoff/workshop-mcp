@@ -218,7 +218,7 @@ public class VirtualAnalyst
 # Crear nuevo proyecto de servidor MCP
 dotnet new web -n MyMcpServer
 cd MyMcpServer
-dotnet add package ModelContextProtocol --prerelease
+dotnet add package ModelContextProtocol
 dotnet add package Microsoft.EntityFrameworkCore --version 10.0.0
 
 # Compilar y ejecutar

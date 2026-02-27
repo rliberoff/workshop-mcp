@@ -414,7 +414,7 @@ dotnet run
 
 ```powershell
 # Instalar paquete prerelease
-dotnet add package ModelContextProtocol --prerelease
+dotnet add package ModelContextProtocol
 ```
 
 **Error: "JWT token invalid"**

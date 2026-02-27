@@ -121,7 +121,7 @@ cd Exercise3Server
 dotnet add reference ../../McpWorkshop.Shared/McpWorkshop.Shared.csproj
 
 # Agregar paquete JWT
-dotnet add package System.IdentityModel.Tokens.Jwt --version 8.15.0
+dotnet add package System.IdentityModel.Tokens.Jwt --version 8.16.0
 
 # Agregar a solución
 cd ../../..

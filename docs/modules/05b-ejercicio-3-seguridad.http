@@ -44,7 +44,7 @@ Content-Type: application/json
 # Prueba 4: Acceso con scope read (debe funcionar)
 POST http://localhost:5003/mcp
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFuYSBHYXJjw61hIiwic2NvcGVzIjoicmVhZCIsInRpZXIiOiJiYXNlIiwiZXhwIjoxNzY0MDgwNDI0fQ.ltTHbDFiw8DVqCK2gwmTL3zGGfS5Q3tASDHzmoD7fJA
+Authorization: Bearer <Cambiar por el token generado en la Prueba 1>
 
 {
     "jsonrpc": "2.0",
@@ -58,7 +58,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 # Prueba 5: Acceso a tools/call con solo read (debe fallar)
 POST http://localhost:5003/mcp
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFuYSBHYXJjw61hIiwic2NvcGVzIjoicmVhZCIsInRpZXIiOiJiYXNlIiwiZXhwIjoxNzY0MDgwNDI0fQ.ltTHbDFiw8DVqCK2gwmTL3zGGfS5Q3tASDHzmoD7fJA
+Authorization: Bearer <Cambiar por el token generado en la Prueba 1>
 
 {
     "jsonrpc": "2.0",
@@ -75,7 +75,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 # Prueba 6: Acceso a tools/call con write (debe funcionar)
 POST http://localhost:5003/mcp
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkNhcmxvcyBQw6lyZXoiLCJzY29wZXMiOiJyZWFkLHdyaXRlIiwidGllciI6InByZW1pdW0iLCJleHAiOjE3NjQwODA4MzN9.A0HGf67xkUjSYKx7mnQ-NwWThHj5wrRckY76C8vWPPw
+Authorization: Bearer <Cambiar por el token generado en la Prueba 2>
 
 { 
     "jsonrpc": "2.0",
@@ -92,7 +92,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 # Prueba 7: Rate Limiting (usuario base: 10 req/min)
 POST http://localhost:5003/mcp
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFuYSBHYXJjw61hIiwic2NvcGVzIjoicmVhZCIsInRpZXIiOiJiYXNlIiwiZXhwIjoxNzY0MDgwNDI0fQ.ltTHbDFiw8DVqCK2gwmTL3zGGfS5Q3tASDHzmoD7fJA
+Authorization: Bearer <Cambiar por el token generado en la Prueba 2>
 
 {
     "jsonrpc": "2.0",

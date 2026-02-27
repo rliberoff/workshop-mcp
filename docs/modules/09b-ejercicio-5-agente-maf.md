@@ -151,7 +151,7 @@ cd Exercise5Agent
 dotnet add package Azure.AI.OpenAI --prerelease
 dotnet add package Azure.Identity
 dotnet add package Microsoft.Agents.AI.OpenAI --prerelease
-dotnet add package ModelContextProtocol --prerelease
+dotnet add package ModelContextProtocol
 dotnet add package Microsoft.Extensions.Configuration
 dotnet add package Microsoft.Extensions.Configuration.Json
 dotnet add package Microsoft.Extensions.Configuration.EnvironmentVariables
@@ -390,9 +390,9 @@ public static class McpToolAdapter
 
         foreach (var contentBlock in result.Content)
         {
-            if (contentBlock.Type == "text" && contentBlock.Text is string text)
+            if (contentBlock.Type == "text")
             {
-                contents.Add(text);
+                contents.Add(contentBlock.ToString()!);
             }
             else if (contentBlock.Type == "image")
             {
@@ -429,13 +429,18 @@ public static class McpToolAdapter
 Crea `Program.cs`:
 
 ```csharp
+using Azure;
 using Azure.AI.OpenAI;
 using Azure.Identity;
+
+using Exercise5Agent;
+
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
+
 using ModelContextProtocol.Client;
-using Exercise5Agent;
+
 using OpenAI;
 
 // Cargar configuración
@@ -445,14 +450,11 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var endpoint = config["AzureOpenAI:Endpoint"]
-    ?? throw new InvalidOperationException("AzureOpenAI:Endpoint no configurado");
-var apiKey = config["AzureOpenAI:ApiKey"]
-    ?? throw new InvalidOperationException("AzureOpenAI:ApiKey no configurado");    
+var endpoint = config["AzureOpenAI:Endpoint"] ?? throw new InvalidOperationException("AzureOpenAI:Endpoint no configurado");
+var apiKey = config["AzureOpenAI:ApiKey"] ?? throw new InvalidOperationException("AzureOpenAI:ApiKey no configurado");
 var deploymentName = config["AzureOpenAI:DeploymentName"] ?? "gpt-4o";
 var agentName = config["Agent:Name"] ?? "Asistente de Ventas";
-var instructions = config["Agent:Instructions"]
-    ?? "Eres un asistente útil que responde en español.";
+var instructions = config["Agent:Instructions"] ?? "Eres un asistente útil que responde en español.";
 
 Console.WriteLine("🤖 Inicializando Microsoft Agent Framework con MCP Tools...\n");
 
@@ -514,25 +516,22 @@ Console.WriteLine($"\n✅ Total de herramientas disponibles: {allAITools.Count}\
 // ====================================================================
 // PASO 3: Crear el agente con Azure OpenAI y las herramientas MCP
 // ====================================================================
-Console.WriteLine("🧠 Creando agente con Azure OpenAI...\n");
+Console.WriteLine("🧠 Creando cliente de chat con Azure OpenAI...\n");
 
-AIAgent agent = new AzureOpenAIClient(
-    new Uri(endpoint),
-    new System.ClientModel.ApiKeyCredential(apiKey))
-    .GetChatClient(deploymentName)
-    .CreateAIAgent(
-        instructions: instructions,
-        name: agentName,
-        tools: allAITools);
+var chatClient = new AzureOpenAIClient(new Uri(endpoint), new System.ClientModel.ApiKeyCredential(apiKey)).GetChatClient(deploymentName);
+var conversationHistory = new List<OpenAI.Chat.ChatMessage>()
+{
+    OpenAI.Chat.ChatMessage.CreateSystemMessage(instructions),
+};
 
-Console.WriteLine($"✅ Agente '{agentName}' creado exitosamente con {allAITools.Count} herramientas\n");
+Console.WriteLine($"✅ Cliente de chat '{agentName}' creado exitosamente\n");
 
 // ====================================================================
 // PASO 4: Loop de conversación interactivo
 // ====================================================================
-Console.WriteLine("=" .PadRight(70, '='));
+Console.WriteLine("=".PadRight(70, '='));
 Console.WriteLine($"  {agentName} está listo!");
-Console.WriteLine("=" .PadRight(70, '='));
+Console.WriteLine("=".PadRight(70, '='));
 Console.WriteLine("\n💬 Ejemplos de preguntas que puedes hacer:");
 Console.WriteLine("   - ¿Cuántos clientes tenemos en España?");
 Console.WriteLine("   - ¿Hay carritos abandonados en las últimas 24 horas?");
@@ -540,10 +539,7 @@ Console.WriteLine("   - ¿Qué productos tienen poco stock?");
 Console.WriteLine("   - Dame información del pedido número 1001");
 Console.WriteLine("   - ¿Cuáles son los productos más vendidos?");
 Console.WriteLine("\n   Escribe 'salir' para terminar\n");
-Console.WriteLine("=" .PadRight(70, '=') + "\n");
-
-// Crear un thread para mantener el contexto de la conversación
-var thread = agent.GetNewThread();
+Console.WriteLine("=".PadRight(70, '=') + "\n");
 
 while (true)
 {
@@ -551,7 +547,9 @@ while (true)
     var userInput = Console.ReadLine();
 
     if (string.IsNullOrWhiteSpace(userInput))
+    {
         continue;
+    }
 
     if (userInput.Equals("salir", StringComparison.OrdinalIgnoreCase))
     {
@@ -561,11 +559,13 @@ while (true)
 
     try
     {
+        conversationHistory.Add(OpenAI.Chat.ChatMessage.CreateUserMessage(userInput));
         Console.Write($"\n🤖 {agentName}: ");
 
-        // Enviar mensaje al agente y obtener respuesta
-        var response = await agent.RunAsync(userInput, thread);
-
+        // Enviar mensaje al chat client y obtener respuesta
+        var completion = await chatClient.CompleteChatAsync(conversationHistory);
+        var response = completion.Value.Content[0].Text;
+        conversationHistory.Add(OpenAI.Chat.ChatMessage.CreateAssistantMessage(response));
         Console.WriteLine(response);
     }
     catch (Exception ex)
@@ -597,15 +597,15 @@ Console.WriteLine("🛑 Cerrando conexiones...");
 
 ```powershell
 # Terminal 1: SQL MCP Server
-cd src/McpWorkshop.Servers/Exercise1SqlMcpServer
+cd src/McpWorkshop.Servers/SqlMcpServer
 dotnet run
 
 # Terminal 2: Cosmos MCP Server
-cd src/McpWorkshop.Servers/Exercise2CosmosMcpServer
+cd src/McpWorkshop.Servers/CosmosMcpServer
 dotnet run
 
 # Terminal 3: REST API MCP Server
-cd src/McpWorkshop.Servers/Exercise3RestApiMcpServer
+cd src/McpWorkshop.Servers/RestApiMcpServer
 dotnet run
 ```
 

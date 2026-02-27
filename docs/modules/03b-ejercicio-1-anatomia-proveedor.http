@@ -55,29 +55,3 @@ Content-Type: application/json
     "params": { "uri": "mcp://products" },
     "id": "read-002"
 }
-
-###
-
-# Extensión 1: Resources/Read (Orders)
-POST http://localhost:5001/mcp
-Content-Type: application/json
-
-{
-    "jsonrpc": "2.0",
-    "method": "resources/read",
-    "params": { "uri": "mcp://orders" },
-    "id": "read-003"
-}
-
-###
-
-# Extensión 2: Resources/Read (Products by country)
-POST http://localhost:5001/mcp
-Content-Type: application/json
-
-{
-    "jsonrpc": "2.0",
-    "method": "resources/read",
-    "params": { "uri": "mcp://products", "country": "US" },
-    "id": "read-002"
-}

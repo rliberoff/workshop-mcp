@@ -169,7 +169,7 @@ code .
 # Terminal lista con comandos preparados
 dotnet new web -n DemoMcpServer
 cd DemoMcpServer
-dotnet add package ModelContextProtocol --prerelease
+dotnet add package ModelContextProtocol
 ```
 
 **Guion de Codificación en Vivo** (paso a paso en [03b-anatomia-proveedor.md](./modules/03b-anatomia-proveedor.md)):
@@ -337,7 +337,7 @@ winget install Microsoft.DotNet.SDK.10
 
 ```powershell
 # Prerelease flag olvidado
-dotnet add package ModelContextProtocol --prerelease
+dotnet add package ModelContextProtocol
 
 # Si persiste: usar feed alternativo
 dotnet add package ModelContextProtocol --source https://api.nuget.org/v3/index.json --prerelease

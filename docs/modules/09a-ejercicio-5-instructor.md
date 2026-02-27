@@ -56,15 +56,15 @@ az cognitiveservices account show --name <your-resource> --resource-group <your-
 
 **Opción A: Despliegue compartido** (Recomendado para workshops)
 
--   Crea un único recurso Azure OpenAI con `gpt-4o` o `gpt-4o-mini`
--   Comparte el endpoint y API key con los alumnos
--   Configura rate limiting para evitar sobrecargas
+- Crea un único recurso Azure OpenAI con `gpt-4o` o `gpt-4o-mini`
+- Comparte el endpoint y API key con los alumnos
+- Configura rate limiting para evitar sobrecargas
 
 **Opción B: Despliegue individual**
 
--   Cada alumno usa su propio recurso Azure OpenAI
--   Requiere que los alumnos tengan suscripciones activas
--   Más lento para setup pero mejor para producción
+- Cada alumno usa su propio recurso Azure OpenAI
+- Requiere que los alumnos tengan suscripciones activas
+- Más lento para setup pero mejor para producción
 
 ### 3. Preparar Configuración de Ejemplo
 
@@ -155,7 +155,7 @@ var options = new HttpClientTransportOptions
 };
 ```
 
-2. **Dar tiempo suficiente** para la conexión inicial (el `HttpClientTransport` puede intentar auto-detectar SSE, lo cual puede tomar unos segundos antes de caer back a POST simple)
+1. **Dar tiempo suficiente** para la conexión inicial (el `HttpClientTransport` puede intentar auto-detectar SSE, lo cual puede tomar unos segundos antes de caer back a POST simple)
 
 **Demo en vivo**:
 
@@ -200,8 +200,8 @@ foreach (var tool in sqlTools)
 >
 > Por ejemplo, para `get_order_details`:
 >
-> -   ❌ Descripción vaga: "Obtener detalles de un pedido"
-> -   ✅ Descripción clara: "Obtiene información detallada de un pedido específico, incluyendo cliente, producto, cantidad y monto total. Usa esta herramienta cuando te pregunten sobre un pedido específico por su número o ID (ejemplo: 'pedido 1001', 'pedido número 1001', 'order 1001')."
+> - ❌ Descripción vaga: "Obtener detalles de un pedido"
+> - ✅ Descripción clara: "Obtiene información detallada de un pedido específico, incluyendo cliente, producto, cantidad y monto total. Usa esta herramienta cuando te pregunten sobre un pedido específico por su número o ID (ejemplo: 'pedido 1001', 'pedido número 1001', 'order 1001')."
 >
 > Incluye:
 >
@@ -238,8 +238,8 @@ AIAgent agent = new AzureOpenAIClient(
 
 **Nota importante**: Asegúrate de que los alumnos tengan los using statements correctos:
 
--   `using Microsoft.Extensions.AI;` para `AITool`
--   `using OpenAI;` para las extensiones de `CreateAIAgent`
+- `using Microsoft.Extensions.AI;` para `AITool`
+- `using OpenAI;` para las extensiones de `CreateAIAgent`
 
 **Punto de énfasis**:
 
@@ -264,7 +264,7 @@ while (true)
 
 Prueba esta secuencia:
 
-```
+```text
 👤: ¿Cuántos clientes hay en España?
 🤖: 1,247 clientes
 
@@ -394,12 +394,12 @@ activity?.SetTag("response.length", response.Length);
 
 Para cada alumno, verifica:
 
--   [ ] **Conexión exitosa**: Los 3 servidores MCP están conectados
--   [ ] **Discovery de herramientas**: Las 12 herramientas se listan correctamente
--   [ ] **Conversación básica**: El agente responde al menos 1 pregunta
--   [ ] **Contexto**: El agente mantiene contexto en conversaciones multi-turno
--   [ ] **Manejo de errores**: El agente responde gracefully si un servidor falla
--   [ ] **Español**: Las respuestas están en español
+- [ ] **Conexión exitosa**: Los 3 servidores MCP están conectados
+- [ ] **Discovery de herramientas**: Las 12 herramientas se listan correctamente
+- [ ] **Conversación básica**: El agente responde al menos 1 pregunta
+- [ ] **Contexto**: El agente mantiene contexto en conversaciones multi-turno
+- [ ] **Manejo de errores**: El agente responde gracefully si un servidor falla
+- [ ] **Español**: Las respuestas están en español
 
 ### Script de Verificación Automática
 
@@ -444,11 +444,11 @@ foreach ($test in $tests) {
 >
 > En producción, podrían:
 >
-> -   Exponerlo como API REST con autenticación
-> -   Integrarlo con Teams, Slack, o web chat
-> -   Añadir más servidores MCP (email, calendario, CRM)
-> -   Implementar workflows complejos con múltiples agentes
-> -   Añadir guardrails de seguridad y compliance
+> - Exponerlo como API REST con autenticación
+> - Integrarlo con Teams, Slack, o web chat
+> - Añadir más servidores MCP (email, calendario, CRM)
+> - Implementar workflows complejos con múltiples agentes
+> - Añadir guardrails de seguridad y compliance
 >
 > Lo importante es que la **arquitectura MCP hace que sea fácil extender las capacidades del agente sin modificar su código core**. Solo añades más servidores MCP y el agente los descubre automáticamente."
 
@@ -458,19 +458,19 @@ foreach ($test in $tests) {
 
 ### Documentación
 
--   [Microsoft Agent Framework Docs](https://learn.microsoft.com/en-us/agent-framework/)
--   [Using MCP with Agents](https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools)
--   [MCP Specification](https://modelcontextprotocol.io/)
+- [Microsoft Agent Framework Docs](https://learn.microsoft.com/en-us/agent-framework/)
+- [Using MCP with Agents](https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools)
+- [MCP Specification](https://modelcontextprotocol.io/)
 
 ### Ejemplos de Código
 
--   [Agent Framework Samples](https://github.com/microsoft/agent-framework/tree/main/dotnet/samples)
--   [MCP Server Examples](https://github.com/modelcontextprotocol/servers)
+- [Agent Framework Samples](https://github.com/microsoft/agent-framework/tree/main/dotnet/samples)
+- [MCP Server Examples](https://github.com/modelcontextprotocol/servers)
 
 ### Artículos
 
--   [Building AI Agents with MCP](https://devblogs.microsoft.com/)
--   [Azure OpenAI Best Practices](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/best-practices)
+- [Building AI Agents with MCP](https://devblogs.microsoft.com/)
+- [Azure OpenAI Best Practices](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/best-practices)
 
 ---
 
@@ -518,26 +518,26 @@ Sugiéreles a los alumnos que experimenten con:
 
 Antes de comenzar:
 
--   [ ] Azure OpenAI configurado y accesible
--   [ ] Los 3 servidores MCP funcionan
--   [ ] `appsettings.example.json` compartido
--   [ ] Script de verificación probado
--   [ ] Ejemplo funcionando para demo
--   [ ] Respuestas a preguntas frecuentes preparadas
--   [ ] Plan B si Azure OpenAI falla (usar mocks)
+- [ ] Azure OpenAI configurado y accesible
+- [ ] Los 3 servidores MCP funcionan
+- [ ] `appsettings.example.json` compartido
+- [ ] Script de verificación probado
+- [ ] Ejemplo funcionando para demo
+- [ ] Respuestas a preguntas frecuentes preparadas
+- [ ] Plan B si Azure OpenAI falla (usar mocks)
 
 Durante el ejercicio:
 
--   [ ] Monitorear que los alumnos conectan correctamente
--   [ ] Ayudar con problemas de autenticación
--   [ ] Verificar que las conversaciones funcionen
--   [ ] Tomar nota de problemas comunes para futuras sesiones
+- [ ] Monitorear que los alumnos conectan correctamente
+- [ ] Ayudar con problemas de autenticación
+- [ ] Verificar que las conversaciones funcionen
+- [ ] Tomar nota de problemas comunes para futuras sesiones
 
 Después:
 
--   [ ] Recoger feedback de los alumnos
--   [ ] Actualizar documentación según problemas encontrados
--   [ ] Compartir recursos adicionales
+- [ ] Recoger feedback de los alumnos
+- [ ] Actualizar documentación según problemas encontrados
+- [ ] Compartir recursos adicionales
 
 ---
 

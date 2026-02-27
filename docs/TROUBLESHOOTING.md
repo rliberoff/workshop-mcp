@@ -116,13 +116,13 @@ dotnet nuget locals all --list
 **Opción A - Flag Prerelease Olvidado**:
 
 ```powershell
-dotnet add package ModelContextProtocol --prerelease
+dotnet add package ModelContextProtocol
 ```
 
 **Opción B - Especificar Source**:
 
 ```powershell
-dotnet add package ModelContextProtocol --source https://api.nuget.org/v3/index.json --prerelease
+dotnet add package ModelContextProtocol --source https://api.nuget.org/v3/index.json
 ```
 
 **Opción C - Limpiar Cache**:

@@ -106,7 +106,7 @@ cd src/McpWorkshop.Servers
 dotnet new web -n Exercise3Server -f net10.0
 cd Exercise3Server
 dotnet add reference ../../McpWorkshop.Shared/McpWorkshop.Shared.csproj
-dotnet add package System.IdentityModel.Tokens.Jwt --version 8.15.0
+dotnet add package System.IdentityModel.Tokens.Jwt --version 8.16.0
 cd ../../..
 dotnet sln add src/McpWorkshop.Servers/Exercise3Server/Exercise3Server.csproj
 ```
@@ -409,13 +409,13 @@ Invoke-RestMethod -Uri "http://localhost:5003/mcp" -Method POST -Body $body -Hea
 
 ```powershell
 dotnet list package
-# Debe mostrar System.IdentityModel.Tokens.Jwt 8.15.0
+# Debe mostrar System.IdentityModel.Tokens.Jwt 8.16.0
 ```
 
 1. **Reinstalar si falta**:
 
 ```powershell
-dotnet add package System.IdentityModel.Tokens.Jwt --version 8.15.0
+dotnet add package System.IdentityModel.Tokens.Jwt --version 8.16.0
 dotnet restore
 ```
 
